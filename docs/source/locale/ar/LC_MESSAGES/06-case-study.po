@@ -1,0 +1,438 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Haleem
+# This file is distributed under the same license as the slimv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-20 19:13+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ar\n"
+"Language-Team: ar <LL@li.org>\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+"n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/06-case-study.rst:3 c8c9f72537bd46d4b306a272f32da2cb
+msgid "Case study: a 206-file course, 38 GB to 14"
+msgstr ""
+
+#: ../../source/06-case-study.rst:10 876c6cce94324ab588f2e2cb6954d987
+msgid "The core ideas"
+msgstr ""
+
+#: ../../source/06-case-study.rst:12 90b53b37bc2e432f8b6f8fcb6cc7260b
+msgid ""
+"**Real numbers, one real library.** A 206-lesson screen-recording video "
+"course (IT-certification training), **37.75 GB** of 1080p H.264, re-encoded"
+" to H.265 and verified end to end."
+msgstr ""
+
+#: ../../source/06-case-study.rst:14 1c32879ee7ba47dba49adafc8ac015f2
+#, python-format
+msgid ""
+"**~64% smaller, zero visible loss.** The result was **13.71 GB** — the "
+"same picture, a third of the bytes — confirmed both by eye and by "
+":term:`VMAF`."
+msgstr ""
+
+#: ../../source/06-case-study.rst:16 2591ffa190bf44589801f665bbb1a8cf
+msgid ""
+"**The encoder was chosen with data.** A :doc:`benchmark <02-commands>` on"
+" one representative lesson picked Intel :term:`QSV` over CPU x265: near-"
+"identical quality, ~2× faster, and entirely on the idle iGPU."
+msgstr ""
+
+#: ../../source/06-case-study.rst:19 7dd769f557254838983ab68947f2b995
+msgid ""
+"**Nothing was deleted on faith.** Every one of the 206 outputs was full-"
+"decoded and length-checked before any source was considered removable — "
+"**206/206 SAFE-TO-DELETE, 0 errors.**"
+msgstr ""
+
+#: ../../source/06-case-study.rst:23 f0abf2b6232441d383ff0fe563d7bd5e
+msgid ""
+"This chapter is the worked example behind the rest of the documentation: "
+"the same :doc:`commands <02-commands>`, :doc:`profiles <03-profiles>`, "
+"and :doc:`workflow <04-workflow>`, applied to one concrete job with the "
+"tool's actual output shown."
+msgstr ""
+
+#: ../../source/06-case-study.rst:29 0abcf7200c6f4edb90a76522e3ebb0fe
+msgid "What was on disk"
+msgstr ""
+
+#: ../../source/06-case-study.rst:31 ce0f20910bc848df9f7779230fb58d3c
+msgid "The starting library, as reported by ``slimv check`` / ``slimv analyze``:"
+msgstr ""
+
+#: ../../source/06-case-study.rst:37 32427dd77de04edf973dc4370b707bb6
+msgid "Property"
+msgstr ""
+
+#: ../../source/06-case-study.rst:38 ../../source/06-case-study.rst:119
+#: 4d74213d6c6c499da701f1c5b3554d04 8feb7e7f2c6b447c911eeeebe275d8fa
+msgid "Value"
+msgstr ""
+
+#: ../../source/06-case-study.rst:39 9c78b52aad9a4f9b81272e985a9f17a3
+msgid "Files"
+msgstr ""
+
+#: ../../source/06-case-study.rst:40 0e66e9490aad4bb88a33278204269900
+msgid "206 lessons"
+msgstr ""
+
+#: ../../source/06-case-study.rst:41 bc9c20bddd9149b0b3e8dd5315893264
+msgid "Total size"
+msgstr ""
+
+#: ../../source/06-case-study.rst:42 b8024f0134db41bd9439c6ddc60cf543
+msgid "37.75 GB"
+msgstr ""
+
+#: ../../source/06-case-study.rst:43 e3cd4e65e5874198af94b4922319ea51
+msgid "Container / codec"
+msgstr ""
+
+#: ../../source/06-case-study.rst:44 5e32eeb917fe46c6b364988cc44040cd
+msgid "MP4 / H.264 (AVC), High profile"
+msgstr ""
+
+#: ../../source/06-case-study.rst:45 6dfad720e9ca4c33a437f73fbdfcdfea
+msgid "Resolution"
+msgstr ""
+
+#: ../../source/06-case-study.rst:46 85043969bc8e4266a1b69a347a4b3d9c
+msgid "1920×1080 (all files)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:47 03b60e4f5ca04b749baa10489c0e167e
+msgid "Frame rate"
+msgstr ""
+
+#: ../../source/06-case-study.rst:48 0057b88bfe8b4675b78e00e9f3d7fbe0
+msgid "23.976 fps"
+msgstr ""
+
+#: ../../source/06-case-study.rst:49 c3ade342b58643429620d0d0bb241e3e
+msgid "Video bitrate"
+msgstr ""
+
+#: ../../source/06-case-study.rst:50 975cd984a31b46fb89e1b3f6adca7a14
+msgid "~3.0 Mbps average"
+msgstr ""
+
+#: ../../source/06-case-study.rst:51 3813a468b01749738f18b4ef25236bf5
+msgid "Audio"
+msgstr ""
+
+#: ../../source/06-case-study.rst:52 19daa15bc3a84a0b8989bf606e0b27de
+msgid "AAC-LC, stereo, 48 kHz"
+msgstr ""
+
+#: ../../source/06-case-study.rst:53 d7a922b669004c63b559f5092c48425a
+msgid "Total runtime"
+msgstr ""
+
+#: ../../source/06-case-study.rst:54 ff20346fcbe84811967b2ce7ced9daa3
+msgid "~22.5 hours"
+msgstr ""
+
+#: ../../source/06-case-study.rst:56 f27a31f0936d41808de53a40b767eb12
+msgid ""
+"A screen-recording course like this is an ideal candidate: mostly static "
+"slides and terminal demos, which a modern codec compresses dramatically, "
+"plus 1080p detail worth preserving exactly."
+msgstr ""
+
+#: ../../source/06-case-study.rst:61 299dfd9402fa4c9d96cbd9090d9020e2
+msgid "Choosing the encoder"
+msgstr ""
+
+#: ../../source/06-case-study.rst:63 d0c61bd37de64a84bfecb6481535fa9f
+msgid ""
+"The machine had an Intel HD 630 iGPU (idle), an NVIDIA GTX 1050 Ti (busy "
+"with another task), and a multi-core CPU. ``slimv benchmark`` encoded a "
+"30-second lossless reference several ways and scored each with VMAF:"
+msgstr ""
+
+#: ../../source/06-case-study.rst:71 21c4670dc16240d49f1e9ed80ac5b530
+msgid "Method"
+msgstr ""
+
+#: ../../source/06-case-study.rst:72 58df3b15cd974760a6e0f873ef00c0f0
+msgid "VMAF"
+msgstr ""
+
+#: ../../source/06-case-study.rst:73 891fbc6ebf8c419db6372fdc11f9a6c4
+msgid "Size"
+msgstr ""
+
+#: ../../source/06-case-study.rst:74 98dcaa5f0d2d43f18676b98bb30a8806
+msgid "Speed"
+msgstr ""
+
+#: ../../source/06-case-study.rst:75 33d3dd6709c848ada6e73574d8d29330
+msgid "Notes"
+msgstr ""
+
+#: ../../source/06-case-study.rst:76 deafb9b171bc48f7a269f7a10947e8b4
+msgid "Intel QSV, GQ 24"
+msgstr ""
+
+#: ../../source/06-case-study.rst:77 1bceefae0f1b4b298e0264774dfacf70
+msgid "91.82"
+msgstr ""
+
+#: ../../source/06-case-study.rst:78 688d2e2b385041b98448fcbdb421fb46
+msgid "2.43 MB"
+msgstr ""
+
+#: ../../source/06-case-study.rst:79 76b0175175b14eecb08bb4482c50bf39
+msgid "1.35× realtime"
+msgstr ""
+
+#: ../../source/06-case-study.rst:80 e8fc76d3741a4bf5a70f7752fb548096
+msgid "Idle iGPU; frees CPU + NVIDIA"
+msgstr ""
+
+#: ../../source/06-case-study.rst:81 a7a12efa6d6545fb9790534e7cadc440
+msgid "x265 medium, CRF 24"
+msgstr ""
+
+#: ../../source/06-case-study.rst:82 e045a828c3594bfda5b53d9bf1cca286
+msgid "92.07"
+msgstr ""
+
+#: ../../source/06-case-study.rst:83 2baac33516ff4de18ca111ca2a656a67
+msgid "2.20 MB"
+msgstr ""
+
+#: ../../source/06-case-study.rst:84 251aa2c5730b40a4ab60291621155070
+msgid "0.62×"
+msgstr ""
+
+#: ../../source/06-case-study.rst:85 3528bc1ea2b049039dc25f2795f489d0
+msgid "Smallest; full CPU"
+msgstr ""
+
+#: ../../source/06-case-study.rst:86 e83355575dde4fcea18ab18268dd18ca
+msgid "x265 slow, CRF 24"
+msgstr ""
+
+#: ../../source/06-case-study.rst:87 2cb19e21dd224ec29d186f995a0d2fde
+msgid "92.31"
+msgstr ""
+
+#: ../../source/06-case-study.rst:88 19c4c0c98fe343c799dcba501cd1b163
+msgid "2.51 MB"
+msgstr ""
+
+#: ../../source/06-case-study.rst:89 c39271ee770f4a9c8f9d8fe644a02a30
+msgid "0.31×"
+msgstr ""
+
+#: ../../source/06-case-study.rst:90 bfc7489d2ba44744afc073c8cbe52252
+msgid "Bigger *and* slower than medium"
+msgstr ""
+
+#: ../../source/06-case-study.rst:91 3044689062e54595bfdfe77136d3dfe9
+msgid "x265 medium, CRF 20"
+msgstr ""
+
+#: ../../source/06-case-study.rst:92 1b22a18a67e94b08a9c8b2ae2a7f1dbe
+msgid "92.54"
+msgstr ""
+
+#: ../../source/06-case-study.rst:93 17260be5c99a483a883c545dcc125f4f
+msgid "3.71 MB"
+msgstr ""
+
+#: ../../source/06-case-study.rst:94 ab57e13fb7744f66872b62e80e84386e
+msgid "0.58×"
+msgstr ""
+
+#: ../../source/06-case-study.rst:95 73f0fe93a1a3491a81f75ffb0969cd86
+#, python-format
+msgid "+69% size for +0.5 VMAF — rejected"
+msgstr ""
+
+#: ../../source/06-case-study.rst:97 d7a30700d1454691b0d7387516d0cea0
+#, python-format
+msgid ""
+"All four sat within **0.7 VMAF** of each other — visually identical. The "
+"choice was therefore not about quality but about speed and freed "
+"resources: **Intel QSV** won. It runs on hardware that was otherwise "
+"idle, so the CPU and the busy NVIDIA card stayed free, at a file size "
+"within ~10% of the smallest."
+msgstr ""
+
+#: ../../source/06-case-study.rst:104 41d025ca45b24ae4be1af905753ebf53
+msgid ""
+"VMAF was trained on natural video and under-rates sharp screen text, so "
+"~92 here is \"visually transparent in practice.\" The choice was "
+"confirmed by watching real clips, not by the score alone — see "
+":doc:`03-profiles`."
+msgstr ""
+
+#: ../../source/06-case-study.rst:109 df29a6a069d34f7ca298f630e1863150
+msgid "The conversion"
+msgstr ""
+
+#: ../../source/06-case-study.rst:111 6e956d22ac7c43ab9f1990c43ecc111c
+msgid ""
+"The whole tree was re-encoded with the ``qsv`` profile, output mirrored "
+"into a sibling ``..._H265`` folder, originals untouched:"
+msgstr ""
+
+#: ../../source/06-case-study.rst:118 ../../source/06-case-study.rst:156
+#: 39d991cf6ebb420ea3c7b3a24e5f24ea cf6e60d165c64273aa40545432c881da
+msgid "Result"
+msgstr ""
+
+#: ../../source/06-case-study.rst:120 d46c3252b8994117b14ecc88f8669efb
+msgid "Files converted"
+msgstr ""
+
+#: ../../source/06-case-study.rst:121 98dfb07acb0648f8a8f118e237a2196b
+msgid "**206 / 206** (0 failures in the encode log)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:122 9465b58c25e24536aec300806d6930af
+msgid "Output codec"
+msgstr ""
+
+#: ../../source/06-case-study.rst:123 41f4c46285374c679ab61dbeaef60c95
+msgid "H.265 (HEVC), 1920×1080 (unchanged)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:124 3e305ad864bc41a995496d86035fdd95
+msgid "Output size"
+msgstr ""
+
+#: ../../source/06-case-study.rst:125 a2c70d22069b4a1cb6a8b6eed201f1e2
+msgid "**13.71 GB** (from 37.75 GB)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:126 03fd3d0e84bb44f38f93b3fca120cc9e
+msgid "Reduction"
+msgstr ""
+
+#: ../../source/06-case-study.rst:127 795a8606a1fb49408da5850cae6be1e3
+#, python-format
+msgid "**~64% smaller**"
+msgstr ""
+
+#: ../../source/06-case-study.rst:128 1bbc3646f57148fda40674f8a15c8f2a
+msgid "Encoder"
+msgstr ""
+
+#: ../../source/06-case-study.rst:129 da647cbb9c94417e91f1d9daf7bcf340
+msgid "``hevc_qsv`` on the Intel iGPU (CPU + NVIDIA free throughout)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:132 e3e9adf003594582a32a19ccc380a5d1
+msgid "Confirming the iGPU did the work"
+msgstr ""
+
+#: ../../source/06-case-study.rst:134 28c4c8a8e76e4053b69ac979e7d915a6
+msgid ""
+"Windows' Task Manager *Video Encode* graph read 0% the whole time — a "
+"known quirk of the Intel :term:`QSV` media path, not a sign it was idle. "
+"Three reliable checks confirmed the hardware encoder was genuinely "
+"running (see :doc:`04-workflow`):"
+msgstr ""
+
+#: ../../source/06-case-study.rst:139 99b719564a2842afa373f59296c310aa
+msgid ""
+"ffmpeg's own ``-v verbose`` log: *\"Initialized an internal MFX session "
+"using hardware accelerated implementation.\"*"
+msgstr ""
+
+#: ../../source/06-case-study.rst:141 205d0629e8294bd897086b437feed424
+msgid "``ffmpeg.exe`` sat at ~0% CPU while the output grew at ~1.9 MB/s."
+msgstr ""
+
+#: ../../source/06-case-study.rst:142 1f780860a67d496786a67327c3460738
+msgid "GPU-Z's \"Video Engine Load\" sensor showed the Intel GPU loaded."
+msgstr ""
+
+#: ../../source/06-case-study.rst:145 696e58b9c3dd44b3b63b14e616776854
+msgid "Verifying before deleting"
+msgstr ""
+
+#: ../../source/06-case-study.rst:147 87640d76728149fea8896f57693a7b6e
+msgid ""
+"Re-encoding is only safe to act on once the output is proven intact. "
+"``slimv verify`` full-decoded every output file and compared its duration"
+" to the source — the deletion safety gate from :doc:`04-workflow`:"
+msgstr ""
+
+#: ../../source/06-case-study.rst:155 bfa81c6791f84bb1b08fe3c79ac0652c
+msgid "Check"
+msgstr ""
+
+#: ../../source/06-case-study.rst:157 6d1ebda668b240e088f7e61c430def8e
+msgid "SAFE-TO-DELETE"
+msgstr ""
+
+#: ../../source/06-case-study.rst:158 6814a5351a054aba8bd6e3dd93d3815a
+msgid "**206 / 206**"
+msgstr ""
+
+#: ../../source/06-case-study.rst:159 2f6bfdda33114ca0b86d58db6856d59f
+msgid "KEEP-SOURCE"
+msgstr ""
+
+#: ../../source/06-case-study.rst:160 309c5080605d4d88bd77cb152855191c
+msgid "0"
+msgstr ""
+
+#: ../../source/06-case-study.rst:161 efd4ade70eea4182911c5bc285450d6d
+msgid "Decode errors (full decode)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:162 20f4403b3b5148ae9e01330d515bb125
+msgid "**0** across all 206"
+msgstr ""
+
+#: ../../source/06-case-study.rst:163 76897ea786b6416facadc1573b9619d1
+msgid "Max duration delta"
+msgstr ""
+
+#: ../../source/06-case-study.rst:164 02b13734354a4e0885589baee8181e69
+msgid "**0.05 s** (essentially frame-exact)"
+msgstr ""
+
+#: ../../source/06-case-study.rst:166 2055bd3da9304e2397a0c4d82694e2e1
+msgid ""
+"slimv's verdict: *\"ALL VERIFIED — these sources are safe to remove.\"* "
+"Only with that result in hand were the 37.75 GB of originals safe to "
+"reclaim. The full audit trail lives in two CSVs next to the output: the "
+"per-file encode log and the ``_slimv_verify_report.csv``."
+msgstr ""
+
+#: ../../source/06-case-study.rst:172 899cf067124f4b1098725b7bae66dfff
+msgid "What this demonstrates"
+msgstr ""
+
+#: ../../source/06-case-study.rst:174 7f50516b8bf5465fbf4f7c38f426ccfa
+msgid ""
+"The job exercised the whole tool in order — ``analyze`` and ``check`` to "
+"see what was on disk, ``benchmark`` to choose the encoder on real "
+"footage, ``encode`` to convert, and ``verify`` to make deletion safe — "
+"and it is the reason slimv has the shape it does. Every command in "
+":doc:`02-commands` earned its place on a real library: the size win came "
+"from the right :term:`profile`, the confidence came from VMAF plus a "
+"full-decode pass, and the safety came from never trusting a build's "
+"\"success\" message over an actual decode."
+msgstr ""
+

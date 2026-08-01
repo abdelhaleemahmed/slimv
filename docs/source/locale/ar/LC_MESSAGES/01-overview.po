@@ -1,0 +1,146 @@
+# Arabic translation for the slimv documentation.
+# Copyright (C) 2026, Haleem
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-19 22:15+0400\n"
+"PO-Revision-Date: 2026-06-19 22:45+0400\n"
+"Last-Translator: slimv docs\n"
+"Language: ar\n"
+"Language-Team: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/01-overview.rst:3 e167462e3b054e0192c6c2d179f1b3f4
+msgid "Overview and installation"
+msgstr "نظرة عامة والتثبيت"
+
+#: ../../source/01-overview.rst:10 245e49ab986e46d3ab1e1c35c6bc50cb
+msgid "The core ideas"
+msgstr "الأفكار الأساسية"
+
+#: ../../source/01-overview.rst:12 3a2a258c9a624e188fb42e50a77c85a9
+msgid ""
+"**What slimv is.** A Python 3.9+ CLI that wraps :term:`ffmpeg` and "
+"``ffprobe`` to shrink video without visible quality loss."
+msgstr ""
+"**ما هي slimv.** أداة سطر أوامر بلغة بايثون 3.9 فأحدث تُغلّف :term:`ffmpeg` "
+"و\\ ``ffprobe`` لتقليص حجم الفيديو دون فقدان ملحوظ في الجودة."
+
+#: ../../source/01-overview.rst:14 8d2a571e5d9e425f8b285395212a38ae
+msgid ""
+"**What it needs.** ffmpeg + ffprobe on your ``PATH`` (ideally with "
+"``libx265``, ``hevc_qsv``/``hevc_nvenc`` for hardware encoding, and "
+"``libvmaf`` for the benchmark), and one Python dependency, :term:`rich`."
+msgstr ""
+"**ما الذي تحتاجه.** وجود ffmpeg و ffprobe في مسار ``PATH`` لديك (ويُفضَّل "
+"مع ``libx265`` و\\ ``hevc_qsv``/``hevc_nvenc`` للترميز العتادي، و\\ "
+"``libvmaf`` لقياس الأداء)، واعتماد واحد على بايثون هو :term:`rich`."
+
+#: ../../source/01-overview.rst:17 02885a65fdf549acaed9af0285f52b9b
+msgid ""
+"**How you run it.** ``slimv <command>`` after installing, or ``python -m "
+"slimv <command>`` without installing."
+msgstr ""
+"**كيف تُشغّلها.** ``slimv <command>`` بعد التثبيت، أو ``python -m slimv "
+"<command>`` دون تثبيت."
+
+#: ../../source/01-overview.rst:19 f82da0740e754cccac09cea370a5eb4b
+msgid ""
+"**What it does not do.** It does not re-implement a codec; it generates "
+"ffmpeg command lines, runs them, and reads back sizes, durations, and "
+"quality scores."
+msgstr ""
+"**ما لا تفعله.** لا تُعيد تنفيذ مُرمِّز؛ بل تُولّد أسطر أوامر ffmpeg، "
+"وتُشغّلها، وتقرأ الأحجام والمدد ودرجات الجودة الناتجة."
+
+#: ../../source/01-overview.rst:22 d65cec52b0db4473bcc75c69c1432e52
+msgid ""
+"slimv exists because the same question comes up for every video library: "
+"*how do I make these smaller without making them look worse?* The rest of"
+" this page gets it installed; :doc:`02-commands` covers what each command"
+" does."
+msgstr ""
+"وُجدت slimv لأن السؤال نفسه يتكرّر مع كل مكتبة فيديو: *كيف أجعل هذه الملفات "
+"أصغر دون أن تبدو أسوأ؟* تتكفّل بقية هذه الصفحة بتثبيتها؛ ويشرح "
+":doc:`02-commands` ما يفعله كل أمر."
+
+#: ../../source/01-overview.rst:27 e6555eee71a04c6ca51cfb0fa8beed4d
+msgid "What slimv is"
+msgstr "ما هي slimv"
+
+#: ../../source/01-overview.rst:29 6558ca659c2b434498fba30d11fd7e20
+msgid ""
+"slimv answers a single question with data instead of guesswork: for "
+"*this* footage, on *this* machine, which encoder and setting give the "
+"smallest file at visually transparent quality? It detects the encoders "
+"ffmpeg exposes, classifies the videos on disk, measures candidate encodes"
+" with :term:`VMAF`, and then runs the chosen :term:`profile` over a whole"
+" tree — verifying every output before you trust it."
+msgstr ""
+"تُجيب slimv عن سؤال واحد بالبيانات بدلًا من التخمين: بالنسبة لـ *هذه* "
+"اللقطات، وعلى *هذا* الجهاز، أيُّ مُرمِّز وأيُّ إعداد يُعطي أصغر ملف بجودة "
+"شفّافة بصريًا؟ تكتشف المُرمِّزات التي يوفّرها ffmpeg، وتُصنّف مقاطع الفيديو "
+"على القرص، وتقيس الترميزات المرشّحة بـ :term:`VMAF`، ثم تُشغّل "
+":term:`profile` المختار على شجرة كاملة — مع التحقق من كل مُخرَج قبل أن "
+"تثق به."
+
+#: ../../source/01-overview.rst:37 5b6acb7610264097a2a4e1ec89bc1842
+msgid "Requirements"
+msgstr "المتطلّبات"
+
+#: ../../source/01-overview.rst:39 38c11dfcff75460b9eb9583e1fe7e0b5
+msgid "**Python 3.9 or newer.**"
+msgstr "**بايثون 3.9 أو أحدث.**"
+
+#: ../../source/01-overview.rst:40 09717191e75d4c688bb561ad5c7d64d9
+msgid "**ffmpeg and ffprobe** on the ``PATH``. Confirm with::"
+msgstr "**ffmpeg و ffprobe** في مسار ``PATH``. تأكَّد عبر::"
+
+#: ../../source/01-overview.rst:44 9f9ee8a99bf0481abe270cf93f050296
+msgid ""
+"For the full feature set you want a build with ``libx265`` (CPU H.265), "
+"``hevc_qsv`` and/or ``hevc_nvenc`` (hardware H.265), and ``libvmaf`` "
+"(quality scoring for ``benchmark``)."
+msgstr ""
+"للحصول على مجموعة الميزات الكاملة تحتاج إصدارًا يتضمّن ``libx265`` (ترميز "
+"H.265 على المعالج)، و\\ ``hevc_qsv`` و/أو ``hevc_nvenc`` (ترميز H.265 "
+"عتاديًا)، و\\ ``libvmaf`` (تسجيل الجودة لأمر ``benchmark``)."
+
+#: ../../source/01-overview.rst:47 3b42d5e5cc9e485482cc0a6adde25806
+msgid "**The** :term:`rich` **library** (installed automatically below)."
+msgstr "**مكتبة** :term:`rich` (تُثبَّت تلقائيًا أدناه)."
+
+#: ../../source/01-overview.rst:50 a2097384750f4bb1865b6d6c2807099e
+msgid "Installation"
+msgstr "التثبيت"
+
+#: ../../source/01-overview.rst:52 33b2e76498104165aff3d03bf2a75f36
+msgid "From inside the ``AV_kit`` folder:"
+msgstr "من داخل مجلّد ``AV_kit``:"
+
+#: ../../source/01-overview.rst:64 0d1af586f1bd45c18c91e0b5a5f8795e
+msgid ""
+"Both give the same commands. This documentation uses ``slimv …``; "
+"substitute ``python -m slimv …`` if you did not install."
+msgstr ""
+"كلتا الطريقتين تتيحان الأوامر نفسها. يستخدم هذا التوثيق ``slimv …``؛ "
+"استبدله بـ ``python -m slimv …`` إن لم تُثبّت الأداة."
+
+#: ../../source/01-overview.rst:68 d8612640b50b4d3e8127a3239540f4b5
+msgid "A first look"
+msgstr "نظرة أولى"
+
+#: ../../source/01-overview.rst:70 f39f6ffaf92347788db6bc871ff29c22
+msgid "Three commands tell you almost everything before you encode anything:"
+msgstr "ثلاثة أوامر تُخبرك بكل شيء تقريبًا قبل أن تُرمّز أيّ شيء:"
+
+#: ../../source/01-overview.rst:78 097d8e5697fb4d95b2c811b04308fdd4
+msgid "From there, :doc:`04-workflow` walks the full encode-and-verify recipe."
+msgstr ""
+"ومن هناك، يشرح :doc:`04-workflow` وصفة الترميز والتحقق الكاملة خطوةً "
+"بخطوة."

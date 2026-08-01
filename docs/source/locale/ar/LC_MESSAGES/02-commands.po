@@ -1,0 +1,212 @@
+# Arabic translation for the slimv documentation.
+# Copyright (C) 2026, Haleem
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-20 19:13+0400\n"
+"PO-Revision-Date: 2026-06-19 22:50+0400\n"
+"Last-Translator: slimv docs\n"
+"Language: ar\n"
+"Language-Team: ar\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+"n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/02-commands.rst:3 f8d3084479c047f0be9574c0ca7c429c
+msgid "Command reference"
+msgstr "مرجع الأوامر"
+
+#: ../../source/02-commands.rst:10 0bbaa32ae8414ea8a86595434be943a7
+msgid "The core ideas"
+msgstr "الأفكار الأساسية"
+
+#: ../../source/02-commands.rst:12 e3667c0eb812482280bb13aeeb976436
+#, fuzzy
+msgid ""
+"**Eight commands, one verb each.** ``hwcheck``, ``profiles``, "
+"``analyze``, ``check``, ``test``, ``benchmark``, ``encode``, ``verify``."
+msgstr ""
+"**سبعة أوامر، فعلٌ واحد لكلٍّ منها.** ``hwcheck`` و\\ ``profiles`` و\\ "
+"``analyze`` و\\ ``test`` و\\ ``benchmark`` و\\ ``encode`` و\\ ``verify``."
+
+#: ../../source/02-commands.rst:14 d1d894f036a24e7798a87fc87d2c74d2
+#, fuzzy
+msgid ""
+"**Read before you write.** "
+"``hwcheck``/``analyze``/``check``/``benchmark`` are read-only "
+"investigation; ``encode`` is the only one that produces video; ``verify``"
+" is read-only and never deletes."
+msgstr ""
+"**استكشِف قبل أن تكتب.** الأوامر ``hwcheck``/``analyze``/``benchmark`` "
+"للاستكشاف فقط (قراءة دون كتابة)؛ و\\ ``encode`` هو الوحيد الذي يُنتج "
+"فيديو؛ و\\ ``verify`` للقراءة فقط ولا يحذف شيئًا أبدًا."
+
+#: ../../source/02-commands.rst:17 62871259460d49ebac437c5b8ac32fef
+msgid ""
+"**Everything is logged.** ``encode`` and ``verify`` write CSV reports "
+"next to the output so a run is auditable after the fact."
+msgstr ""
+"**كل شيء مُسجَّل.** يكتب ``encode`` و\\ ``verify`` تقارير CSV بجوار "
+"المُخرجات بحيث يمكن تدقيق أي تشغيل لاحقًا."
+
+#: ../../source/02-commands.rst:20 51ee3ee278534c73a9bf921836062c95
+msgid ""
+"Each command maps to a function in the :doc:`API <05-api>`; the headings "
+"below link to the implementation."
+msgstr ""
+"يقابل كل أمر دالةً في :doc:`واجهة البرمجة <05-api>`؛ والعناوين أدناه "
+"ترتبط بالتنفيذ."
+
+#: ../../source/02-commands.rst:24 3fd2013316bd4f74a48c8f0f8a1e0593
+msgid "hwcheck"
+msgstr "hwcheck"
+
+#: ../../source/02-commands.rst:26 8e2f735f6f72419f9761b1bbf6bc6ad4
+msgid ""
+"Show GPUs and which encoders ffmpeg exposes, recommend one, and explain "
+"how to *confirm* a hardware encoder is genuinely being used. Implemented "
+"by :func:`slimv.hardware.run`."
+msgstr ""
+"يعرض كروت الرسومات والمُرمِّزات التي يوفّرها ffmpeg، ويوصي بأحدها، ويشرح "
+"كيفية *التأكّد* من أن مُرمِّزًا عتاديًا يُستخدَم فعلًا. مُنفَّذ عبر "
+":func:`slimv.hardware.run`."
+
+#: ../../source/02-commands.rst:35 d3fd8002683b43d19807017fc1dcd4fc
+msgid "profiles"
+msgstr "profiles"
+
+#: ../../source/02-commands.rst:37 afcfe71823854c1daad18af0a9e9f40b
+msgid ""
+"List the encoding :term:`profile` s with quality/speed/size and when to "
+"use each. See :doc:`03-profiles` for the full catalog."
+msgstr ""
+"يسرد :term:`profile` الترميز مع الجودة/السرعة/الحجم ومتى تستخدم كلًّا "
+"منها. انظر :doc:`03-profiles` للكتالوج الكامل."
+
+#: ../../source/02-commands.rst:45 81b748a179d34e3e873330d8b8f5a271
+msgid "analyze"
+msgstr "analyze"
+
+#: ../../source/02-commands.rst:47 be60fe7f80dd4dfc819a9b0465c62acb
+msgid ""
+"Probe a file or a whole folder (codec, resolution, bitrate, size), "
+"summarize it, and recommend a profile with a projected saving. "
+"Implemented by :func:`slimv.analyze.run`."
+msgstr ""
+"يفحص ملفًا أو مجلّدًا كاملًا (المُرمِّز، والدقة، ومعدل البِت، والحجم)، "
+"ويُلخّصه، ويوصي بملف تعريفي مع توفير مُتوقَّع في الحجم. مُنفَّذ عبر "
+":func:`slimv.analyze.run`."
+
+#: ../../source/02-commands.rst:56 102e66c3dc4e4d779461dd3afb4f42de
+#, fuzzy
+msgid "check"
+msgstr "hwcheck"
+
+#: ../../source/02-commands.rst:58 7e5786e129bb4bbc92a9f8bcc92fc55d
+msgid ""
+"Health-scan a file or folder on its own: report each file's codec and "
+"resolution, run a full decode to flag **corrupted/unreadable** files, and"
+" print stats (totals, by-codec, by-resolution, healthy vs. problem "
+"counts). Unlike ``verify``, it needs no second tree; unlike ``analyze``, "
+"it adds an integrity pass. Implemented by :func:`slimv.check.run`."
+msgstr ""
+
+#: ../../source/02-commands.rst:70 6d2752bf4bdf43e68ff2012a3500e33a
+msgid ""
+"Exit code is non-zero if any file is corrupt, so it works as a scripted "
+"gate. slimv skips its own in-progress ``*.partial.mp4`` temp files, so "
+"scanning a folder mid-conversion is safe."
+msgstr ""
+
+#: ../../source/02-commands.rst:75 e5e3310cb36f458c95bd3c0b0888b41b
+msgid "test"
+msgstr "test"
+
+#: ../../source/02-commands.rst:77 91b12d24e87c4b3a80c6b74ea91e0f8a
+msgid ""
+"Encode a 5-second synthetic clip with one encoder and fully decode it "
+"back, then report whether it ran on **hardware** or fell back to "
+"**software**. Implemented by :func:`slimv.sanity.run`."
+msgstr ""
+"يُرمّز مقطعًا اصطناعيًا مدّته 5 ثوانٍ بمُرمِّز واحد ثم يفكّ ترميزه "
+"بالكامل، ويُبلّغ عمّا إذا كان قد عمل على **العتاد** أم تراجَع إلى "
+"**البرمجيات**. مُنفَّذ عبر :func:`slimv.sanity.run`."
+
+#: ../../source/02-commands.rst:87 ac2ac755911d4cb3872aaeddac91b11b
+msgid "benchmark"
+msgstr "benchmark"
+
+#: ../../source/02-commands.rst:89 73724913d51c4366a50a1f6a05edead0
+msgid ""
+"Encode a short sample with several profiles and score each with "
+":term:`VMAF`, so you choose quality-vs-size on real footage. Implemented "
+"by :func:`slimv.benchmark.run`."
+msgstr ""
+"يُرمّز عيّنة قصيرة بعدّة ملفات تعريفية ويمنح كلًّا منها درجة "
+":term:`VMAF`، لتختار بين الجودة والحجم على لقطات حقيقية. مُنفَّذ عبر "
+":func:`slimv.benchmark.run`."
+
+#: ../../source/02-commands.rst:98 16499a8ec81c44ce9f332648466ff559
+msgid ""
+"The benchmark extracts a *lossless* reference segment first and encodes "
+"from it, so the VMAF comparison is frame-aligned and trustworthy."
+msgstr ""
+"يستخرج قياس الأداء أولًا مقطعًا مرجعيًا *دون فقد* ثم يُرمّز انطلاقًا منه،"
+" بحيث تكون مقارنة VMAF متوافقة على مستوى الإطارات وجديرة بالثقة."
+
+#: ../../source/02-commands.rst:102 9da42097b5c4429a8280af2c4189e826
+msgid "encode"
+msgstr "encode"
+
+#: ../../source/02-commands.rst:104 bdc7229e01c34dc7b3fd6f27d3192751
+msgid ""
+"Batch re-encode a source tree into a mirrored output tree, verifying "
+"duration and writing a CSV log. Resumable — files whose output already "
+"exists are skipped. Implemented by :func:`slimv.encode.run`."
+msgstr ""
+"يُعيد ترميز شجرة مصدر بالكامل إلى شجرة مُخرجات مطابقة البنية، مع التحقق "
+"من المدّة وكتابة سجلّ CSV. قابل للاستئناف — تُتخطّى الملفات التي يوجد "
+"مُخرَجها مسبقًا. مُنفَّذ عبر :func:`slimv.encode.run`."
+
+#: ../../source/02-commands.rst:113 ee4ef807b3194d349482949c2f770dda
+msgid ""
+"Options: ``--profile`` (default ``qsv``), ``--skip``, ``--limit``, "
+"``--audio-kbps`` (default 128). Output goes to ``DST`` mirroring the "
+"source folder structure; originals are untouched. A per-file log lands at"
+" ``DST/_slimv_encode_log.csv``."
+msgstr ""
+"الخيارات: ``--profile`` (الافتراضي ``qsv``)، و\\ ``--skip``، و\\ "
+"``--limit``، و\\ ``--audio-kbps`` (الافتراضي 128). تذهب المُخرجات إلى "
+"``DST`` مطابِقةً بنية مجلّد المصدر؛ وتبقى الأصول دون مساس. ويُكتب سجلّ "
+"لكل ملف في ``DST/_slimv_encode_log.csv``."
+
+#: ../../source/02-commands.rst:119 678574d711314aafb6b077abc0e11890
+msgid "verify"
+msgstr "verify"
+
+#: ../../source/02-commands.rst:121 0c04397c685b44b5a433192682ebc1f7
+msgid ""
+"The deletion safety gate. For every source it confirms the converted file"
+" exists, matches the original length, and decodes with zero errors — "
+"marking each ``SAFE-TO-DELETE`` or ``KEEP-SOURCE``. Read-only; it never "
+"deletes anything. Implemented by :func:`slimv.verify.run`."
+msgstr ""
+"بوابة الأمان قبل الحذف. لكل مصدر تؤكّد أن الملف المُحوَّل موجود، ومطابق "
+"للمدّة الأصلية، ويُفكّ ترميزه دون أي أخطاء — وتُعلّم كلًّا منه بـ ``SAFE-"
+"TO-DELETE`` أو ``KEEP-SOURCE``. للقراءة فقط؛ ولا تحذف شيئًا أبدًا. "
+"مُنفَّذة عبر :func:`slimv.verify.run`."
+
+#: ../../source/02-commands.rst:131 c5d32c392567433382a6c539ed1bd5e8
+msgid ""
+"A report is written to ``DST/_slimv_verify_report.csv`` with a verdict "
+"and reason per file. Only delete originals whose row says ``SAFE-TO-"
+"DELETE``."
+msgstr ""
+"يُكتب تقرير في ``DST/_slimv_verify_report.csv`` يتضمّن حُكمًا وسببًا لكل "
+"ملف. لا تحذف من الأصول إلا ما يقول سطره ``SAFE-TO-DELETE``."
+

@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Haleem
+# This file is distributed under the same license as the slimv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-19 22:15+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ar\n"
+"Language-Team: ar <LL@li.org>\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+"n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/03-profiles.rst:3 34eb9957ec7c4fa2b8576be2364fc4c6
+msgid "Profiles"
+msgstr ""
+
+#: ../../source/03-profiles.rst:10 854ef54bacf94030af3b23ea1d56b1e0
+msgid "The core ideas"
+msgstr ""
+
+#: ../../source/03-profiles.rst:12 43c2b802f2b7407baf64e7364d684a39
+msgid ""
+"**A profile is a quality-preserving recipe.** It fixes the codec and "
+"rate-control; resolution, frame rate, and pixel format never change."
+msgstr ""
+
+#: ../../source/03-profiles.rst:14 721c3aa48e77474eb309bea53766d852
+msgid ""
+"**Lower number, higher quality.** :term:`CRF` (x265/AV1) and "
+"``global_quality`` (QSV) / ``cq`` (NVENC) all run *backwards* — a lower "
+"value means better quality and a bigger file. The numbers are **not** "
+"comparable across codecs."
+msgstr ""
+
+#: ../../source/03-profiles.rst:18 ca10463e950749f8a0929ee9b7a7a8cc
+msgid ""
+"**Audio is normalized.** Every profile re-encodes audio to AAC 128k — "
+"transparent for speech; raise it for music with ``--audio-kbps``."
+msgstr ""
+
+#: ../../source/03-profiles.rst:20 39a3ef8764e54bb18b1bacdda6225007
+msgid ""
+"**Hardware profiles trade a little size for a lot of speed.** ``qsv`` and"
+" ``nvenc`` are ~2× faster and run on otherwise-idle silicon."
+msgstr ""
+
+#: ../../source/03-profiles.rst:23 054e9f4177d340e39671808876fbaf16
+msgid ""
+"Pick a profile with :doc:`benchmark <02-commands>` on your own footage "
+"rather than from the table alone; the catalog below is the starting "
+"point. The profile data lives in :mod:`slimv.profiles`."
+msgstr ""
+
+#: ../../source/03-profiles.rst:28 5692e559a135485b8385dd794c5c47ed
+msgid "The catalog"
+msgstr ""
+
+#: ../../source/03-profiles.rst:34 2139be858b404311b7c64d4c72b0ed07
+msgid "Profile"
+msgstr ""
+
+#: ../../source/03-profiles.rst:35 ac43509d0e504106964465d3a6047d6b
+msgid "Encoder / setting"
+msgstr ""
+
+#: ../../source/03-profiles.rst:36 e519233bb43c46849d0e94357104ed7e
+msgid "Quality"
+msgstr ""
+
+#: ../../source/03-profiles.rst:37 886677cca6be4a49815046a315ff6483
+msgid "Speed / size"
+msgstr ""
+
+#: ../../source/03-profiles.rst:38 b95d65b02a534b24a416c177424c6257
+msgid "Use when"
+msgstr ""
+
+#: ../../source/03-profiles.rst:39 d9c4a9f6a1824713ac3fbe2ec1f50893
+msgid "``archive``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:40 ec09970481354b0aaacc24b310dfb1f2
+msgid "libx265 CRF 18"
+msgstr ""
+
+#: ../../source/03-profiles.rst:41 0e252496bf9445709b02c6d20aa32f95
+msgid "Near-lossless (VMAF ~97+)"
+msgstr ""
+
+#: ../../source/03-profiles.rst:42 fd6be59f29ef4d7ba8ea1bd4e0321773
+msgid "Slow (CPU) / largest H.265"
+msgstr ""
+
+#: ../../source/03-profiles.rst:43 067385eee9ca4e63833b65aeab9f68ae
+msgid "Masters, archival, precious sources."
+msgstr ""
+
+#: ../../source/03-profiles.rst:44 1c2304081ed94d328a6612ade38aacb0
+msgid "``quality``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:45 f9ea830447f343458d98df0848f81af9
+msgid "libx265 CRF 20"
+msgstr ""
+
+#: ../../source/03-profiles.rst:46 5361642e29f3416d87159fb81ca7a034
+msgid "Transparent + margin"
+msgstr ""
+
+#: ../../source/03-profiles.rst:47 30a10958e5b94d958b80c65488b7f30f
+msgid "Medium (CPU) / larger"
+msgstr ""
+
+#: ../../source/03-profiles.rst:48 0c9d89c9c9f743d99eb68229a942b8d4
+msgid "Detail- or text-heavy footage; safety margin."
+msgstr ""
+
+#: ../../source/03-profiles.rst:49 a20403fc1f384242ab7a02099dad5496
+msgid "``balanced``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:50 8958235a053e4fcc92a3dd7a52466eee
+msgid "libx265 CRF 23"
+msgstr ""
+
+#: ../../source/03-profiles.rst:51 ../../source/03-profiles.rst:66
+#: ../../source/03-profiles.rst:71 509dca0b397a49438d7e0eed7fc8a6b1
+#: 7268de0ef27a4673869e21d193ceb727 d6e8afa5b1354414ac94e5034a68df78
+msgid "Transparent"
+msgstr ""
+
+#: ../../source/03-profiles.rst:52 a17f9125df994f1cab167c3fdc2254b0
+msgid "Medium (CPU) / small"
+msgstr ""
+
+#: ../../source/03-profiles.rst:53 54b4bf661b3b431da4f05a2021398cef
+msgid "General default on CPU; smallest CPU-encoded files."
+msgstr ""
+
+#: ../../source/03-profiles.rst:54 b26e585302bc429781bc264609a40a3d
+msgid "``small``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:55 4328225a0b9340aeb5befa0fc6509911
+msgid "libx265 CRF 26"
+msgstr ""
+
+#: ../../source/03-profiles.rst:56 46df6e45053549e09ae3fdbf0136b30c
+msgid "Good; fine text may soften"
+msgstr ""
+
+#: ../../source/03-profiles.rst:57 6b2eabc92fe741e09bd98da7cdbdc3dc
+msgid "Slow (CPU) / smallest (CPU)"
+msgstr ""
+
+#: ../../source/03-profiles.rst:58 79b015d675b74fcc8de6a56fbb8c786d
+msgid "Low-detail slides / talking-head."
+msgstr ""
+
+#: ../../source/03-profiles.rst:59 1fc47b8806294b86866e9eea07a832d2
+msgid "``qsv``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:60 87a07209206c4bd6a2c9b91e02fc2df2
+msgid "hevc_qsv GQ 24"
+msgstr ""
+
+#: ../../source/03-profiles.rst:61 a2a5a5c1bfdb44028e1f7a6c3fc54786
+msgid "Transparent (~VMAF 92 on screen)"
+msgstr ""
+
+#: ../../source/03-profiles.rst:62 6677ed9e6dc14ed9893d4fddba85b0e5
+msgid "Fast (Intel iGPU) / small"
+msgstr ""
+
+#: ../../source/03-profiles.rst:63 b76a72d1db8b47e9930a5db3c7eb46d7
+msgid "**Intel Quick Sync present — recommended all-rounder.**"
+msgstr ""
+
+#: ../../source/03-profiles.rst:64 3ee495888ea84ae0bead8d47b15f45f8
+msgid "``nvenc``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:65 a6383dfa6fe84c38834ea715b9234f62
+msgid "hevc_nvenc CQ 24"
+msgstr ""
+
+#: ../../source/03-profiles.rst:67 01101e52409c47b799e1f5f042578615
+msgid "Very fast (NVIDIA) / small"
+msgstr ""
+
+#: ../../source/03-profiles.rst:68 cf19bc5690104504a3462031c04ed42c
+msgid "NVIDIA GPU idle; big batches."
+msgstr ""
+
+#: ../../source/03-profiles.rst:69 8aea7752ed7e473488159e32db996d3e
+msgid "``av1``"
+msgstr ""
+
+#: ../../source/03-profiles.rst:70 628d2e13bd1343c6905035bd1f8cdb14
+msgid "libsvtav1 CRF 30"
+msgstr ""
+
+#: ../../source/03-profiles.rst:72 0b017b1a2c774afdbba537b68b376b8d
+msgid "Slow (CPU) / smallest overall"
+msgstr ""
+
+#: ../../source/03-profiles.rst:73 afed0d9206c344048624d77b878fdd8a
+msgid "Max compression and players support AV1."
+msgstr ""
+
+#: ../../source/03-profiles.rst:76 5c4653b9b7ce407dac4a4240f8759745
+msgid "Choosing a profile"
+msgstr ""
+
+#: ../../source/03-profiles.rst:78 2feed0dc66ba4f09a17111756fb2594d
+msgid ""
+"If you have an Intel iGPU, ``qsv`` is the sweet spot: near-x265 quality, "
+"roughly twice the speed, and it runs on hardware that is otherwise idle "
+"so your CPU and any discrete GPU stay free. Want the absolute smallest "
+"CPU-encoded files and have the time to spend? ``balanced``. Need a safety"
+" margin for fine on-screen text? ``quality``. Whatever the starting "
+"guess, run ``slimv benchmark`` on one representative file to confirm the "
+"quality and size on *your* content before committing to a long run."
+msgstr ""
+
+#: ../../source/03-profiles.rst:87 4de065f2e2dd492c946112f7c2503da2
+msgid "A note on VMAF for screen content"
+msgstr ""
+
+#: ../../source/03-profiles.rst:89 a12dfb9812284e1aa8cc7dbafbd02ded
+msgid ""
+":term:`VMAF` was trained on natural video and tends to *under-rate* "
+"screen recordings with sharp text and line art. A score around 92 on a "
+"screencast corresponds to \"visually transparent in practice,\" not "
+"\"visibly flawed.\" For text-heavy material, confirm with your own eyes "
+"on a couple of clips rather than trusting the number alone."
+msgstr ""
+

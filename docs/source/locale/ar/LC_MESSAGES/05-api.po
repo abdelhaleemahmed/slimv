@@ -1,0 +1,329 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Haleem
+# This file is distributed under the same license as the slimv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-20 19:13+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ar\n"
+"Language-Team: ar <LL@li.org>\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+"n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/05-api.rst:3 50a293de67e54367ad2e04f6cfcf16e3
+msgid "API reference"
+msgstr ""
+
+#: ../../source/05-api.rst:9 5827777904544c6f8e79783bbedba8e0
+msgid ""
+"This reference is generated directly from the docstrings in the ``slimv``"
+" package by Sphinx :term:`autodoc` — the prose here and the code stay in "
+"sync because they are the same source. \"view source\" links lead to the "
+"implementation."
+msgstr ""
+
+#: ../../source/05-api.rst:15 def33cc8ba9e4978be2ce3c2fc836b7b
+msgid "Package overview"
+msgstr ""
+
+#: ac6dc1c5013b4ae2aa06899f2ee75f7f of slimv:1
+msgid "slimv — a video analysis & re-encoding toolkit."
+msgstr ""
+
+#: 91cd0a1dcb5e41088a54e32dd705a7fa of slimv:3
+msgid ""
+"Shrink video files without losing visible quality. slimv orchestrates "
+"ffmpeg/ ffprobe to inspect hardware, analyze a library, benchmark "
+"encoders on your own content, apply quality-preserving profiles, and "
+"verify outputs before you delete any source."
+msgstr ""
+
+#: 675b5eb8aea54238b3846fed20649e27 of slimv:8
+msgid "Companion reference: Understanding-and-Compressing-Video-Files-Guide.md"
+msgstr ""
+
+#: ../../source/05-api.rst:21 5646cd3283354e03b0c33a91a79c7326
+msgid "Command modules"
+msgstr ""
+
+#: ../../source/05-api.rst:23 a77cc406147f4eb9ac0c28c8185996b0
+msgid ""
+"Each command in :doc:`02-commands` is one module with a ``run`` entry "
+"point."
+msgstr ""
+
+#: ../../source/05-api.rst:26 b364afe6ac9b457c9dd1bb23373a0cec
+msgid "slimv.cli"
+msgstr ""
+
+#: 1ee435abae624362a3e886a323e90690 of slimv.cli:1
+msgid "slimv command-line interface."
+msgstr ""
+
+#: ../../source/05-api.rst 11428bbe158d4925832beaa7d0cf35ea
+#: 15d1c2fbcc004be794ca0e6b366fca4b 1d5c2268a7334e36b1d10da3ba7d33ed
+#: 205359fd9485485b9d10f44895a83dd4 278d0080207e49b5b5c6c3a586f11dff
+#: 40eeaedcdf0748c7a7beccea3a32213d 4431ce1fcbc845849f2833204702c3d7
+#: 447ef625da7943c5bb6ec266154ce5e8 48b33aa84dc24c019dc1bd6180100aa9
+#: 4a68459d280740799f9d001512392b38 5294d084eab24bcfa5564024eef98b2e
+#: 5e14745826964938a6dbebfbdb53a833 737296d5786542788f5078cebf36a47b
+#: 813351f6b8cc4caeb4bb02d39cab5bb9 8bb7404c25cd46609dd6114cdf4950e5
+#: 8c96fd0e49f148ba854ab3df1a86967f a8f3f1909f5d4389b1de4449897169c0
+#: b019a62c4a494724af0099307b410733 b32bba70c0aa4f96959a6d1b46b05dc1
+#: b8a01a55361349c9932ff1b4e36cacc0 b9534dc038c54f07abc4298820e41989
+#: c3d04c47fb3c47a888ad009761e8d925 ca4d708e48034d879c8a22684f9ad047
+#: cd7020707b4349c49a036c95f922c641 d1836aaa58b34dc7a80b0677d26d6658
+#: d1e47a76107f4c06ba40af3c37ad0cd1 e62482cdfeaf4787babe3812c9930e4c of
+#: slimv.ffmpeg.decode_errors slimv.ffmpeg.hardware_impl slimv.ffmpeg.probe
+#: slimv.ffmpeg.run slimv.ffmpeg.video_stream slimv.ffmpeg.vmaf
+#: slimv.util.human_dur slimv.util.human_size slimv.util.iter_videos
+#: slimv.util.output_path_for
+msgid "Return type"
+msgstr ""
+
+#: ../../source/05-api.rst 10e49894da194ef0a1b42be67a6ceb69
+#: 17a08eee0ce64ef6893a060f1b5caecc 213383ec4cd84826a659cd9f9cd22791
+#: 2ddce46e438f491db27050b0c6444103 6b10a963b1024333b80877aa0ba2bb17
+#: 890d4a3f63594887ae758ec68e2d657d 8f43cdec14ac4e888de94abdca11a44b
+#: 94390c8b6407434aa93e63d7654e91d9 9db70b6568ef43debb81919c7257b802
+#: b5612dc13f0641b6a081abad7e57bdc9 c04275d8236b4b8e92ac60be7eb7a8ca
+#: c227ebeea0584bb08a1734ca3cb5a43d c3ca511366dc4a4e9ca924cb0107f75e
+#: d1afc0e5d36a45bd99958af39cce4fe0 d1c01deee7b94717b24656ce915e66f1
+#: d7ab69f9e612472badfd4df06d182a24 ddeacbee13aa4bca8fddb1f5d10221eb
+#: ee1f2c1f501844ccb543859d91721bed f3f3ce69ee17408f953cf32db07e4602
+#: f4c6585b91424dfb987b03e77220be95 f5d0d19fdcbf46d0a630c1e0a2ae252a
+#: f7e3b387e9e64ffd8a9a7494cf8d02d6 of slimv.ffmpeg.decode_errors
+#: slimv.ffmpeg.hardware_impl slimv.ffmpeg.probe slimv.ffmpeg.run
+#: slimv.ffmpeg.video_stream slimv.ffmpeg.vmaf slimv.util.human_dur
+#: slimv.util.human_size slimv.util.iter_videos slimv.util.output_path_for
+msgid "Parameters"
+msgstr ""
+
+#: ../../source/05-api.rst:33 26f1ef34a89940e88ff49a6630034c0e
+msgid "slimv.hardware"
+msgstr ""
+
+#: 77e13becbc0a49b59e52a4b72c1ce5ae of slimv.hardware:1
+msgid ""
+"`slimv hwcheck` — what encoders/GPUs are available and how to confirm a "
+"hardware encoder is genuinely being used."
+msgstr ""
+
+#: ../../source/05-api.rst:40 53e089302ecb4ad59377402e21451ec4
+msgid "slimv.analyze"
+msgstr ""
+
+#: ce27d6e3bcba46e290be6ac37963de75 of slimv.analyze:1
+msgid ""
+"`slimv analyze <path>` — inspect a video or a whole library and recommend"
+" how to shrink it."
+msgstr ""
+
+#: ../../source/05-api.rst:47 2dbaaf86850d47ef94274b2bf0d002dc
+msgid "slimv.check"
+msgstr ""
+
+#: 04ffe2a92b174e0193a23da76d1b9a4e of slimv.check:1
+msgid ""
+"`slimv check <path>` — health scan of a file or folder: report each "
+"file's codec, find corrupted/unreadable files, and print summary stats."
+msgstr ""
+
+#: 60733540ffee4dcf88cfad98c33386d6 of slimv.check:4
+msgid ""
+"Unlike :mod:`slimv.verify` (which compares a source tree against a "
+"converted tree), ``check`` inspects a single location on its own. Unlike "
+":mod:`slimv.analyze` (stats + a re-encode recommendation), ``check`` adds"
+" a full-decode integrity pass so it can flag broken files."
+msgstr ""
+
+#: 5c5458bac91640858c3293e524fc542c of slimv.check.run:1
+msgid "Scan ``path`` (a file or folder) and report codecs, corruption, and stats."
+msgstr ""
+
+#: 62630b67f887415d812b233498903713 of slimv.check.run:3
+msgid "A video file, or a folder searched recursively."
+msgstr ""
+
+#: fc5eca1375c54e9d9a6abad773593443 of slimv.check.run:4
+msgid ""
+"If True, skip the full-decode integrity pass (ffprobe only — fast, but "
+"only catches files that are unreadable at the header)."
+msgstr ""
+
+#: 515699a24f8c485988f889d8537cf6ec of slimv.check.run:6
+msgid "If True, print a row for every file, not just problems."
+msgstr ""
+
+#: ../../source/05-api.rst 9c6b0b30f7b94d51be066e37d2ff81e5
+msgid "Returns"
+msgstr ""
+
+#: 354dc3223fd841cba06833117f1d86fc of slimv.check.run:8
+msgid "0 if every file is healthy, 2 if any file is corrupt/unreadable."
+msgstr ""
+
+#: ../../source/05-api.rst:54 796ba4d884174258be4c8dc801844cc4
+msgid "slimv.sanity"
+msgstr ""
+
+#: d0d2c18834ab44739052b2027784d9bc of slimv.sanity:1
+msgid ""
+"`slimv test <encoder>` — quick encode+decode sanity check for one "
+"encoder, and report whether it ran on hardware or fell back to software."
+msgstr ""
+
+#: ../../source/05-api.rst:61 a6e9b2a486944c02ae7ef77ee8a965ea
+msgid "slimv.benchmark"
+msgstr ""
+
+#: 7b394014f92e4ad9918c4cbbb7f2d4b0 of slimv.benchmark:1
+msgid ""
+"`slimv benchmark <file>` — encode a short sample with several profiles "
+"and score each with VMAF, so you can pick quality-vs-size on your own "
+"content."
+msgstr ""
+
+#: 01b4df0ba4d444f5b52eed1c034810c6 of slimv.benchmark:4
+msgid ""
+"Method: extract a LOSSLESS reference segment (ffv1), encode that with "
+"each profile, then VMAF each output against the lossless reference. "
+"Encoding from the same reference guarantees frame-perfect alignment, so "
+"the VMAF numbers are trustworthy (no spurious low scores from drift)."
+msgstr ""
+
+#: ../../source/05-api.rst:68 0f86d74a275249028927ec9ae14fba81
+msgid "slimv.encode"
+msgstr ""
+
+#: be26ad56c5cf4598a833f2fd85735326 of slimv.encode:1
+msgid ""
+"`slimv encode <src> <dst> --profile <name>` — batch re-encode a tree into"
+" a mirrored output tree, verifying and logging every file. Resumable: "
+"files whose output already exists are skipped."
+msgstr ""
+
+#: ../../source/05-api.rst:75 bda3b69b888344e9a582fe2e8691608a
+msgid "slimv.verify"
+msgstr ""
+
+#: 421d78ea9b0b4d3f92897aa0d3d18e07 of slimv.verify:1
+msgid ""
+"`slimv verify <src> <dst>` — the deletion safety gate. For every source "
+"it confirms the converted file exists, matches the original length, and "
+"decodes cleanly. Only files that pass all three are marked SAFE-TO-"
+"DELETE. Read-only: it never deletes anything."
+msgstr ""
+
+#: ../../source/05-api.rst:82 7e8e15f6d7fc41c497ef315f11e3c783
+msgid "Support modules"
+msgstr ""
+
+#: ../../source/05-api.rst:85 0010f04a95c74d8eb092b9a7a45ca5a1
+msgid "slimv.profiles"
+msgstr ""
+
+#: e16a9ca2080344b7b74c5849983e31d1 of slimv.profiles:1
+msgid "Encoding profile catalog."
+msgstr ""
+
+#: a00368d034334d05afc69cfde709949f of slimv.profiles:3
+msgid ""
+"Every profile is a *quality-preserving* recipe: resolution, frame rate "
+"and pixel format are left untouched; only the codec/efficiency change. "
+"Audio is always re-encoded to AAC 128k (transparent for speech; raise for"
+" music)."
+msgstr ""
+
+#: c948e05dab89422bb839f54c8cb08073 of slimv.profiles:7
+msgid ""
+"Rate-control note: for CRF (x265/AV1) and global_quality (QSV) / cq "
+"(NVENC), LOWER number = higher quality = bigger file. The numbers are NOT"
+" comparable across codecs."
+msgstr ""
+
+#: ../../source/05-api.rst:92 86695fc7964a4709aa6e18b02937289e
+msgid "slimv.ffmpeg"
+msgstr ""
+
+#: dd6254910ad041138082029007a73596 of slimv.ffmpeg:1
+msgid ""
+"Thin wrapper around ffmpeg/ffprobe. slimv never encodes itself — it "
+"builds command lines and lets ffmpeg do the work, then parses the "
+"results."
+msgstr ""
+
+#: ceda7a3c874e44f7b237d8bf6d883dc5 of slimv.ffmpeg.run:1
+msgid "Run a command. With capture=True, stdout/stderr are returned as text."
+msgstr ""
+
+#: c609ae7091be45e4bf01916f4b527283 of slimv.ffmpeg.probe:1
+msgid "Full ffprobe JSON (format + streams) or None on failure."
+msgstr ""
+
+#: 732b3e562e464b44b5d036e3e30484f3 of slimv.ffmpeg.video_stream:1
+msgid "First video stream from a probe() result."
+msgstr ""
+
+#: 07b072f319874402b308998b04d28830 of slimv.ffmpeg.vmaf:1
+msgid ""
+"VMAF mean of `distorted` vs `reference`. Reads the score from ffmpeg's "
+"stderr (no log file) to dodge Windows path-escaping issues in the "
+"filtergraph. For a trustworthy number the two inputs must be frame-"
+"aligned (see benchmark, which encodes from a lossless reference)."
+msgstr ""
+
+#: 296028900813413bac13c8c67847135d of slimv.ffmpeg.decode_errors:1
+msgid ""
+"Full-decode integrity check. Returns the number of error lines ffmpeg "
+"emits while reading every frame; 0 == clean."
+msgstr ""
+
+#: 6675808e848b4f08a0c299a8604464b6 of slimv.ffmpeg.hardware_impl:1
+msgid "Classify a -v verbose encode log as hardware/software/unknown."
+msgstr ""
+
+#: ../../source/05-api.rst:99 2b9caabfbd8147c38bdddbc33cb8cd79
+msgid "slimv.util"
+msgstr ""
+
+#: d4202564b91b4758b30c57ee01ae3a5f of slimv.util:1
+msgid "Shared helpers: file discovery, size/duration formatting."
+msgstr ""
+
+#: dd9faa4e22ac42ceb21a3977a6f999b5 of slimv.util.iter_videos:1
+msgid ""
+"Return a sorted list of video files. Accepts a single file or a folder "
+"(searched recursively)."
+msgstr ""
+
+#: 098e2692149c44a498ced18edf69ce73 of slimv.util.human_size:1
+msgid "Bytes -> human-readable string (MB/GB)."
+msgstr ""
+
+#: 40f608ef9890408588569872b521a569 of slimv.util.human_dur:1
+msgid "Seconds -> H:MM:SS (or 'n/a')."
+msgstr ""
+
+#: 92fc89dc905f400387b6150b86432c7a of slimv.util.output_path_for:1
+msgid "Mirror src's path under dst_root, swapping the extension."
+msgstr ""
+
+#: ../../source/05-api.rst:106 178cba1178474984b4b040d8a5c87c91
+msgid "slimv.console"
+msgstr ""
+
+#: 2db749f4b7fa480aa82b9d33bb28182a of slimv.console:1
+msgid "Shared rich console + small table helper."
+msgstr ""
+

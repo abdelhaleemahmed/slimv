@@ -1,0 +1,55 @@
+# Build / packaging artifacts
+docs/_build/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.py[cod]
+
+# Test / lint / type-check caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS cruft
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# slimv command output written to the current working directory
+slimv_eyeball/
+slimv_downscale/
+
+# Local config that may hold machine-specific paths
+profiles.toml
+
+# Personal operational scripts — batch runners / one-off helpers with
+# hardcoded local paths (C:\Haleem, E:\, G:\, H:\More Data, N:\) and real
+# course names. NOT part of the slimv tool; never publish these.
+*.ps1
+/estimate_savings.py
+/make_samples.py
+/math_eyeball.py
+/samples_vmaf.py
+/test_720p.py
+
+# Archived Markdown originals of docs now maintained as .rst (docs/source/*.rst
+# is authoritative). Kept locally as a backup; not published.
+docs/markdown-src/
+
+# Private operational docs live OUTSIDE this repo (../slimv-ops).
+# These names are ignored defensively in case a copy ever lands here —
+# they must never be committed to the public repo.
+**/conversion-ledger.md
+**/report-format.md
+**/local-image-video-n8n.md

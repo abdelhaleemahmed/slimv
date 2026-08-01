@@ -1,0 +1,133 @@
+# Arabic translation for the slimv documentation.
+# Copyright (C) 2026, Haleem
+# This file is distributed under the same license as the slimv package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: slimv 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-19 22:15+0400\n"
+"PO-Revision-Date: 2026-06-19 22:30+0400\n"
+"Last-Translator: slimv docs\n"
+"Language: ar\n"
+"Language-Team: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/index.rst:20
+msgid "Contents"
+msgstr "المحتويات"
+
+#: ../../source/index.rst:3 87944d27662f4dfa8523e593f526d133
+msgid "slimv — shrink video, keep the quality"
+msgstr "slimv — قلّص حجم الفيديو مع الحفاظ على الجودة"
+
+#: ../../source/index.rst:5 6a9ea9a09af64e6cbc1de520b0077ff7
+msgid ""
+"**slimv** is a small Python command-line toolkit that drives "
+":term:`ffmpeg`/``ffprobe`` to inspect your hardware, analyze the videos "
+"on a disk, benchmark encoders on *your* content, apply quality-preserving"
+" re-encode :term:`profile` s, and verify the results before you delete "
+"any source."
+msgstr ""
+"**slimv** أداة صغيرة لسطر الأوامر مكتوبة بلغة بايثون تُشغّل "
+":term:`ffmpeg`/``ffprobe`` لفحص عتادك، وتحليل مقاطع الفيديو الموجودة على "
+"القرص، وقياس أداء المُرمِّزات على *المحتوى الخاص بك*، وتطبيق "
+":term:`profile` للترميز تحافظ على الجودة، والتحقق من النتائج قبل حذف أي "
+"مصدر."
+
+#: ../../source/index.rst:10 a9c7c465b0d84d77a59da395d58ce642
+msgid ""
+"slimv never encodes video itself — it builds the right ffmpeg commands, "
+"runs them, and interprets the results. The deep \"why\" behind every "
+"choice lives in the companion guide *Understanding & Compressing Video "
+"Files Without Losing Quality*."
+msgstr ""
+"لا تقوم slimv بترميز الفيديو بنفسها مطلقًا — بل تبني أوامر ffmpeg "
+"الصحيحة، وتُشغّلها، وتفسّر النتائج. أما \"لماذا\" العميقة وراء كل خيار "
+"فتجدها في الدليل المرافق *فهم مقاطع الفيديو وضغطها دون فقدان الجودة*."
+
+#: ../../source/index.rst:17 77edb279898e4df5a87c03664de48976
+msgid ""
+"This documentation ships in **English and Arabic**. Use the 🌐 switcher in"
+" the sidebar to change language. The Arabic build renders right-to-left."
+msgstr ""
+"يأتي هذا التوثيق باللغتين **الإنجليزية والعربية**. استخدم زر التبديل 🌐 في"
+" الشريط الجانبي لتغيير اللغة. تُعرض النسخة العربية من اليمين إلى اليسار."
+
+#: ../../source/index.rst:32 beea78cc20624d1087e7973c669c7852
+msgid "The core ideas"
+msgstr "الأفكار الأساسية"
+
+#: ../../source/index.rst:34 982f1ee616174345b0319253e14e036f
+msgid ""
+"**One tool, ffmpeg underneath.** slimv orchestrates; ffmpeg encodes. You "
+"get hardware detection, a profile catalog, :term:`VMAF` measurement, "
+"batch verification, and a safe delete gate on top."
+msgstr ""
+"**أداة واحدة، وffmpeg في الأساس.** تُنسّق slimv؛ وffmpeg يُرمّز. تحصل على "
+"اكتشاف العتاد، وكتالوج للملفات التعريفية، وقياس :term:`VMAF`، والتحقق على "
+"دفعات، وبوابة حذف آمنة فوق كل ذلك."
+
+#: ../../source/index.rst:37 36afbc946d944e759eae44ff87af6844
+msgid ""
+"**Quality first, then size.** Every profile keeps resolution, frame rate,"
+" and pixel format. The goal is *visually transparent* output at the "
+"smallest size, never a quality trade."
+msgstr ""
+"**الجودة أولًا، ثم الحجم.** كل ملف تعريفي يحافظ على الدقة ومعدل الإطارات "
+"وصيغة البكسل. والهدف مُخرَج *شفّاف بصريًا* بأصغر حجم ممكن، دون أي مقايضة "
+"على الجودة."
+
+#: ../../source/index.rst:40 cda4fde93ca24baa8fc718faabbe172c
+msgid ""
+"**Measure on your own content.** :doc:`benchmark <02-commands>` encodes a"
+" short sample several ways and scores each with VMAF, so the choice is "
+"data, not folklore."
+msgstr ""
+"**قِس على المحتوى الخاص بك.** يُرمّز :doc:`benchmark <02-commands>` عيّنة "
+"قصيرة بعدة طرق ويمنح كلًّا منها درجة VMAF، فيكون الاختيار مبنيًا على "
+"البيانات لا على الشائعات."
+
+#: ../../source/index.rst:43 3bb00a6cd9cd45eda0d40333e73bdeb2
+msgid ""
+"**Hardware when it helps.** On an Intel iGPU, the ``qsv`` profile is ~2× "
+"faster and frees your CPU and discrete GPU — see :doc:`04-workflow`."
+msgstr ""
+"**العتاد حين يفيد.** على معالج رسومات Intel المدمج، يكون الملف التعريفي "
+"``qsv`` أسرع بنحو الضعف ويُحرّر المعالج وكرت الشاشة المنفصل — انظر "
+":doc:`04-workflow`."
+
+#: ../../source/index.rst:45 f2e3c38cc8ea4af3b9c0f53399caac22
+msgid ""
+"**Never delete a good source for a broken copy.** :doc:`verify "
+"<02-commands>` confirms every output exists, matches length, and decodes "
+"cleanly before anything is removed."
+msgstr ""
+"**لا تحذف مصدرًا سليمًا مقابل نسخة معطوبة أبدًا.** يؤكّد :doc:`verify "
+"<02-commands>` أن كل مُخرَج موجود، ومطابق في المدة، ويُفكّ ترميزه دون "
+"أخطاء قبل حذف أي شيء."
+
+#: ../../source/index.rst:49 aabb089500984f0a820c7ea11f25c8b5
+msgid ""
+"Where to start: :doc:`01-overview` for install and concepts, "
+":doc:`02-commands` for the command reference, then :doc:`04-workflow` for"
+" the end-to-end recipe."
+msgstr ""
+"من أين تبدأ: :doc:`01-overview` للتثبيت والمفاهيم، "
+"و\\ :doc:`02-commands` لمرجع الأوامر، ثم :doc:`04-workflow` للوصفة الكاملة "
+"من البداية إلى النهاية."
+
+#: ../../source/index.rst:53 170ace4eb6fc43388273647dbb95983e
+msgid "Indices"
+msgstr "الفهارس"
+
+#: ../../source/index.rst:55 ed14f6e902b740fb8156f43dc348de5a
+msgid ":ref:`genindex`"
+msgstr ":ref:`genindex`"
+
+#: ../../source/index.rst:56 d69c7c7953774f6ea85deb149298ab29
+msgid ":ref:`search`"
+msgstr ":ref:`search`"

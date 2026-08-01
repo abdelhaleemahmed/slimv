@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slimv"
+version = "0.2.0"
+description = "Shrink video files without losing visible quality — an ffmpeg-driven analysis & re-encoding toolkit."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Ahmed Abdelhaleem", email = "ahmedhal@gmail.com" }]
+keywords = ["video", "ffmpeg", "hevc", "h265", "transcode", "compression", "vmaf", "qsv", "nvenc"]
+dependencies = [
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+slimv = "slimv.cli:main"
+
+[tool.setuptools]
+packages = ["slimv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,20 @@
+/* Language switcher injected into the RTD sidebar by lang-switch.js */
+.lang-switcher {
+    margin-top: 0.6em;
+    text-align: center;
+}
+.lang-switcher a {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+.lang-switcher a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+.lang-switcher-icon {
+    margin-inline-end: 0.3em;
+}

@@ -1,0 +1,6 @@
+# Build dependencies for the slimv documentation.
+sphinx>=7.0
+sphinx-rtd-theme>=2.0
+sphinx-intl>=2.2
+# slimv itself is imported by autodoc, so its runtime dep is needed too:
+rich>=13.0

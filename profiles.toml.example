@@ -1,0 +1,35 @@
+# slimv custom profiles — copy to `profiles.toml` to use.
+#
+# slimv merges this over its built-in profiles, so you can ADD new profiles or
+# OVERRIDE built-in ones WITHOUT editing any Python. Search order (later wins):
+#   1. user config dir   — %APPDATA%\slimv\profiles.toml  (Windows)
+#                          ~/.config/slimv/profiles.toml   (Linux/macOS)
+#   2. current directory — ./profiles.toml
+#   3. $SLIMV_PROFILES   — an explicit path you set
+#
+# Each [table] is one profile. `codec` and `vargs` are required; the rest is
+# metadata shown by `slimv profiles`. Lower CRF / global_quality = higher
+# quality = bigger file.
+
+# --- a new profile -------------------------------------------------------
+[qsv-21]
+codec    = "hevc_qsv"
+vargs    = ["-c:v", "hevc_qsv", "-preset", "veryslow", "-global_quality", "21", "-tag:v", "hvc1"]
+quality  = "A touch above qsv-hq"
+speed    = "Fast (Intel iGPU)"
+size     = "Small+"
+when     = "When GQ22 still isn't quite enough on very fine detail."
+hardware = true
+
+# --- override a built-in (same name as a built-in replaces it) -----------
+# [qsv]
+# codec = "hevc_qsv"
+# vargs = ["-c:v", "hevc_qsv", "-preset", "slow", "-global_quality", "23", "-tag:v", "hvc1"]
+# when  = "my house default"
+
+# --- a downscale-and-encode profile --------------------------------------
+[qsv-540p]
+codec    = "hevc_qsv"
+vargs    = ["-c:v", "hevc_qsv", "-preset", "veryslow", "-global_quality", "24", "-vf", "scale=-2:540", "-tag:v", "hvc1"]
+when     = "Between 720p and 480p for long, low-value 1080p sources."
+hardware = true

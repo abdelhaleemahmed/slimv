@@ -1,0 +1,91 @@
+/*
+ * RTL (Right-to-Left) overrides for sphinx-rtd-theme — Arabic build.
+ * Loaded only when SPHINX_LANG=ar (see conf.py). Keeps code, API
+ * signatures, and tables readable while flipping prose/layout to RTL.
+ */
+
+/* 1. Global direction */
+body, .wy-body-for-nav { direction: rtl; }
+
+/* 2. Sidebar: left -> right */
+.wy-nav-side, .wy-nav-side.shift { left: auto !important; right: 0 !important; }
+
+/* 3. Main content margin: left -> right */
+.wy-nav-content-wrap { margin-left: 0 !important; margin-right: 300px !important; }
+@media screen and (max-width: 768px) {
+    .wy-nav-content-wrap { margin-right: 0 !important; }
+    .wy-nav-content-wrap.shift-content { margin-right: 85% !important; margin-left: 0 !important; }
+}
+
+/* 4. Search box */
+.wy-side-nav-search, .wy-side-nav-search input[type="text"] { direction: rtl; text-align: right; }
+
+/* 5. Sidebar nav menu */
+.wy-menu-vertical, .wy-menu-vertical a, .wy-menu-vertical li { direction: rtl; text-align: right; }
+.wy-menu-vertical li button.toctree-expand {
+    float: right !important; margin-left: 0 !important; margin-right: -1.2em !important;
+}
+
+/* 6. Mobile top bar */
+.wy-nav-top { direction: rtl; }
+.wy-nav-top i { float: right !important; }
+.wy-nav-top a { float: right; padding-right: 1em; padding-left: 0; }
+.wy-tray-container { left: auto !important; right: 0 !important; }
+
+/* 7. Content area + headings */
+.rst-content, .wy-nav-content { direction: rtl; text-align: right; }
+.rst-content h1, .rst-content h2, .rst-content h3,
+.rst-content h4, .rst-content h5, .rst-content h6 { text-align: right; direction: rtl; }
+
+/* 8. Code blocks stay LTR */
+pre, code, tt, kbd, samp, .highlight, .highlight pre, .code-block,
+.docutils.literal, .rst-content code, .rst-content tt {
+    direction: ltr !important; text-align: left !important; unicode-bidi: embed;
+}
+.rst-content .code-block-caption { direction: ltr !important; text-align: left !important; }
+
+/* 9. Python API signatures stay LTR */
+.sig, .sig-name, .sig-paren, .sig-param, .sig-return,
+dt, .rst-content dl dt, .rst-content dl dd {
+    direction: ltr !important; text-align: left !important; unicode-bidi: embed;
+}
+.rst-content dl.field-list > dt {
+    direction: ltr !important; text-align: left !important;
+    padding-left: 1rem !important; padding-right: 0 !important;
+}
+
+/* 10. Lists */
+.rst-content ul, .rst-content ol,
+.rst-content .section ul, .rst-content .section ol { padding-right: 1.5em; padding-left: 0; }
+.rst-content section ul li, .rst-content section ol li,
+.rst-content .toctree-wrapper ul li { margin-left: 0 !important; margin-right: 24px; }
+
+/* 11. Admonitions */
+.rst-content .admonition, .rst-content .note, .rst-content .warning,
+.rst-content .tip, .rst-content .important { direction: rtl; text-align: right; }
+.rst-content .admonition-title { direction: rtl; text-align: right; padding-right: 1.2em; padding-left: 0; }
+.rst-content .admonition-title::before { margin-right: 0; margin-left: 0.5em; float: right; }
+
+/* 12. Blockquotes */
+.rst-content blockquote {
+    margin-left: 0 !important; margin-right: 24px !important;
+    border-left: none !important; border-right: 4px solid #ddd;
+    padding-left: 0; padding-right: 12px;
+}
+
+/* 13. Tables */
+table, .rst-content table.docutils, .wy-table { direction: rtl; }
+th, td { text-align: right !important; }
+.rst-content table.docutils td { border-right: 1px solid #e1e4e5; border-left: none; }
+
+/* 14. Footer prev/next: swap sides + mirror arrows */
+.rst-footer-buttons { overflow: hidden; }
+.rst-footer-buttons .btn-neutral.float-left { float: right !important; }
+.rst-footer-buttons .btn-neutral.float-right { float: left !important; }
+.rst-footer-buttons .btn { display: inline-flex !important; align-items: center; gap: 0.35em; flex-direction: row-reverse; }
+.rst-footer-buttons .btn .fa-arrow-circle-left,
+.rst-footer-buttons .btn .fa-arrow-circle-right { transform: scaleX(-1); display: inline-block; }
+
+/* 15. Breadcrumbs */
+.wy-breadcrumbs { direction: rtl; text-align: right; }
+.wy-breadcrumbs > li { float: none; }
