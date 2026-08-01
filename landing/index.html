@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slimv — shrink video, keep the quality</title>
+    <meta name="description" content="An ffmpeg-driven CLI that re-encodes video to H.265/AV1 without visible quality loss — analyze, benchmark, encode, and verify before you delete a thing.">
+    <meta property="og:title" content="slimv — shrink video, keep the quality">
+    <meta property="og:description" content="An ffmpeg-driven CLI to re-encode video to H.265/AV1 without visible quality loss.">
+    <meta property="og:image" content="https://abdelhaleemahmed.github.io/slimv/social-preview.png">
+    <meta property="og:url" content="https://abdelhaleemahmed.github.io/slimv/">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff; min-height: 100vh; padding: 20px; line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .hero {
+            text-align: center; padding: 60px 20px 40px;
+        }
+        .logo {
+            width: 90px; height: 64px; margin: 0 auto 20px; display: block;
+        }
+        h1 { font-size: 4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.25); }
+        .tagline { font-size: 1.4rem; opacity: .96; margin-top: 6px; }
+        .lead {
+            font-size: 1.1rem; opacity: .9; max-width: 640px; margin: 22px auto 0;
+        }
+        .actions {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 38px 0 10px;
+        }
+        .btn {
+            display: inline-block; padding: 14px 26px; border-radius: 10px;
+            font-size: 1rem; font-weight: 700; text-decoration: none;
+            border: 2px solid rgba(255,255,255,.85); color: #fff; transition: all .2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+        .btn.primary { background: #fff; color: #5a3d8a; border-color: #fff; }
+        .btn small { display: block; font-weight: 500; font-size: .78rem; opacity: .8; margin-top: 2px; }
+
+        .card {
+            background: rgba(255,255,255,.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,.2); border-radius: 15px;
+            padding: 28px 30px; margin: 26px 0;
+        }
+        .card h2 { font-size: 1.3rem; margin-bottom: 14px; }
+        pre {
+            background: rgba(0,0,0,.28); border-radius: 10px; padding: 16px 18px;
+            overflow-x: auto; font-family: 'DejaVu Sans Mono', Consolas, monospace;
+            font-size: .92rem; color: #f3f0ff;
+        }
+        .note { font-size: .92rem; opacity: .85; margin-top: 12px; }
+        .note a { color: #fff; }
+
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+        .feature { background: rgba(255,255,255,.08); border-radius: 12px; padding: 18px 20px; }
+        .feature h3 { font-size: 1.05rem; margin-bottom: 6px; }
+        .feature p { font-size: .9rem; opacity: .88; }
+
+        footer { text-align: center; padding: 30px 20px 50px; opacity: .9; font-size: .95rem; }
+        footer a { color: #fff; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,.5); }
+        footer a:hover { border-bottom-color: #fff; }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2.8rem; }
+            .tagline { font-size: 1.1rem; }
+            .btn { padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <svg class="logo" viewBox="0 0 144 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="4" width="136" height="92" rx="18" fill="none" stroke="#fff" stroke-width="7" opacity=".95"/>
+                <path d="M 54 27 L 108 50 L 54 73 Z" fill="#fff"/>
+            </svg>
+            <h1>slimv</h1>
+            <p class="tagline">shrink video — keep the quality</p>
+            <p class="lead">
+                A small command-line toolkit that drives <strong>ffmpeg</strong> to re-encode
+                your video libraries to <strong>H.265 / AV1</strong> — analyzing what's on disk,
+                benchmarking encoders on your own footage, and verifying every output before you
+                delete a single source. Typically <strong>40–80% smaller</strong>, with no visible
+                quality loss.
+            </p>
+
+            <div class="actions">
+                <a class="btn primary" href="https://github.com/abdelhaleemahmed/slimv">
+                    Clone the repo <small>github.com/abdelhaleemahmed/slimv</small>
+                </a>
+                <a class="btn" href="https://github.com/abdelhaleemahmed/slimv/releases/latest">
+                    Download release <small>latest .whl / .tar.gz</small>
+                </a>
+                <a class="btn" href="docs/">
+                    Read the docs <small>install &amp; usage guide</small>
+                </a>
+            </div>
+        </section>
+
+        <div class="card">
+            <h2>Quick install</h2>
+            <pre>pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.0/slimv-0.2.0-py3-none-any.whl</pre>
+            <p class="note">
+                Requires <strong>ffmpeg / ffprobe</strong> on your <code>PATH</code>. For a
+                virtual-environment setup, the full ffmpeg feature/version table, and hardware
+                (Intel QSV / NVIDIA NVENC) notes, see the
+                <a href="docs/01-overview.html">installation guide</a>.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>What it does</h2>
+            <div class="features">
+                <div class="feature"><h3>🧠 Benchmark</h3><p>Encodes a real sample several ways and scores each with VMAF — data, not guesswork.</p></div>
+                <div class="feature"><h3>⚡ Hardware</h3><p>Intel Quick Sync &amp; NVIDIA NVENC to encode fast and keep the CPU free.</p></div>
+                <div class="feature"><h3>👁️ Eyeball</h3><p><code>eyeball</code> &amp; <code>downscale-test</code> leave clips to compare where VMAF can't be trusted.</p></div>
+                <div class="feature"><h3>✅ Verify</h3><p>Full-decode check that every output is intact before any source is removed.</p></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>MIT licensed · by <a href="https://github.com/abdelhaleemahmed">Ahmed Abdelhaleem</a></p>
+            <p style="margin-top:10px">
+                <a href="https://abdelhaleemahmed.github.io/tools-utilities/">← All tools</a>
+                &nbsp;·&nbsp;
+                <a href="https://abdelhaleemahmed.github.io/">Portfolio</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

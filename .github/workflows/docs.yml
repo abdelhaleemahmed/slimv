@@ -26,14 +26,17 @@ jobs:
           python-version: "3.13"
       - name: Install the package + Sphinx toolchain
         run: pip install -e . sphinx sphinx_rtd_theme
-      - name: Build HTML (warnings fail the build)
+      - name: Assemble the site (landing page at root, docs under /docs)
         run: |
-          python -m sphinx -b html docs/source docs/_build/html -W
-          touch docs/_build/html/.nojekyll
+          mkdir -p _site
+          cp -r landing/. _site/
+          cp assets/social-preview.png _site/social-preview.png
+          python -m sphinx -b html docs/source _site/docs -W
+          touch _site/.nojekyll
       - name: Upload the Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/_build/html
+          path: _site
 
   deploy:
     needs: build
