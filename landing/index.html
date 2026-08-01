@@ -17,11 +17,20 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             color: #2b2b3a; line-height: 1.6;
+            background: #ecedf7;                 /* neutral page — the whitespace on the sides */
+            padding: 40px 24px;                  /* frames the card top/bottom/sides */
         }
-        .section { padding: 72px 32px; }
-        .inner { max-width: 1280px; margin: 0 auto; }
 
-        /* backgrounds */
+        /* the centered, contained card that holds everything */
+        .app {
+            max-width: 960px; width: 100%; margin: 0 auto;
+            background: #fff; border-radius: 26px; overflow: hidden;
+            box-shadow: 0 26px 70px rgba(45, 33, 90, .16), 0 6px 18px rgba(45, 33, 90, .06);
+        }
+
+        .section { padding: 58px 52px; }
+
+        /* backgrounds (unchanged colors) */
         .bg-hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
         .bg-dark { background: #0d1117; color: #e6edf3; }
         .bg-light { background: #f5f6fb; color: #2b2b3a; }
@@ -30,83 +39,81 @@
 
         /* hero */
         .hero { text-align: center; }
-        .logo { width: 84px; height: 60px; margin: 0 auto 18px; display: block; }
-        h1 { font-size: 4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.22); }
-        .tagline { font-size: 1.35rem; opacity: .96; margin-top: 4px; }
-        .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0 4px; }
+        .logo { width: 80px; height: 56px; margin: 0 auto 16px; display: block; }
+        h1 { font-size: 3.4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.22); }
+        .tagline { font-size: 1.3rem; opacity: .96; margin-top: 4px; }
+        .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 18px 0 4px; }
         .badges img { height: 22px; }
-        .reqs { font-size: .92rem; opacity: .85; margin-top: 14px; }
-        .lead { font-size: 1.1rem; opacity: .93; max-width: 640px; margin: 18px auto 0; }
-        .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 34px 0 6px; }
+        .reqs { font-size: .9rem; opacity: .85; margin-top: 14px; }
+        .lead { font-size: 1.06rem; opacity: .93; max-width: 620px; margin: 16px auto 0; }
+        .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 30px 0 6px; }
         .btn {
-            display: inline-block; padding: 14px 26px; border-radius: 10px;
-            font-size: 1rem; font-weight: 700; text-decoration: none;
+            display: inline-block; padding: 13px 24px; border-radius: 10px;
+            font-size: .98rem; font-weight: 700; text-decoration: none;
             border: 2px solid rgba(255,255,255,.85); color: #fff; transition: all .2s ease;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.25); }
         .btn.primary { background: #fff; color: #5a3d8a; border-color: #fff; }
-        .btn small { display: block; font-weight: 500; font-size: .78rem; opacity: .8; margin-top: 2px; }
+        .btn small { display: block; font-weight: 500; font-size: .76rem; opacity: .8; margin-top: 2px; }
 
-        /* stat band */
-        .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 40px; }
+        .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 36px; }
         .stat {
             background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
-            border-radius: 12px; padding: 18px 26px; min-width: 190px;
+            border-radius: 12px; padding: 16px 24px; min-width: 170px;
         }
-        .stat .num { font-size: 1.9rem; font-weight: 800; }
-        .stat .lbl { font-size: .9rem; opacity: .9; }
+        .stat .num { font-size: 1.8rem; font-weight: 800; }
+        .stat .lbl { font-size: .88rem; opacity: .9; }
 
         /* section headings */
-        .section h2 { font-size: 1.9rem; text-align: center; margin-bottom: 8px; }
-        .section .sub { text-align: center; opacity: .7; margin-bottom: 34px; }
+        .section h2 { font-size: 1.8rem; text-align: center; margin-bottom: 8px; }
+        .section .sub { text-align: center; opacity: .7; margin-bottom: 32px; }
         .bg-dark .sub { opacity: .6; }
 
         /* terminal */
-        .terminal { max-width: 1040px; margin: 0 auto; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 18px 50px rgba(0,0,0,.45); border: 1px solid #262b36; }
-        .term-bar { background: #161b22; padding: 12px 16px; display: flex; gap: 8px; align-items: center; }
+        .terminal { border-radius: 12px; overflow: hidden;
+            box-shadow: 0 16px 40px rgba(0,0,0,.4); border: 1px solid #262b36; }
+        .term-bar { background: #161b22; padding: 11px 15px; display: flex; gap: 8px; align-items: center; }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
         .dot.r { background: #ff5f56; } .dot.y { background: #ffbd2e; } .dot.g { background: #27c93f; }
         .term-title { margin-left: 10px; color: #7d8590; font-size: .82rem; }
         .terminal pre {
             background: #0d1117; padding: 20px; margin: 0; overflow-x: auto;
             font-family: 'DejaVu Sans Mono', 'Cascadia Code', Consolas, monospace;
-            font-size: .86rem; line-height: 1.7; color: #c9d1d9;
+            font-size: .84rem; line-height: 1.7; color: #c9d1d9;
         }
         .term .p { color: #a5d6ff; } .term .c { color: #fff; }
         .term .ok { color: #56d364; } .term .hi { color: #d2a8ff; } .term .dim { color: #6e7681; }
 
         /* steps */
-        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 18px; }
-        .step { background: #fff; border-radius: 12px; padding: 22px; border-bottom: 4px solid #667eea;
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
+        .step { background: #fff; border-radius: 12px; padding: 20px; border-bottom: 4px solid #667eea;
             box-shadow: 0 8px 22px rgba(80,70,140,.08); }
-        .step .n { display: inline-flex; width: 34px; height: 34px; border-radius: 50%;
+        .step .n { display: inline-flex; width: 32px; height: 32px; border-radius: 50%;
             background: #667eea; color: #fff; font-weight: 800; align-items: center; justify-content: center; margin-bottom: 10px; }
-        .step h3 { color: #5a4b9c; font-size: 1.1rem; margin-bottom: 4px; }
-        .step p { font-size: .92rem; color: #555; }
+        .step h3 { color: #5a4b9c; font-size: 1.05rem; margin-bottom: 4px; }
+        .step p { font-size: .9rem; color: #555; }
 
         /* features + commands */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 18px; margin-bottom: 34px; }
-        .feature { background: #f8f9fe; border-radius: 12px; padding: 20px 22px; border-left: 4px solid #667eea; }
-        .feature h3 { font-size: 1.05rem; margin-bottom: 5px; color: #4a3f7a; }
-        .feature p { font-size: .92rem; color: #555; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 16px; margin-bottom: 32px; }
+        .feature { background: #f8f9fe; border-radius: 12px; padding: 18px 20px; border-left: 4px solid #667eea; }
+        .feature h3 { font-size: 1.02rem; margin-bottom: 5px; color: #4a3f7a; }
+        .feature p { font-size: .9rem; color: #555; }
         .cmds { text-align: center; }
-        .cmds h3 { font-size: 1.05rem; margin-bottom: 14px; color: #4a3f7a; }
+        .cmds h3 { font-size: 1.02rem; margin-bottom: 12px; color: #4a3f7a; }
         .pill { display: inline-block; margin: 5px; padding: 7px 14px; border-radius: 20px;
             background: #eef0fb; color: #5a4b9c; font-family: 'DejaVu Sans Mono', Consolas, monospace;
-            font-size: .85rem; font-weight: 600; }
+            font-size: .84rem; font-weight: 600; }
 
         /* install */
-        .install-box { max-width: 1000px; margin: 0 auto; }
-        .install-row { display: flex; align-items: stretch; gap: 0; border-radius: 10px; overflow: hidden;
+        .install-row { display: flex; align-items: stretch; border-radius: 10px; overflow: hidden;
             box-shadow: 0 8px 22px rgba(80,70,140,.12); }
         .install-row code {
             flex: 1; background: #1b2130; color: #f3f0ff; padding: 16px 18px; overflow-x: auto;
-            font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: .88rem; white-space: nowrap; }
+            font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: .86rem; white-space: nowrap; }
         .copy-btn { background: #667eea; color: #fff; border: 0; padding: 0 22px; font-weight: 700;
             cursor: pointer; font-size: .9rem; transition: background .2s ease; }
         .copy-btn:hover { background: #5568d3; }
-        .install-note { text-align: center; font-size: .92rem; color: #666; margin-top: 14px; }
+        .install-note { text-align: center; font-size: .9rem; color: #666; margin-top: 14px; }
         .install-note a { color: #667eea; }
 
         /* footer */
@@ -116,66 +123,69 @@
         .footer-links { margin-top: 12px; opacity: .9; }
 
         /* reveal on scroll */
-        .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
         .reveal.in { opacity: 1; transform: none; }
 
         @media (max-width: 640px) {
-            h1 { font-size: 2.8rem; }
-            .tagline { font-size: 1.1rem; }
+            body { padding: 16px 12px; }
+            .app { border-radius: 18px; }
+            .section { padding: 40px 24px; }
+            h1 { font-size: 2.6rem; }
+            .tagline { font-size: 1.05rem; }
             .install-row code { white-space: normal; word-break: break-all; }
         }
     </style>
 </head>
 <body>
+    <main class="app">
 
-    <!-- HERO -->
-    <section class="section bg-hero">
-        <div class="inner hero">
-            <svg class="logo" viewBox="0 0 144 100" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="4" width="136" height="92" rx="18" fill="none" stroke="#fff" stroke-width="7" opacity=".95"/>
-                <path d="M 54 27 L 108 50 L 54 73 Z" fill="#fff"/>
-            </svg>
-            <h1>slimv</h1>
-            <p class="tagline">shrink video — keep the quality</p>
+        <!-- HERO -->
+        <section class="section bg-hero">
+            <div class="hero">
+                <svg class="logo" viewBox="0 0 144 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="136" height="92" rx="18" fill="none" stroke="#fff" stroke-width="7" opacity=".95"/>
+                    <path d="M 54 27 L 108 50 L 54 73 Z" fill="#fff"/>
+                </svg>
+                <h1>slimv</h1>
+                <p class="tagline">shrink video — keep the quality</p>
 
-            <div class="badges">
-                <img alt="CI" src="https://github.com/abdelhaleemahmed/slimv/actions/workflows/ci.yml/badge.svg">
-                <img alt="version" src="https://img.shields.io/github/v/release/abdelhaleemahmed/slimv?color=blueviolet">
-                <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
-                <img alt="python" src="https://img.shields.io/badge/python-3.9%2B-blue">
+                <div class="badges">
+                    <img alt="CI" src="https://github.com/abdelhaleemahmed/slimv/actions/workflows/ci.yml/badge.svg">
+                    <img alt="version" src="https://img.shields.io/github/v/release/abdelhaleemahmed/slimv?color=blueviolet">
+                    <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
+                    <img alt="python" src="https://img.shields.io/badge/python-3.9%2B-blue">
+                </div>
+
+                <p class="lead">
+                    A small command-line toolkit that drives <strong>ffmpeg</strong> to re-encode your
+                    video libraries to <strong>H.265 / AV1</strong> — analyzing what's on disk,
+                    benchmarking encoders on your own footage, and verifying every output before you
+                    delete a single source.
+                </p>
+                <p class="reqs">Python 3.9+ &nbsp;·&nbsp; needs ffmpeg / ffprobe on your PATH</p>
+
+                <div class="actions">
+                    <a class="btn primary" href="https://github.com/abdelhaleemahmed/slimv">
+                        Clone the repo <small>github.com/abdelhaleemahmed/slimv</small>
+                    </a>
+                    <a class="btn" href="https://github.com/abdelhaleemahmed/slimv/releases/latest">
+                        Download release <small>latest .whl / .tar.gz</small>
+                    </a>
+                    <a class="btn" href="docs/">
+                        Read the docs <small>install &amp; usage guide</small>
+                    </a>
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><div class="num">40–80%</div><div class="lbl">smaller files</div></div>
+                    <div class="stat"><div class="num">VMAF</div><div class="lbl">verified quality</div></div>
+                    <div class="stat"><div class="num">0</div><div class="lbl">sources lost</div></div>
+                </div>
             </div>
+        </section>
 
-            <p class="lead">
-                A small command-line toolkit that drives <strong>ffmpeg</strong> to re-encode your
-                video libraries to <strong>H.265 / AV1</strong> — analyzing what's on disk,
-                benchmarking encoders on your own footage, and verifying every output before you
-                delete a single source.
-            </p>
-            <p class="reqs">Python 3.9+ &nbsp;·&nbsp; needs ffmpeg / ffprobe on your PATH</p>
-
-            <div class="actions">
-                <a class="btn primary" href="https://github.com/abdelhaleemahmed/slimv">
-                    Clone the repo <small>github.com/abdelhaleemahmed/slimv</small>
-                </a>
-                <a class="btn" href="https://github.com/abdelhaleemahmed/slimv/releases/latest">
-                    Download release <small>latest .whl / .tar.gz</small>
-                </a>
-                <a class="btn" href="docs/">
-                    Read the docs <small>install &amp; usage guide</small>
-                </a>
-            </div>
-
-            <div class="stats">
-                <div class="stat"><div class="num">40–80%</div><div class="lbl">smaller files</div></div>
-                <div class="stat"><div class="num">VMAF</div><div class="lbl">verified quality</div></div>
-                <div class="stat"><div class="num">0</div><div class="lbl">sources lost</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEE IT IN ACTION -->
-    <section class="section bg-dark">
-        <div class="inner">
+        <!-- SEE IT IN ACTION -->
+        <section class="section bg-dark">
             <h2 class="reveal">See it in action</h2>
             <p class="sub reveal">Four commands: inspect → benchmark → encode → verify.</p>
             <div class="terminal reveal">
@@ -201,12 +211,10 @@ Recommendation: mostly H.264 — re-encoding to H.265 will cut size a lot.
 SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
 <span class="ok">ALL VERIFIED — these sources are safe to remove.</span></pre>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="section bg-light">
-        <div class="inner">
+        <!-- HOW IT WORKS -->
+        <section class="section bg-light">
             <h2 class="reveal">How it works</h2>
             <p class="sub reveal">Data-driven, and safe by default.</p>
             <div class="steps">
@@ -215,12 +223,10 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                 <div class="step reveal"><span class="n">3</span><h3>Encode</h3><p>Re-encode the tree with a quality-preserving profile, on GPU if you have one.</p></div>
                 <div class="step reveal"><span class="n">4</span><h3>Verify</h3><p>Full-decode every output and match its length before any source is removed.</p></div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- WHAT IT DOES -->
-    <section class="section bg-white">
-        <div class="inner">
+        <!-- WHAT IT DOES -->
+        <section class="section bg-white">
             <h2 class="reveal">What it does</h2>
             <p class="sub reveal">One tool, ffmpeg underneath.</p>
             <div class="features">
@@ -233,15 +239,13 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                 <h3>Commands</h3>
                 <span class="pill">analyze</span><span class="pill">benchmark</span><span class="pill">eyeball</span><span class="pill">downscale-test</span><span class="pill">recommend</span><span class="pill">encode</span><span class="pill">verify</span><span class="pill">rename</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- INSTALL -->
-    <section class="section bg-light">
-        <div class="inner">
+        <!-- INSTALL -->
+        <section class="section bg-light">
             <h2 class="reveal">Quick install</h2>
             <p class="sub reveal">A wheel from the latest release — pulls in its one dependency automatically.</p>
-            <div class="install-box reveal">
+            <div class="reveal">
                 <div class="install-row">
                     <code id="cmd">pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.0/slimv-0.2.0-py3-none-any.whl</code>
                     <button class="copy-btn" id="copyBtn" type="button">Copy</button>
@@ -253,12 +257,10 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                     <a href="docs/01-overview.html">installation guide</a>.
                 </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOOTER -->
-    <footer class="section bg-footer">
-        <div class="inner">
+        <!-- FOOTER -->
+        <footer class="section bg-footer">
             <p>MIT licensed &nbsp;·&nbsp; by <a href="https://github.com/abdelhaleemahmed">Ahmed Abdelhaleem</a></p>
             <p class="footer-links">
                 <a href="https://abdelhaleemahmed.github.io/tools-utilities/">← All tools</a>
@@ -267,11 +269,11 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                 &nbsp;·&nbsp;
                 <a href="https://github.com/abdelhaleemahmed/slimv">GitHub</a>
             </p>
-        </div>
-    </footer>
+        </footer>
+
+    </main>
 
     <script>
-        // Copy-to-clipboard for the install command
         (function () {
             var btn = document.getElementById('copyBtn');
             if (btn) btn.addEventListener('click', function () {
@@ -282,18 +284,11 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                 });
             });
         })();
-
-        // Fade-in on scroll
         (function () {
             var els = document.querySelectorAll('.reveal');
-            if (!('IntersectionObserver' in window)) {
-                els.forEach(function (e) { e.classList.add('in'); });
-                return;
-            }
+            if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
             var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (en) {
-                    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-                });
+                entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
             }, { threshold: 0.12 });
             els.forEach(function (e) { io.observe(e); });
         })();
