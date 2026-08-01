@@ -10,28 +10,34 @@
     <meta property="og:image" content="https://abdelhaleemahmed.github.io/slimv/social-preview.png">
     <meta property="og:url" content="https://abdelhaleemahmed.github.io/slimv/">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23667eea'/%3E%3Cpath d='M12 9 L23 16 L12 23 Z' fill='white'/%3E%3C/svg%3E">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff; min-height: 100vh; padding: 20px; line-height: 1.6;
+            color: #2b2b3a; line-height: 1.6;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        .hero {
-            text-align: center; padding: 60px 20px 40px;
-        }
-        .logo {
-            width: 90px; height: 64px; margin: 0 auto 20px; display: block;
-        }
-        h1 { font-size: 4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.25); }
-        .tagline { font-size: 1.4rem; opacity: .96; margin-top: 6px; }
-        .lead {
-            font-size: 1.1rem; opacity: .9; max-width: 640px; margin: 22px auto 0;
-        }
-        .actions {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 38px 0 10px;
-        }
+        .section { padding: 72px 20px; }
+        .inner { max-width: 960px; margin: 0 auto; }
+
+        /* backgrounds */
+        .bg-hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+        .bg-dark { background: #0d1117; color: #e6edf3; }
+        .bg-light { background: #f5f6fb; color: #2b2b3a; }
+        .bg-white { background: #ffffff; color: #2b2b3a; }
+        .bg-footer { background: #14141f; color: #cfd2e6; }
+
+        /* hero */
+        .hero { text-align: center; }
+        .logo { width: 84px; height: 60px; margin: 0 auto 18px; display: block; }
+        h1 { font-size: 4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.22); }
+        .tagline { font-size: 1.35rem; opacity: .96; margin-top: 4px; }
+        .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0 4px; }
+        .badges img { height: 22px; }
+        .reqs { font-size: .92rem; opacity: .85; margin-top: 14px; }
+        .lead { font-size: 1.1rem; opacity: .93; max-width: 640px; margin: 18px auto 0; }
+        .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 34px 0 6px; }
         .btn {
             display: inline-block; padding: 14px 26px; border-radius: 10px;
             font-size: 1rem; font-weight: 700; text-decoration: none;
@@ -41,52 +47,111 @@
         .btn.primary { background: #fff; color: #5a3d8a; border-color: #fff; }
         .btn small { display: block; font-weight: 500; font-size: .78rem; opacity: .8; margin-top: 2px; }
 
-        .card {
-            background: rgba(255,255,255,.1); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,.2); border-radius: 15px;
-            padding: 28px 30px; margin: 26px 0;
+        /* stat band */
+        .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 40px; }
+        .stat {
+            background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+            border-radius: 12px; padding: 18px 26px; min-width: 190px;
         }
-        .card h2 { font-size: 1.3rem; margin-bottom: 14px; }
-        pre {
-            background: rgba(0,0,0,.28); border-radius: 10px; padding: 16px 18px;
-            overflow-x: auto; font-family: 'DejaVu Sans Mono', Consolas, monospace;
-            font-size: .92rem; color: #f3f0ff;
+        .stat .num { font-size: 1.9rem; font-weight: 800; }
+        .stat .lbl { font-size: .9rem; opacity: .9; }
+
+        /* section headings */
+        .section h2 { font-size: 1.9rem; text-align: center; margin-bottom: 8px; }
+        .section .sub { text-align: center; opacity: .7; margin-bottom: 34px; }
+        .bg-dark .sub { opacity: .6; }
+
+        /* terminal */
+        .terminal { max-width: 780px; margin: 0 auto; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 18px 50px rgba(0,0,0,.45); border: 1px solid #262b36; }
+        .term-bar { background: #161b22; padding: 12px 16px; display: flex; gap: 8px; align-items: center; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #ff5f56; } .dot.y { background: #ffbd2e; } .dot.g { background: #27c93f; }
+        .term-title { margin-left: 10px; color: #7d8590; font-size: .82rem; }
+        .terminal pre {
+            background: #0d1117; padding: 20px; margin: 0; overflow-x: auto;
+            font-family: 'DejaVu Sans Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: .86rem; line-height: 1.7; color: #c9d1d9;
         }
-        .note { font-size: .92rem; opacity: .85; margin-top: 12px; }
-        .note a { color: #fff; }
+        .term .p { color: #a5d6ff; } .term .c { color: #fff; }
+        .term .ok { color: #56d364; } .term .hi { color: #d2a8ff; } .term .dim { color: #6e7681; }
 
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
-        .feature { background: rgba(255,255,255,.08); border-radius: 12px; padding: 18px 20px; }
-        .feature h3 { font-size: 1.05rem; margin-bottom: 6px; }
-        .feature p { font-size: .9rem; opacity: .88; }
+        /* steps */
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 18px; }
+        .step { background: #fff; border-radius: 12px; padding: 22px; border-bottom: 4px solid #667eea;
+            box-shadow: 0 8px 22px rgba(80,70,140,.08); }
+        .step .n { display: inline-flex; width: 34px; height: 34px; border-radius: 50%;
+            background: #667eea; color: #fff; font-weight: 800; align-items: center; justify-content: center; margin-bottom: 10px; }
+        .step h3 { color: #5a4b9c; font-size: 1.1rem; margin-bottom: 4px; }
+        .step p { font-size: .92rem; color: #555; }
 
-        footer { text-align: center; padding: 30px 20px 50px; opacity: .9; font-size: .95rem; }
-        footer a { color: #fff; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,.5); }
+        /* features + commands */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 18px; margin-bottom: 34px; }
+        .feature { background: #f8f9fe; border-radius: 12px; padding: 20px 22px; border-left: 4px solid #667eea; }
+        .feature h3 { font-size: 1.05rem; margin-bottom: 5px; color: #4a3f7a; }
+        .feature p { font-size: .92rem; color: #555; }
+        .cmds { text-align: center; }
+        .cmds h3 { font-size: 1.05rem; margin-bottom: 14px; color: #4a3f7a; }
+        .pill { display: inline-block; margin: 5px; padding: 7px 14px; border-radius: 20px;
+            background: #eef0fb; color: #5a4b9c; font-family: 'DejaVu Sans Mono', Consolas, monospace;
+            font-size: .85rem; font-weight: 600; }
+
+        /* install */
+        .install-box { max-width: 780px; margin: 0 auto; }
+        .install-row { display: flex; align-items: stretch; gap: 0; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 8px 22px rgba(80,70,140,.12); }
+        .install-row code {
+            flex: 1; background: #1b2130; color: #f3f0ff; padding: 16px 18px; overflow-x: auto;
+            font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: .88rem; white-space: nowrap; }
+        .copy-btn { background: #667eea; color: #fff; border: 0; padding: 0 22px; font-weight: 700;
+            cursor: pointer; font-size: .9rem; transition: background .2s ease; }
+        .copy-btn:hover { background: #5568d3; }
+        .install-note { text-align: center; font-size: .92rem; color: #666; margin-top: 14px; }
+        .install-note a { color: #667eea; }
+
+        /* footer */
+        footer { text-align: center; }
+        footer a { color: #fff; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,.4); }
         footer a:hover { border-bottom-color: #fff; }
+        .footer-links { margin-top: 12px; opacity: .9; }
+
+        /* reveal on scroll */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+        .reveal.in { opacity: 1; transform: none; }
 
         @media (max-width: 640px) {
             h1 { font-size: 2.8rem; }
             .tagline { font-size: 1.1rem; }
-            .btn { padding: 12px 20px; }
+            .install-row code { white-space: normal; word-break: break-all; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <section class="hero">
+
+    <!-- HERO -->
+    <section class="section bg-hero">
+        <div class="inner hero">
             <svg class="logo" viewBox="0 0 144 100" xmlns="http://www.w3.org/2000/svg">
                 <rect x="4" y="4" width="136" height="92" rx="18" fill="none" stroke="#fff" stroke-width="7" opacity=".95"/>
                 <path d="M 54 27 L 108 50 L 54 73 Z" fill="#fff"/>
             </svg>
             <h1>slimv</h1>
             <p class="tagline">shrink video — keep the quality</p>
+
+            <div class="badges">
+                <img alt="CI" src="https://github.com/abdelhaleemahmed/slimv/actions/workflows/ci.yml/badge.svg">
+                <img alt="version" src="https://img.shields.io/github/v/release/abdelhaleemahmed/slimv?color=blueviolet">
+                <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
+                <img alt="python" src="https://img.shields.io/badge/python-3.9%2B-blue">
+            </div>
+
             <p class="lead">
-                A small command-line toolkit that drives <strong>ffmpeg</strong> to re-encode
-                your video libraries to <strong>H.265 / AV1</strong> — analyzing what's on disk,
+                A small command-line toolkit that drives <strong>ffmpeg</strong> to re-encode your
+                video libraries to <strong>H.265 / AV1</strong> — analyzing what's on disk,
                 benchmarking encoders on your own footage, and verifying every output before you
-                delete a single source. Typically <strong>40–80% smaller</strong>, with no visible
-                quality loss.
+                delete a single source.
             </p>
+            <p class="reqs">Python 3.9+ &nbsp;·&nbsp; needs ffmpeg / ffprobe on your PATH</p>
 
             <div class="actions">
                 <a class="btn primary" href="https://github.com/abdelhaleemahmed/slimv">
@@ -99,37 +164,139 @@
                     Read the docs <small>install &amp; usage guide</small>
                 </a>
             </div>
-        </section>
 
-        <div class="card">
-            <h2>Quick install</h2>
-            <pre>pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.0/slimv-0.2.0-py3-none-any.whl</pre>
-            <p class="note">
-                Requires <strong>ffmpeg / ffprobe</strong> on your <code>PATH</code>. For a
-                virtual-environment setup, the full ffmpeg feature/version table, and hardware
-                (Intel QSV / NVIDIA NVENC) notes, see the
-                <a href="docs/01-overview.html">installation guide</a>.
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>What it does</h2>
-            <div class="features">
-                <div class="feature"><h3>🧠 Benchmark</h3><p>Encodes a real sample several ways and scores each with VMAF — data, not guesswork.</p></div>
-                <div class="feature"><h3>⚡ Hardware</h3><p>Intel Quick Sync &amp; NVIDIA NVENC to encode fast and keep the CPU free.</p></div>
-                <div class="feature"><h3>👁️ Eyeball</h3><p><code>eyeball</code> &amp; <code>downscale-test</code> leave clips to compare where VMAF can't be trusted.</p></div>
-                <div class="feature"><h3>✅ Verify</h3><p>Full-decode check that every output is intact before any source is removed.</p></div>
+            <div class="stats">
+                <div class="stat"><div class="num">40–80%</div><div class="lbl">smaller files</div></div>
+                <div class="stat"><div class="num">VMAF</div><div class="lbl">verified quality</div></div>
+                <div class="stat"><div class="num">0</div><div class="lbl">sources lost</div></div>
             </div>
         </div>
+    </section>
 
-        <footer>
-            <p>MIT licensed · by <a href="https://github.com/abdelhaleemahmed">Ahmed Abdelhaleem</a></p>
-            <p style="margin-top:10px">
+    <!-- SEE IT IN ACTION -->
+    <section class="section bg-dark">
+        <div class="inner">
+            <h2 class="reveal">See it in action</h2>
+            <p class="sub reveal">Four commands: inspect → benchmark → encode → verify.</p>
+            <div class="terminal reveal">
+                <div class="term-bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="term-title">slimv — a real run</span>
+                </div>
+<pre class="term"><span class="p">$ slimv analyze</span> <span class="c">"D:\Courses\ML Foundations"</span>
+<span class="dim">273 files · 59.53 GB · 1280x720 H.264 · ~3–5 Mbps</span>
+Recommendation: mostly H.264 — re-encoding to H.265 will cut size a lot.
+  Projected output: ~<span class="hi">24 GB</span>  →  <span class="hi">~60% smaller</span>.
+
+<span class="p">$ slimv benchmark</span> <span class="c">lesson1.mp4 --length 30s</span>
+  Profile    VMAF    Size(MB)   Speed×RT   HW
+  qsv        91.15   1.70       1.79       yes
+  qsv-hq     91.80   2.65       1.76       yes   <span class="hi">&lt;- chosen</span>
+  balanced   91.80   1.57       1.11       no
+
+<span class="p">$ slimv encode</span> <span class="c">SRC DST --profile qsv-hq --hwdec qsv --copy-audio</span>
+[273/273] <span class="ok">✓</span>  59.53 GB → <span class="hi">8.6 GB</span>  <span class="dim">(≈88% smaller)</span>
+
+<span class="p">$ slimv verify</span> <span class="c">SRC DST --hwaccel qsv</span>
+SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
+<span class="ok">ALL VERIFIED — these sources are safe to remove.</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section bg-light">
+        <div class="inner">
+            <h2 class="reveal">How it works</h2>
+            <p class="sub reveal">Data-driven, and safe by default.</p>
+            <div class="steps">
+                <div class="step reveal"><span class="n">1</span><h3>Analyze</h3><p>Scan a library — codecs, bitrates, sizes — and estimate what's reclaimable.</p></div>
+                <div class="step reveal"><span class="n">2</span><h3>Benchmark</h3><p>Encode a real sample several ways and score each with VMAF. Pick on data.</p></div>
+                <div class="step reveal"><span class="n">3</span><h3>Encode</h3><p>Re-encode the tree with a quality-preserving profile, on GPU if you have one.</p></div>
+                <div class="step reveal"><span class="n">4</span><h3>Verify</h3><p>Full-decode every output and match its length before any source is removed.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT IT DOES -->
+    <section class="section bg-white">
+        <div class="inner">
+            <h2 class="reveal">What it does</h2>
+            <p class="sub reveal">One tool, ffmpeg underneath.</p>
+            <div class="features">
+                <div class="feature reveal"><h3>🧠 Benchmark on your content</h3><p>VMAF-scored comparisons on real footage — the choice is data, not folklore.</p></div>
+                <div class="feature reveal"><h3>⚡ Hardware acceleration</h3><p>Intel Quick Sync &amp; NVIDIA NVENC encode fast and keep the CPU free.</p></div>
+                <div class="feature reveal"><h3>👁️ Trust your eyes</h3><p><code>eyeball</code> &amp; <code>downscale-test</code> leave clips to compare where VMAF can't be trusted.</p></div>
+                <div class="feature reveal"><h3>✅ Never lose a source</h3><p>The verify gate proves every output is intact before you delete anything.</p></div>
+            </div>
+            <div class="cmds reveal">
+                <h3>Commands</h3>
+                <span class="pill">analyze</span><span class="pill">benchmark</span><span class="pill">eyeball</span><span class="pill">downscale-test</span><span class="pill">recommend</span><span class="pill">encode</span><span class="pill">verify</span><span class="pill">rename</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="section bg-light">
+        <div class="inner">
+            <h2 class="reveal">Quick install</h2>
+            <p class="sub reveal">A wheel from the latest release — pulls in its one dependency automatically.</p>
+            <div class="install-box reveal">
+                <div class="install-row">
+                    <code id="cmd">pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.0/slimv-0.2.0-py3-none-any.whl</code>
+                    <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+                </div>
+                <p class="install-note">
+                    Requires <strong>ffmpeg / ffprobe</strong> on your <code>PATH</code>. For a
+                    virtual-environment setup, the full ffmpeg feature/version table, and hardware
+                    (Intel QSV / NVIDIA NVENC) notes, see the
+                    <a href="docs/01-overview.html">installation guide</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="section bg-footer">
+        <div class="inner">
+            <p>MIT licensed &nbsp;·&nbsp; by <a href="https://github.com/abdelhaleemahmed">Ahmed Abdelhaleem</a></p>
+            <p class="footer-links">
                 <a href="https://abdelhaleemahmed.github.io/tools-utilities/">← All tools</a>
                 &nbsp;·&nbsp;
                 <a href="https://abdelhaleemahmed.github.io/">Portfolio</a>
+                &nbsp;·&nbsp;
+                <a href="https://github.com/abdelhaleemahmed/slimv">GitHub</a>
             </p>
-        </footer>
-    </div>
+        </div>
+    </footer>
+
+    <script>
+        // Copy-to-clipboard for the install command
+        (function () {
+            var btn = document.getElementById('copyBtn');
+            if (btn) btn.addEventListener('click', function () {
+                var txt = document.getElementById('cmd').textContent;
+                navigator.clipboard.writeText(txt).then(function () {
+                    var old = btn.textContent; btn.textContent = 'Copied!';
+                    setTimeout(function () { btn.textContent = old; }, 1600);
+                });
+            });
+        })();
+
+        // Fade-in on scroll
+        (function () {
+            var els = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function (e) { e.classList.add('in'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+                });
+            }, { threshold: 0.12 });
+            els.forEach(function (e) { io.observe(e); });
+        })();
+    </script>
 </body>
 </html>
