@@ -166,6 +166,52 @@ not NVENC.** NVENC earns its place on *speed* (big batches, idle GPU), not size.
 (A few flags like ``-temporal_aq`` / ``-b_ref_mode`` need a Turing-or-newer card;
 the set above works on older GPUs too.)
 
+Same file, two encoders: QSV vs NVIDIA
+--------------------------------------
+
+To make the trade-off concrete, the **same 1080p H.264 lecture** (~18 min, 15 fps,
+~600 kbps) was encoded two ways — Intel Quick Sync (``qsv-hq``) and NVIDIA
+(``nvenc`` with ``--hwdec cuda`` for a full-GPU decode→encode pipeline):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 26 14 16 12 24
+
+   * - Encode
+     - Size
+     - vs source
+     - VMAF
+     - Speed
+   * - source (H.264)
+     - 81.7 MB
+     - —
+     - —
+     - —
+   * - ``qsv-hq`` (Intel iGPU)
+     - **47.9 MB**
+     - **−41 %**
+     - 96.4
+     - ~0.6× realtime (~30 min)
+   * - ``nvenc`` (NVIDIA)
+     - 95.4 MB
+     - **+17 % (larger!)**
+     - 97.1
+     - **17.6× realtime (65 s)**
+
+Same picture — VMAF 96.4 vs 97.1 is a fraction of a point apart, both visually
+transparent — but wildly different outcomes:
+
+- **NVIDIA was ~28× faster** — 65 seconds versus ~30 minutes.
+- **…yet its file was twice the size of the QSV one, and larger than the
+  original.** On an already-lean source, NVENC's fixed-function rate control
+  couldn't improve on it, while QSV cut it 41 % at the *same* quality.
+
+This is exactly why slimv defaults to ``--keep-smaller``: here NVENC's output would
+be **rejected and the source kept**, so NVENC would have saved *nothing* — while
+QSV saved 41 %. Rule of thumb: **QSV / x265 for size, NVENC for speed** — and
+always ``benchmark``, because on some content the "faster" encoder loses outright
+on size.
+
 Customizing profiles (no code edits)
 ====================================
 
