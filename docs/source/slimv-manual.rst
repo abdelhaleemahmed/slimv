@@ -297,6 +297,13 @@ and ~2× faster** (no GPU↔RAM round-trip). The encode itself runs entirely on 
 what's left on the CPU is demux/mux and frame-feeding — a fraction of a core, but
 never fully idle.
 
+**Running both GPUs at once.** Because NVENC is near-CPU-free and the Intel and
+NVIDIA encoders are **independent hardware**, you can run an ``nvenc-hq`` job at the
+*same time* as a ``qsv`` job — two ``slimv encode`` commands to different output
+folders — and roughly **double your total throughput**. They share only the source
+disk and a little CPU; neither GPU waits on the other. (Point them at *different*
+output drives to avoid write contention.)
+
 **Switching engine — verify:** the integrity pass decodes on the **CPU by default**
 (safest for a deletion gate), but you can offload it to a GPU with ``--hwaccel``:
 
