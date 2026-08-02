@@ -8,6 +8,9 @@ All notable changes to slimv are recorded here. Versions follow
 ### Added
 - **`--cq` override** for `encode` — NVENC's quality/size dial (higher = smaller);
   `--gq`/`--crf` target QSV/x265 and are ignored on NVENC.
+- **Zero-copy CUDA decode** — `--hwdec cuda` now keeps decoded frames GPU-resident
+  (`-hwaccel_output_format cuda`), like the QSV path. Measured ~3.6 vs ~6.5
+  CPU-seconds per 90 s clip and ~2× faster than the old RAM round-trip.
 - **`nvenc-hq` profile** — NVENC tuned for size (`-multipass fullres`,
   `-spatial_aq`, `-rc-lookahead` at CQ 32). Measured on a Pascal GTX 1050 Ti it
   cut a lecture from the default `nvenc`'s 95 MB to 54 MB (cq 32) / 39 MB (cq 36)

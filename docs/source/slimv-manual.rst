@@ -289,6 +289,14 @@ the CPU. Much freer, not idle. Two caveats worth knowing (the *why* is in Guide 
   file* **without ``--hwdec``** (software decode recovers the full content). So ``--hwdec`` is
   the right default; keep plain decode as the fallback for the occasional rough file.
 
+**How much CPU does it actually save?** Measured with ffmpeg's ``-benchmark`` on the
+same 90-second clip (``nvenc-hq``): plain **CPU decode used ~19 CPU-seconds**;
+``--hwdec cuda`` cut that to **~6.5**, and — now that the CUDA path is **zero-copy**
+(decoded frames stay in GPU memory, like the ``qsv`` path) — to **~3.6 CPU-seconds,
+and ~2× faster** (no GPU↔RAM round-trip). The encode itself runs entirely on NVENC;
+what's left on the CPU is demux/mux and frame-feeding — a fraction of a core, but
+never fully idle.
+
 **Switching engine — verify:** the integrity pass decodes on the **CPU by default**
 (safest for a deletion gate), but you can offload it to a GPU with ``--hwaccel``:
 

@@ -34,14 +34,19 @@ def _verdict(src_dur, out_dur, tol=1.0):
 
 def _decode_args(hwdec: str | None) -> list[str]:
     """Input (decode) hwaccel args, inserted before -i. Moves the source decode off
-    the CPU onto a GPU so the CPU stays free for other work. For 'qsv' we keep frames
-    GPU-resident (`-hwaccel_output_format qsv`) for a full decode→encode iGPU pipeline
-    and size the hardware frame pool with `-extra_hw_frames 24` — the sweet spot on a
-    Gen9 iGPU (smaller pools starve the pipeline; much larger ones exhaust iGPU memory)."""
+    the CPU onto a GPU so the CPU stays free for other work. For 'qsv' and 'cuda' the
+    decoded frames are also kept **GPU-resident** (`-hwaccel_output_format ...`) so the
+    decode→encode pipeline is *zero-copy* — no round-trip to system RAM — which is what
+    keeps the CPU near-idle. (qsv also sizes its frame pool with `-extra_hw_frames 24`,
+    the Gen9 iGPU sweet spot: smaller pools starve the pipeline, much larger ones
+    exhaust iGPU memory.) The GPU-resident output needs a **non-scaling** profile — a
+    software `-vf scale` can't read GPU frames; use a scaling profile without --hwdec."""
     if not hwdec:
         return []
     if hwdec == "qsv":
         return ["-hwaccel", "qsv", "-hwaccel_output_format", "qsv", "-extra_hw_frames", "24"]
+    if hwdec == "cuda":
+        return ["-hwaccel", "cuda", "-hwaccel_output_format", "cuda"]
     return ["-hwaccel", hwdec]
 
 
