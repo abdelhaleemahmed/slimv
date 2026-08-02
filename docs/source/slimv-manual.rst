@@ -275,6 +275,14 @@ the CPU. Much freer, not idle. Two caveats worth knowing (the *why* is in Guide 
   iGPU the hardware frame pool is auto-sized to a Gen9-safe ``-extra_hw_frames 24`` (the
   default 8 starves the pipeline; large values exhaust iGPU memory). ``--hwdec cuda`` /
   ``d3d11va`` are also accepted.
+- **Pair the decoder with the encoder's hardware.** ``--hwdec`` chooses the *decode*
+  device; the ``--profile`` chooses the *encode* device — two independent picks. Keep
+  them on the same GPU: ``--hwdec qsv`` with a ``qsv`` profile (both Intel), or
+  ``--hwdec cuda`` with ``nvenc`` (both NVIDIA). Mismatching — e.g. ``--hwdec cuda``
+  decoding on the NVIDIA card into a ``qsv-hq`` encode on the Intel iGPU — forces ffmpeg
+  to download frames from one GPU to RAM and upload them to the other, which is slower
+  and can break against the ``-hwaccel_output_format qsv`` pinning. slimv doesn't
+  auto-detect the GPU; you select it with these two flags.
 - **A hardware decoder is stricter than software.** On a rough/slightly-corrupt file it can
   stop early and truncate the output (where software decode limps through). The tell:
   ``verify`` flags a length mismatch on a source that plays fine. Fix: re-encode *that one

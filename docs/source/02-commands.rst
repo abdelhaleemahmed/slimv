@@ -191,7 +191,11 @@ Options:
   use when the source is already AAC at a fine bitrate (avoids a needless re-encode).
 - ``--hwdec`` — decode the source on a GPU (``qsv``/``cuda``/``d3d11va``) to free
   the CPU. Use with non-scaling profiles; it frees the CPU, it does not speed up
-  an encode-bound job.
+  an encode-bound job. **Match it to the profile's hardware** — ``qsv`` decode with a
+  ``qsv`` profile, ``cuda`` with ``nvenc`` — so frames stay on one GPU; mixing them
+  (e.g. ``cuda`` decode into a ``qsv`` encode) forces a slow GPU→RAM→GPU copy and can
+  fail against the ``qsv`` ``-hwaccel_output_format`` pinning. ``--hwdec`` picks the
+  *decode* device, ``--profile`` picks the *encode* device — slimv doesn't auto-detect.
 - ``--scale`` — downscale to this height, e.g. ``--scale 720`` (keeps aspect).
   Measure the cost first with ``downscale-test``.
 - ``--gq`` / ``--crf`` / ``--preset`` — override the profile's quality/preset
