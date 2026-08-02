@@ -617,6 +617,27 @@ keeping most of its speed. A fixed-function encoder still won't quite match x265
 per byte, so the rule stands: **NVENC for speed, QSV/x265 for the smallest files** —
 see the measured comparison in :doc:`03-profiles`.
 
+**``cq`` is the target you set; ``q`` is what the encoder did.** While an encode
+runs, ffmpeg prints a live line like ``frame=1101 fps=118 q=25.0 … speed=2×``. That
+``q`` is the **quantizer (QP)** actually applied to the frame just encoded —
+higher = coarser = smaller. It is **not** your ``-cq`` setting: ``cq`` is the
+*quality target* you request, and the encoder picks per-frame ``q`` values to hit
+it — nudging them **up** on easy content (a still slide) and **down** on busy
+content (motion), and further per-region when ``-spatial_aq`` is on. So raising the
+target raises the needle: in a real run ``--cq 32`` held ``q`` around 17–21 and
+barely compressed lean lectures (they came out *larger* and were kept as originals),
+while ``--cq 36`` pushed ``q`` to ~25 and actually shrank them. **The dial you turn
+is ``cq``; the needle that responds is ``q``.** (Same idea for x265's ``-crf`` and
+QSV's ``-global_quality`` — the target — versus the ``q`` the encoder settles on.)
+
+**Reading ffmpeg's live progress line.** ``frame=`` frames done · ``fps=`` frames/s
+right now · ``q=`` the current quantizer (above) · ``size=`` output so far ·
+``bitrate=`` its running average · ``speed=`` seconds of video encoded per wall
+second (``2×`` = twice real-time; **below ``1×`` is slower than playback**). A
+**frozen** ``frame=``/``time=`` with ``speed=`` ticking *down* means the encoder is
+stalled (e.g. a source-disk stall), not working. The final ``frame I/P/B: Avg QP``
+line then reports the *average* quantizer per frame type.
+
 --------------
 
 .. _7-reading-our-real-screencast-files-worked-example:
