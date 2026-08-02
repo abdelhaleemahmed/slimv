@@ -3,6 +3,22 @@
 All notable changes to slimv are recorded here. Versions follow
 `MAJOR.MINOR.PATCH`.
 
+## [Unreleased]
+
+### Added
+- **`--cq` override** for `encode` — NVENC's quality/size dial (higher = smaller);
+  `--gq`/`--crf` target QSV/x265 and are ignored on NVENC.
+- **`nvenc-hq` profile** — NVENC tuned for size (`-multipass fullres`,
+  `-spatial_aq`, `-rc-lookahead` at CQ 32). Measured on a Pascal GTX 1050 Ti it
+  cut a lecture from the default `nvenc`'s 95 MB to 54 MB (cq 32) / 39 MB (cq 36)
+  — iGPU-size or smaller, still transparent, and ~19× faster than the iGPU.
+
+### Docs
+- New guide section explaining the encoders and quality dials (CRF /
+  global_quality / CQ) and what NVENC's args mean.
+- Measured NVENC-vs-iGPU comparisons and the CQ sweep in the profiles page;
+  note that HEVC B-frames / `-temporal_aq` / `-b_ref_mode` require a Turing+ GPU.
+
 ## [0.2.0] — 2026-08-01
 
 ### Added

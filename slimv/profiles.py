@@ -99,6 +99,16 @@ _BUILTIN: dict[str, Profile] = {
         when="NVIDIA GPU present and idle; fastest option for large batches.",
         hardware=True,
     ),
+    "nvenc-hq": Profile(
+        "nvenc-hq", "hevc_nvenc",
+        ["-c:v", "hevc_nvenc", "-preset", "p7", "-tune", "hq", "-rc", "vbr", "-cq", "32",
+         "-multipass", "fullres", "-spatial_aq", "1", "-rc-lookahead", "20",
+         "-tag:v", "hvc1"],
+        quality="Transparent; tuned for size", speed="Fast (NVIDIA GPU)",
+        size="Much smaller than 'nvenc' (near x265/QSV)",
+        when="NVIDIA idle and you want NVENC speed at closer-to-QSV size. Dial with --cq.",
+        hardware=True,
+    ),
     "av1": Profile(
         "av1", "libsvtav1",
         ["-c:v", "libsvtav1", "-crf", "30", "-preset", "6", "-pix_fmt", "yuv420p"],
@@ -110,7 +120,7 @@ _BUILTIN: dict[str, Profile] = {
 
 # Built-in display / iteration order.
 _BUILTIN_ORDER = ["archive", "quality", "balanced", "small", "qsv", "qsv-hq",
-                  "qsv-720p", "qsv-480p", "nvenc", "av1"]
+                  "qsv-720p", "qsv-480p", "nvenc", "nvenc-hq", "av1"]
 
 # Profiles benchmark tries by default (the practical contenders).
 BENCH_DEFAULT = ["qsv", "qsv-hq", "balanced", "quality", "nvenc"]
@@ -200,12 +210,14 @@ PROFILES, ORDER = _load_merged()
 
 
 def apply_overrides(profile: Profile, *, gq: int | None = None,
-                    crf: int | None = None, preset: str | None = None,
+                    crf: int | None = None, cq: int | None = None,
+                    preset: str | None = None,
                     scale: int | None = None) -> tuple[Profile, list[str]]:
     """Apply ad-hoc CLI overrides to a profile's vargs.
 
     - gq      -> set the value after ``-global_quality`` (QSV)
     - crf     -> set the value after ``-crf`` (x265 / AV1)
+    - cq      -> set the value after ``-cq`` (NVENC)
     - preset  -> set the value after ``-preset``
     - scale   -> set ``-vf scale=-2:<height>`` (replacing any existing -vf)
 
@@ -214,7 +226,7 @@ def apply_overrides(profile: Profile, *, gq: int | None = None,
     so the caller can surface it. If no overrides are given, returns the profile
     unchanged with an empty warning list.
     """
-    if gq is None and crf is None and preset is None and scale is None:
+    if gq is None and crf is None and cq is None and preset is None and scale is None:
         return profile, []
 
     v = list(profile.vargs)
@@ -230,6 +242,8 @@ def apply_overrides(profile: Profile, *, gq: int | None = None,
         warnings.append(f"--gq ignored (no -global_quality in profile '{profile.name}')")
     if crf is not None and not set_after("-crf", str(crf)):
         warnings.append(f"--crf ignored (no -crf in profile '{profile.name}')")
+    if cq is not None and not set_after("-cq", str(cq)):
+        warnings.append(f"--cq ignored (no -cq in profile '{profile.name}')")
     if preset is not None and not set_after("-preset", str(preset)):
         warnings.append(f"--preset ignored (no -preset in profile '{profile.name}')")
     if scale is not None:

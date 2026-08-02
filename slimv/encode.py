@@ -47,7 +47,7 @@ def _decode_args(hwdec: str | None) -> list[str]:
 
 def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = None,
         audio_kbps: int = 128, keep_smaller: bool = False,
-        gq: int | None = None, crf: int | None = None,
+        gq: int | None = None, crf: int | None = None, cq: int | None = None,
         preset: str | None = None, scale: int | None = None,
         hwdec: str | None = None, copy_audio: bool = False) -> int:
     ffmpeg.require_tools()
@@ -59,7 +59,7 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         console.print(f"[red]Profile '{profile}' needs encoder '{p.codec}', not available here.[/red]")
         return 1
     # apply any ad-hoc CLI overrides (--gq/--crf/--preset/--scale)
-    p, _warn = apply_overrides(p, gq=gq, crf=crf, preset=preset, scale=scale)
+    p, _warn = apply_overrides(p, gq=gq, crf=crf, cq=cq, preset=preset, scale=scale)
     for w in _warn:
         console.print(f"[yellow]warning: {w}[/yellow]")
     in_args = _decode_args(hwdec)

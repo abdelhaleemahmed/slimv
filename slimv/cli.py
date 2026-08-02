@@ -137,6 +137,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="override global_quality (QSV profiles); lower = higher quality")
     e.add_argument("--crf", type=int, default=None,
                    help="override CRF (x265/AV1 profiles); lower = higher quality")
+    e.add_argument("--cq", type=int, default=None,
+                   help="override CQ (NVENC profiles); lower = higher quality")
     e.add_argument("--preset", default=None, help="override the encoder preset")
     e.add_argument("--scale", type=int, default=None,
                    help="downscale to this height, e.g. --scale 720 (keeps aspect)")
@@ -217,7 +219,7 @@ def main(argv: list[str] | None = None) -> int:
             return encode.run(args.src, args.dst, args.profile,
                               skip=args.skip, limit=args.limit, audio_kbps=args.audio_kbps,
                               keep_smaller=args.keep_smaller,
-                              gq=args.gq, crf=args.crf, preset=args.preset, scale=args.scale,
+                              gq=args.gq, crf=args.crf, cq=args.cq, preset=args.preset, scale=args.scale,
                               hwdec=args.hwdec, copy_audio=args.copy_audio)
         if args.command == "verify":
             from . import verify

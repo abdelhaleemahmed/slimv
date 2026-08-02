@@ -64,8 +64,13 @@ The catalog
    * - ``nvenc``
      - hevc_nvenc CQ 24
      - Transparent
-     - Very fast (NVIDIA) / small
-     - NVIDIA GPU idle; big batches.
+     - Very fast (NVIDIA) / large
+     - NVIDIA idle; max speed, size doesn't matter.
+   * - ``nvenc-hq``
+     - hevc_nvenc CQ 32 + multipass/AQ
+     - Transparent
+     - Fast (NVIDIA) / small
+     - **NVIDIA idle; want speed *and* small files. Dial with** ``--cq``.
    * - ``av1``
      - libsvtav1 CRF 30
      - Transparent
@@ -134,83 +139,98 @@ efficiency. So the choice is by goal:
 
 - **Big batch, GPU idle, encode time matters?** ``nvenc`` — finish in a fraction
   of the time. Pair with ``--hwdec cuda`` for a full-NVIDIA decode→encode pipeline.
-- **Smallest files matter more than speed?** ``balanced`` / ``quality`` (x265) or
-  ``qsv`` (Intel) — more efficient per byte.
+- **Smallest files matter more than speed?** ``balanced`` / ``quality`` (x265),
+  ``qsv`` (Intel), or a **tuned** ``nvenc-hq`` (below) — the default ``nvenc`` is
+  the least efficient per byte.
 
 Numbers vary with content and GPU generation; run ``slimv benchmark`` on your own
 footage to see your card's figures.
 
-Optimizing NVENC for size instead of speed
-------------------------------------------
+Optimizing NVENC for size: ``nvenc-hq`` and ``--cq``
+----------------------------------------------------
 
-NVENC's size dial is ``-cq`` (higher = smaller, like :term:`CRF` run backwards).
-Note that ``--gq``/``--crf`` **don't apply to NVENC** — they target QSV's
-``-global_quality`` and x265's ``-crf``, so slimv ignores them (with a warning) on
-an NVENC profile. To make NVENC files smaller, define a variant in
-``profiles.toml`` — raise ``-cq`` and add efficiency flags (multipass, spatial
-adaptive-quantization, lookahead, extra B-frames):
+The default ``nvenc`` profile aims for more quality than the eye needs (``cq 24``)
+and uses none of NVENC's efficiency features, so its files come out large. Two
+built-in fixes:
 
-.. code-block:: toml
+- the **``nvenc-hq``** profile — adds ``-multipass fullres`` (two-pass),
+  ``-spatial_aq`` (adaptive quantization) and ``-rc-lookahead``, at ``-cq 32``;
+- the **``--cq``** override — NVENC's size dial (higher = smaller). ``--gq``/``--crf``
+  target QSV/x265 and are *ignored* on NVENC with a warning, so ``--cq`` is the one
+  to use here.
 
-   [nvenc-small]
-   codec    = "hevc_nvenc"
-   vargs    = ["-c:v","hevc_nvenc","-preset","p7","-tune","hq","-rc","vbr","-cq","30",
-               "-multipass","fullres","-spatial_aq","1","-rc-lookahead","20","-bf","3","-tag:v","hvc1"]
-   when     = "NVENC tuned for smaller files"
-   hardware = true
+.. code-block:: bash
 
-Then ``slimv encode SRC DST --profile nvenc-small``. This *narrows* the gap, but a
-fixed-function encoder still won't match a software one per byte. **So if smallest
-size is the real goal, use** ``balanced`` / ``quality`` **(x265) or** ``qsv`` **—
-not NVENC.** NVENC earns its place on *speed* (big batches, idle GPU), not size.
-(A few flags like ``-temporal_aq`` / ``-b_ref_mode`` need a Turing-or-newer card;
-the set above works on older GPUs too.)
+   slimv encode SRC DST --profile nvenc-hq            # tuned, cq 32
+   slimv encode SRC DST --profile nvenc-hq --cq 36    # smaller still
 
-Same file, two encoders: QSV vs NVIDIA
---------------------------------------
+The measured before/after is in the next section.
 
-To make the trade-off concrete, the **same 1080p H.264 lecture** (~18 min, 15 fps,
-~600 kbps) was encoded two ways — Intel Quick Sync (``qsv-hq``) and NVIDIA
-(``nvenc`` with ``--hwdec cuda`` for a full-GPU decode→encode pipeline):
+.. note:: GPU-generation caveat
+
+   ``-multipass``, ``-spatial_aq`` and ``-rc-lookahead`` work on older cards (tested
+   on a Pascal GTX 1050 Ti). **HEVC B-frames (``-bf``), ``-temporal_aq`` and
+   ``-b_ref_mode`` need a Turing-or-newer GPU** — they fail to open the encoder on
+   Pascal, so ``nvenc-hq`` omits them. On a newer card, adding them via
+   ``profiles.toml`` shrinks NVENC further.
+
+Same file, four ways: the default trap and the tuned fix
+--------------------------------------------------------
+
+The **same 1080p H.264 lecture** (~18 min, ~600 kbps) encoded several ways — Intel
+Quick Sync (``qsv-hq``), the default NVIDIA ``nvenc``, and the tuned ``nvenc-hq``
+(all NVIDIA runs used ``--hwdec cuda`` for a full-GPU pipeline):
 
 .. list-table::
    :header-rows: 1
-   :widths: 26 14 16 12 24
+   :widths: 28 14 14 12 22
 
    * - Encode
      - Size
      - vs source
      - VMAF
-     - Speed
+     - Time
    * - source (H.264)
      - 81.7 MB
      - —
      - —
      - —
    * - ``qsv-hq`` (Intel iGPU)
-     - **47.9 MB**
-     - **−41 %**
+     - 47.9 MB
+     - −41 %
      - 96.4
-     - ~0.6× realtime (~30 min)
-   * - ``nvenc`` (NVIDIA)
+     - ~30 min
+   * - default ``nvenc``
      - 95.4 MB
      - **+17 % (larger!)**
      - 97.1
-     - **17.6× realtime (65 s)**
+     - **65 s**
+   * - ``nvenc-hq`` cq 32
+     - 54.2 MB
+     - −34 %
+     - 95.5
+     - 93 s
+   * - ``nvenc-hq`` cq 36
+     - **38.8 MB**
+     - **−52 %**
+     - 94.1
+     - 90 s
 
-Same picture — VMAF 96.4 vs 97.1 is a fraction of a point apart, both visually
-transparent — but wildly different outcomes:
+The story in three steps:
 
-- **NVIDIA was ~28× faster** — 65 seconds versus ~30 minutes.
-- **…yet its file was twice the size of the QSV one, and larger than the
-  original.** On an already-lean source, NVENC's fixed-function rate control
-  couldn't improve on it, while QSV cut it 41 % at the *same* quality.
+- **The default NVENC is the trap** — ~28× faster than QSV, but its file came out
+  *larger than the source* (it targets VMAF 97, spending bits the eye can't see,
+  with no efficiency features). Under ``--keep-smaller`` it would be **rejected** —
+  saving nothing.
+- **Tuning fixes it.** ``nvenc-hq`` (multipass + spatial-AQ + lookahead, cq 32)
+  dropped it to 54 MB; ``--cq 36`` reached **38.8 MB — smaller than the iGPU** — both
+  still transparent.
+- **You keep the speed.** ~90 s versus the iGPU's ~30 min — about **19× faster** at
+  matched-or-smaller size.
 
-This is exactly why slimv defaults to ``--keep-smaller``: here NVENC's output would
-be **rejected and the source kept**, so NVENC would have saved *nothing* — while
-QSV saved 41 %. Rule of thumb: **QSV / x265 for size, NVENC for speed** — and
-always ``benchmark``, because on some content the "faster" encoder loses outright
-on size.
+So "QSV for size, NVENC for speed" holds *only for the default profile*: **tuned
+NVENC gives you both.** Always ``benchmark`` your own content — the right ``--cq``
+depends on it.
 
 Customizing profiles (no code edits)
 ====================================
