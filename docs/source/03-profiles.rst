@@ -83,6 +83,55 @@ the time to spend? ``balanced``. Need a safety margin for fine on-screen text?
 representative file to confirm the quality and size on *your* content before
 committing to a long run.
 
+NVENC acceleration, measured
+============================
+
+Hardware encoders trade a little size for a lot of speed. On a representative
+**1080p H.264 lecture** (30 fps, ~3.4 Mbps), a 30-second ``slimv benchmark``
+sample compared NVIDIA **NVENC** against the CPU x265 profiles, on an **NVIDIA
+GeForce GTX 1050 Ti** (idle):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 26 12 16 26 12
+
+   * - Profile
+     - VMAF
+     - Size (30 s)
+     - Speed
+     - Hardware
+   * - ``balanced`` (x265 CRF 23)
+     - 93.6
+     - 5.3 MB
+     - 0.65× realtime (~20 fps)
+     - CPU
+   * - ``quality`` (x265 CRF 20)
+     - 94.3
+     - 8.1 MB
+     - 0.60× realtime (~18 fps)
+     - CPU
+   * - ``nvenc`` (hevc_nvenc CQ 24)
+     - 94.8
+     - 13.6 MB
+     - **3.11× realtime (~93 fps)**
+     - NVIDIA
+
+**~5× faster, at equivalent quality.** NVENC encoded the sample at ~93 fps versus
+~18–20 fps on the CPU — about five times quicker — while all three profiles land
+within ~1.2 VMAF of each other (visually equivalent for this content).
+
+**The trade-off is size.** NVENC's output is ~2.6× larger than ``balanced`` for
+the same quality: a fixed-function encoder optimizes for speed, not per-byte
+efficiency. So the choice is by goal:
+
+- **Big batch, GPU idle, encode time matters?** ``nvenc`` — finish in a fraction
+  of the time. Pair with ``--hwdec cuda`` for a full-NVIDIA decode→encode pipeline.
+- **Smallest files matter more than speed?** ``balanced`` / ``quality`` (x265) or
+  ``qsv`` (Intel) — more efficient per byte.
+
+Numbers vary with content and GPU generation; run ``slimv benchmark`` on your own
+footage to see your card's figures.
+
 Customizing profiles (no code edits)
 ====================================
 
