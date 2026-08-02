@@ -116,6 +116,14 @@ GeForce GTX 1050 Ti** (idle):
      - **3.11× realtime (~93 fps)**
      - NVIDIA
 
+**Reading the columns.** *VMAF* is picture quality versus a lossless reference —
+higher is closer to the original; ~92+ is visually transparent for screen content
+(see the VMAF note below). *Size* is the 30-second sample's output — a stand-in for
+how small the full file lands. *Speed* is the encode rate relative to real-time
+playback: ``3.11× realtime`` means it encodes 3.11 seconds of video per second
+(~93 fps for 30 fps footage), while ``0.65×`` is *slower* than playback. *Hardware*
+is which engine did the encode (GPU vs CPU).
+
 **~5× faster, at equivalent quality.** NVENC encoded the sample at ~93 fps versus
 ~18–20 fps on the CPU — about five times quicker — while all three profiles land
 within ~1.2 VMAF of each other (visually equivalent for this content).
@@ -131,6 +139,32 @@ efficiency. So the choice is by goal:
 
 Numbers vary with content and GPU generation; run ``slimv benchmark`` on your own
 footage to see your card's figures.
+
+Optimizing NVENC for size instead of speed
+------------------------------------------
+
+NVENC's size dial is ``-cq`` (higher = smaller, like :term:`CRF` run backwards).
+Note that ``--gq``/``--crf`` **don't apply to NVENC** — they target QSV's
+``-global_quality`` and x265's ``-crf``, so slimv ignores them (with a warning) on
+an NVENC profile. To make NVENC files smaller, define a variant in
+``profiles.toml`` — raise ``-cq`` and add efficiency flags (multipass, spatial
+adaptive-quantization, lookahead, extra B-frames):
+
+.. code-block:: toml
+
+   [nvenc-small]
+   codec    = "hevc_nvenc"
+   vargs    = ["-c:v","hevc_nvenc","-preset","p7","-tune","hq","-rc","vbr","-cq","30",
+               "-multipass","fullres","-spatial_aq","1","-rc-lookahead","20","-bf","3","-tag:v","hvc1"]
+   when     = "NVENC tuned for smaller files"
+   hardware = true
+
+Then ``slimv encode SRC DST --profile nvenc-small``. This *narrows* the gap, but a
+fixed-function encoder still won't match a software one per byte. **So if smallest
+size is the real goal, use** ``balanced`` / ``quality`` **(x265) or** ``qsv`` **—
+not NVENC.** NVENC earns its place on *speed* (big batches, idle GPU), not size.
+(A few flags like ``-temporal_aq`` / ``-b_ref_mode`` need a Turing-or-newer card;
+the set above works on older GPUs too.)
 
 Customizing profiles (no code edits)
 ====================================
