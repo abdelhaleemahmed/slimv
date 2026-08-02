@@ -159,6 +159,33 @@ built-in fixes:
   target QSV/x265 and are *ignored* on NVENC with a warning, so ``--cq`` is the one
   to use here.
 
+**The two NVIDIA profiles at a glance** — same encoder, same GPU, only the
+efficiency flags and CQ differ:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 16 46 38
+
+   * - Profile
+     - ffmpeg settings
+     - Result
+   * - ``nvenc``
+     - ``-preset p7 -rc vbr -cq 24``
+     - Fastest, but **large** — no efficiency features, and cq 24 over-spends bits.
+   * - ``nvenc-hq``
+     - ``-preset p7 -tune hq -rc vbr -cq 32 -multipass fullres -spatial_aq 1
+       -rc-lookahead 20``
+     - Two-pass + adaptive-quantization + lookahead at a leaner CQ → **iGPU-size or
+       smaller**, still transparent, still fast.
+
+- ``-multipass fullres`` — encode each frame **twice** (analyze, then encode) for
+  smarter bit allocation.
+- ``-spatial_aq 1`` — **adaptive quantization**: fewer bits on flat areas, more on
+  detail, matching where the eye looks.
+- ``-rc-lookahead 20`` — let the rate controller **look ahead** before spending bits.
+- higher **``-cq``** — the biggest lever: the default 24 chases quality the eye
+  can't see; 32–36 sheds it while staying transparent.
+
 .. code-block:: bash
 
    slimv encode SRC DST --profile nvenc-hq            # tuned, cq 32
@@ -227,6 +254,10 @@ The story in three steps:
   still transparent.
 - **You keep the speed.** ~90 s versus the iGPU's ~30 min — about **19× faster** at
   matched-or-smaller size.
+- **Eye-verified, not just VMAF.** The cq 36 output (smaller than the iGPU) was
+  compared frame-for-frame against the source on its fine on-screen text — the
+  first thing to soften under compression — and looked clean, confirming the score
+  by eye.
 
 So "QSV for size, NVENC for speed" holds *only for the default profile*: **tuned
 NVENC gives you both.** Always ``benchmark`` your own content — the right ``--cq``
