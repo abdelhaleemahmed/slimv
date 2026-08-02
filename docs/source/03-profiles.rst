@@ -178,13 +178,28 @@ efficiency flags and CQ differ:
      - Two-pass + adaptive-quantization + lookahead at a leaner CQ → **iGPU-size or
        smaller**, still transparent, still fast.
 
-- ``-multipass fullres`` — encode each frame **twice** (analyze, then encode) for
-  smarter bit allocation.
-- ``-spatial_aq 1`` — **adaptive quantization**: fewer bits on flat areas, more on
-  detail, matching where the eye looks.
-- ``-rc-lookahead 20`` — let the rate controller **look ahead** before spending bits.
-- higher **``-cq``** — the biggest lever: the default 24 chases quality the eye
-  can't see; 32–36 sheds it while staying transparent.
+Every ``nvenc-hq`` flag, in order:
+
+- ``-c:v hevc_nvenc`` — encode H.265 on NVIDIA's hardware encoder (NVENC).
+- ``-preset p7`` — NVENC's *effort* preset: **p1 (fastest) → p7 (best quality)**.
+  p7 already asks for its best quality (analogous to x265's ``veryslow``).
+- ``-tune hq`` — the **high-quality** tuning, as opposed to NVENC's low-latency
+  tunings (``ll``/``ull``, meant for live streaming). It biases the encoder toward
+  picture quality over latency — what you want for offline re-encoding.
+- ``-rc vbr`` — **variable-bitrate** rate control; paired with ``-cq`` it means
+  "hold this quality, vary the bitrate as the picture needs" (vs ``cbr`` = constant
+  bitrate for streaming, or ``constqp`` = a fixed quantizer).
+- ``-cq 32`` — the **quality/size dial** (higher = smaller, like CRF run backwards).
+  The biggest lever: the default profile's ``cq 24`` chases quality the eye can't
+  see; 32–36 sheds it while staying transparent.
+- ``-multipass fullres`` — encode each frame **twice** (a full-resolution analysis
+  pass, then the real pass) for smarter bit allocation → smaller at the same quality.
+- ``-spatial_aq 1`` — **spatial adaptive quantization**: spend fewer bits on flat
+  areas and more on detailed ones, matching where the eye actually looks.
+- ``-rc-lookahead 20`` — let the rate controller **look ahead 20 frames** before
+  deciding how many bits to spend, so it plans for what's coming.
+- ``-tag:v hvc1`` — a container tag so Apple/QuickTime players recognize the HEVC
+  stream (without it, some players show a black screen).
 
 .. code-block:: bash
 
