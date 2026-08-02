@@ -528,7 +528,7 @@ Notes:
 .. _encoder-dials-and-nvenc:
 
 The quality dials decoded: CRF vs global_quality vs CQ (and what NVENC is)
--------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 §6 covered ``CRF`` on the CPU encoder. The hardware encoders have the *same* dial
 under different names — worth understanding, because the numbers are **not**
