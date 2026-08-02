@@ -6,6 +6,10 @@ All notable changes to slimv are recorded here. Versions follow
 ## [Unreleased]
 
 ### Added
+- **Per-file timing in the encode log** — `_slimv_encode_log.csv` gains `EncSec`
+  (wall-clock encode time) and `SpeedxRT` (× realtime = `SrcDur / EncSec`) columns,
+  and `encode` prints an end-of-run speed summary (avg / median / slowest / fastest
+  × realtime, total encode time).
 - **`--cq` override** for `encode` — NVENC's quality/size dial (higher = smaller);
   `--gq`/`--crf` target QSV/x265 and are ignored on NVENC.
 - **Zero-copy CUDA decode** — `--hwdec cuda` now keeps decoded frames GPU-resident

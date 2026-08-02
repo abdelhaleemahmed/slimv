@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import datetime as _dt
 import shutil
+import time
 from pathlib import Path
 
 from . import ffmpeg
@@ -14,7 +15,7 @@ from .profiles import PROFILES, apply_overrides
 from .util import iter_videos, output_path_for
 
 _LOG_HEADER = ["When", "RelPath", "Profile", "SrcMB", "OutMB", "Reduct%",
-               "SrcDur", "OutDur", "Delta", "Status"]
+               "SrcDur", "OutDur", "Delta", "Status", "EncSec", "SpeedxRT"]
 
 
 def _now() -> str:
@@ -87,6 +88,8 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
     )
 
     idx = skip
+    total_enc = 0.0
+    speeds: list[float] = []
     for f in batch:
         idx += 1
         rel = f.relative_to(root)
@@ -108,26 +111,31 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         # right when the source is already AAC at a fine bitrate, so re-encoding it to
         # AAC would only waste CPU and add a lossy generation for zero benefit.
         audio_args = ["-c:a", "copy"] if copy_audio else ["-c:a", "aac", "-b:a", f"{audio_kbps}k"]
+        t_enc = time.perf_counter()
         r = ffmpeg.run([
             "ffmpeg", "-hide_banner", "-loglevel", "error", "-stats", "-y",
             *in_args, "-i", str(f), *p.vargs,
             *audio_args, "-movflags", "+faststart",
             str(tmp),
         ])
+        enc_sec = round(time.perf_counter() - t_enc, 1)
+        total_enc += enc_sec
         if r.returncode != 0 or not tmp.exists():
             console.print("   [red]ENCODE-FAIL[/red]")
             if tmp.exists():
                 tmp.unlink()
-            _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", "", "", "", "ENCODE-FAIL"])
+            _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", "", "", "", "ENCODE-FAIL", enc_sec, ""])
             continue
 
         sd = ffmpeg.duration(f)
         od = ffmpeg.duration(tmp)
         status, delta = _verdict(sd, od)
+        # Speed x realtime = source seconds encoded per wall second.
+        spd = round(sd / enc_sec, 2) if (sd and enc_sec) else ""
         if status == "OUT-UNREADABLE":
             tmp.unlink()
             console.print("   [red]OUT-UNREADABLE[/red]")
-            _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", sd, "", "", status])
+            _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", sd, "", "", status, enc_sec, spd])
             continue
 
         tmp_mb = tmp.stat().st_size / (1024 * 1024)
@@ -137,8 +145,10 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
             shutil.copy2(f, kept)
             console.print(f"   [blue]→ kept original {src_mb:.1f} MB "
                           f"(re-encode was {tmp_mb:.1f} MB, not smaller)[/blue]")
+            if isinstance(spd, float):
+                speeds.append(spd)
             _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", f"{src_mb:.1f}",
-                          0, sd, sd, 0, "KEPT-ORIGINAL"])
+                          0, sd, sd, 0, "KEPT-ORIGINAL", enc_sec, spd])
             continue
 
         tmp.replace(out)
@@ -146,10 +156,20 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         red = round((1 - out_mb / src_mb) * 100) if src_mb else 0
         colour = "green" if status == "OK" else "magenta"
         console.print(f"   [{colour}]→ {out_mb:.1f} MB ({red}% smaller) Δ={delta}s [{status}][/{colour}]")
+        if isinstance(spd, float):
+            speeds.append(spd)
         _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", f"{out_mb:.1f}",
-                      red, sd, od, delta, status])
+                      red, sd, od, delta, status, enc_sec, spd])
 
-    console.print(f"\n[cyan]Done. Log: {log}[/cyan]")
+    if speeds:
+        s = sorted(speeds)
+        avg = sum(s) / len(s)
+        med = s[len(s) // 2]
+        console.print(
+            f"\n[cyan]Encoded {len(speeds)} file(s) in {total_enc/60:.1f} min encode time · "
+            f"avg [b]{avg:.1f}×[/b] realtime · median {med:.1f}× · "
+            f"slowest {s[0]:.1f}× · fastest {s[-1]:.1f}×[/cyan]")
+    console.print(f"[cyan]Done. Log: {log}[/cyan]")
     return 0
 
 

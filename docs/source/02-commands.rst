@@ -180,7 +180,11 @@ Implemented by :func:`slimv.encode.run`.
    slimv encode SRC DST --profile qsv-hq --hwdec qsv --copy-audio --keep-smaller
 
 Output goes to ``DST`` mirroring the source folder structure; originals are
-untouched. A per-file log lands at ``DST/_slimv_encode_log.csv``.
+untouched. A per-file log lands at ``DST/_slimv_encode_log.csv`` — including each
+file's **``EncSec``** (encode wall-time) and **``SpeedxRT``** (× realtime), and the
+run ends with a speed summary (avg / median / slowest / fastest × realtime). That
+makes the CSV a per-file timing report you can sort, and lets you compare one
+encoder's throughput against another (e.g. iGPU vs NVIDIA) across a whole course.
 
 Options:
 
