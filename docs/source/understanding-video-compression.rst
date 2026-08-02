@@ -525,6 +525,100 @@ Notes:
 
 --------------
 
+.. _encoder-dials-and-nvenc:
+
+The quality dials decoded: CRF vs global_quality vs CQ (and what NVENC is)
+-------------------------------------------------------------------------
+
+§6 covered ``CRF`` on the CPU encoder. The hardware encoders have the *same* dial
+under different names — worth understanding, because the numbers are **not**
+interchangeable and each is set by a different slimv flag.
+
+**Software vs hardware encoders.** slimv can drive three engines:
+
+- **x265** (``libx265``) — a *software* encoder that runs on the **CPU**. Most
+  efficient per byte (smallest files), but slow.
+- **Intel Quick Sync** (``hevc_qsv``) — a *fixed-function* block inside the Intel
+  **iGPU**: dedicated silicon that only does video. Fast, frees the CPU, a little
+  less efficient than x265.
+- **NVIDIA NVENC** (``hevc_nvenc``) — the same idea on an **NVIDIA GPU**. Very
+  fast; on older cards (Pascal) noticeably less efficient per byte, so its files
+  come out larger at the same quality unless you tune it (below).
+
+"Fixed-function" means the encoder is baked into hardware — it can't try as many
+tricks as a software encoder that has a whole CPU to think with, which is the root
+of the size difference.
+
+**The quality dial — one idea, three names.** Each encoder has a *constant-quality*
+knob: *"hold this much quality, spend whatever bitrate that needs."* All run
+**backwards** (higher number = lower quality = smaller file), and the scales are
+**not comparable** — CRF 24, global_quality 24 and CQ 24 are three different
+quality levels.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 24 18 36
+
+   * - Encoder
+     - Quality dial (ffmpeg)
+     - slimv flag
+     - Notes
+   * - x265 (CPU)
+     - ``-crf``
+     - ``--crf``
+     - Most efficient; ``balanced`` = CRF 23.
+   * - Intel QSV
+     - ``-global_quality``
+     - ``--gq``
+     - ``qsv-hq`` = global_quality 22.
+   * - NVIDIA NVENC
+     - ``-cq``
+     - ``--cq``
+     - ``nvenc`` = cq 24; needs tuning for size (below).
+
+Each flag only affects its own encoder — passing ``--crf`` to a QSV profile, or
+``--gq`` to NVENC, is ignored (slimv warns).
+
+**What NVENC is, and what ``-preset p7 -rc vbr -cq 24`` means** — the default
+``nvenc`` profile, arg by arg:
+
+- ``-c:v hevc_nvenc`` — encode H.265 on NVIDIA's hardware encoder (NVENC).
+- ``-preset p7`` — NVENC's *effort* preset. NVENC presets run **p1 (fastest) → p7
+  (slowest / best quality)** — the analogue of x265's ``ultrafast…veryslow``. p7
+  already asks for its best quality.
+- ``-rc vbr`` — the **rate-control mode**: *Variable BitRate*. Combined with
+  ``-cq`` it means "quality-targeted VBR" — hit the CQ quality, varying the bitrate
+  as the picture needs. (Other modes: ``cbr`` = constant bitrate for streaming;
+  ``constqp`` = a fixed quantizer.)
+- ``-cq 24`` — the **quality target** (the dial above). Lower = better and bigger.
+- ``-tag:v hvc1`` — a container tag so Apple/QuickTime players recognize the HEVC.
+
+**Why NVENC's files came out large — and the knobs that fix it.** That default is
+*bare*: a preset, a quality number, and a tag. It uses none of NVENC's compression
+features, and ``cq 24`` asks for more quality than the eye needs (in a real test it
+scored VMAF 97 — well past transparent). Two fixes:
+
+1. **Raise the CQ** (e.g. 24 → ~30–34): sheds the wasted bits while staying
+   transparent — the single biggest lever.
+2. **Turn on NVENC's efficiency features:**
+
+   - ``-multipass fullres`` — **two-pass** encoding: analyze the frame, then encode
+     it, for smarter bit allocation (smaller at the same quality).
+   - ``-spatial_aq 1`` — **spatial adaptive quantization**: give flat regions fewer
+     bits and detailed regions more, matching where the eye looks.
+   - ``-rc-lookahead 20`` — let the rate controller **look ahead** N frames before
+     deciding how many bits to spend.
+   - ``-bf 3`` — allow **B-frames** (cheap bidirectionally-predicted frames).
+   - ``-temporal_aq 1`` / ``-b_ref_mode middle`` — more gains, but **Turing-or-newer
+     GPUs only** (they error on older Pascal cards).
+
+Tuned this way, NVENC drops from "larger than the source" toward QSV's size while
+keeping most of its speed. A fixed-function encoder still won't quite match x265
+per byte, so the rule stands: **NVENC for speed, QSV/x265 for the smallest files** —
+see the measured comparison in :doc:`03-profiles`.
+
+--------------
+
 .. _7-reading-our-real-screencast-files-worked-example:
 
 7. Reading our real screencast files (worked example)
