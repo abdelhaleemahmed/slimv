@@ -154,7 +154,8 @@ and uses none of NVENC's efficiency features, so its files come out large. Two
 built-in fixes:
 
 - the **``nvenc-hq``** profile — adds ``-multipass fullres`` (two-pass),
-  ``-spatial_aq`` (adaptive quantization) and ``-rc-lookahead``, at ``-cq 32``;
+  ``-spatial_aq`` (adaptive quantization) and ``-rc-lookahead``, at ``-cq 36``
+  (the default, validated transparent on slide/screen content — see below);
 - the **``--cq``** override — NVENC's size dial (higher = smaller). ``--gq``/``--crf``
   target QSV/x265 and are *ignored* on NVENC with a warning, so ``--cq`` is the one
   to use here.
@@ -173,10 +174,10 @@ efficiency flags and CQ differ:
      - ``-preset p7 -rc vbr -cq 24``
      - Fastest, but **large** — no efficiency features, and cq 24 over-spends bits.
    * - ``nvenc-hq``
-     - ``-preset p7 -tune hq -rc vbr -cq 32 -multipass fullres -spatial_aq 1
+     - ``-preset p7 -tune hq -rc vbr -cq 36 -multipass fullres -spatial_aq 1
        -rc-lookahead 20``
-     - Two-pass + adaptive-quantization + lookahead at a leaner CQ → **iGPU-size or
-       smaller**, still transparent, still fast.
+     - Two-pass + adaptive-quantization + lookahead at a leaner CQ → **smaller than
+       the iGPU**, still transparent on slides/text, still fast.
 
 Every ``nvenc-hq`` flag, in order:
 
@@ -189,9 +190,11 @@ Every ``nvenc-hq`` flag, in order:
 - ``-rc vbr`` — **variable-bitrate** rate control; paired with ``-cq`` it means
   "hold this quality, vary the bitrate as the picture needs" (vs ``cbr`` = constant
   bitrate for streaming, or ``constqp`` = a fixed quantizer).
-- ``-cq 32`` — the **quality/size dial** (higher = smaller, like CRF run backwards).
-  The biggest lever: the default profile's ``cq 24`` chases quality the eye can't
-  see; 32–36 sheds it while staying transparent.
+- ``-cq 36`` — the **quality/size dial** (higher = smaller, like CRF run backwards).
+  The biggest lever: the default ``nvenc`` profile's ``cq 24`` chases quality the eye
+  can't see; ``cq 36`` sheds it while staying transparent on slide/screen content.
+  Lower it (e.g. ``--cq 33``) for motion-heavy / natural-video sources, where the eye
+  is more sensitive (see the VMAF discussion in *Understanding video compression*).
 - ``-multipass fullres`` — encode each frame **twice** (a full-resolution analysis
   pass, then the real pass) for smarter bit allocation → smaller at the same quality.
 - ``-spatial_aq 1`` — **spatial adaptive quantization**: spend fewer bits on flat
@@ -203,8 +206,9 @@ Every ``nvenc-hq`` flag, in order:
 
 .. code-block:: bash
 
-   slimv encode SRC DST --profile nvenc-hq            # tuned, cq 32
-   slimv encode SRC DST --profile nvenc-hq --cq 36    # smaller still
+   slimv encode SRC DST --profile nvenc-hq            # tuned, cq 36 (default)
+   slimv encode SRC DST --profile nvenc-hq --cq 33    # a touch higher quality (motion)
+   slimv encode SRC DST --profile nvenc-hq --cq 40    # smaller still
 
 The measured before/after is in the next section.
 
@@ -264,9 +268,10 @@ The story in three steps:
   *larger than the source* (it targets VMAF 97, spending bits the eye can't see,
   with no efficiency features). Under ``--keep-smaller`` it would be **rejected** —
   saving nothing.
-- **Tuning fixes it.** ``nvenc-hq`` (multipass + spatial-AQ + lookahead, cq 32)
-  dropped it to 54 MB; ``--cq 36`` reached **38.8 MB — smaller than the iGPU** — both
-  still transparent.
+- **Tuning fixes it.** ``nvenc-hq`` (multipass + spatial-AQ + lookahead) at ``cq 32``
+  dropped it to 54 MB; at its **default ``cq 36``** it reached **38.8 MB — smaller than
+  the iGPU** — both still transparent. ``cq 36`` is the shipped default, chosen after a
+  frame-accurate quality pass over a full course (below).
 - **You keep the speed.** ~90 s versus the iGPU's ~30 min — about **19× faster** at
   matched-or-smaller size.
 - **Eye-verified, not just VMAF.** The cq 36 output (smaller than the iGPU) was

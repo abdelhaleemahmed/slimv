@@ -26,6 +26,11 @@ env/
 Thumbs.db
 desktop.ini
 
+# Vim backup / swap / persistent-undo files
+*~
+*.sw[a-p]
+*.un~
+
 # slimv command output written to the current working directory
 slimv_eyeball/
 slimv_downscale/

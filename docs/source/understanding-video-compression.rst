@@ -887,6 +887,40 @@ anything** on this hardware.
    the score alone. (For a dedicated screen-content metric, see the roadmap's
    note on quality measurement in Appendix D.)
 
+   **How far under-rated? Measure the ceiling.** On a slide-heavy CCNA course we
+   pinned this down. First we made the alignment airtight — keyframe pre-seek +
+   ``-copyts`` + an absolute-PTS ``trim``, which is fast *and* frame-exact — and
+   proved it: re-clipping an iGPU-*kept* file (whose output is a byte-copy of the
+   source) produced **byte-identical** lossless clips. Alignment was no longer in
+   question. Then the decisive test — **VMAF of a clip against itself**:
+
+   .. code:: bash
+
+      # same physical file as both inputs -> the score can only be the ceiling
+      ffmpeg -i clip.mkv -i clip.mkv -lavfi "[0:v][1:v]libvmaf" -f null -
+      #    => VMAF score: 97.575     (NOT 100)
+
+   Pinning the model explicitly (``libvmaf=model='version=vmaf_v0.6.1'``) gives the
+   same 97.575. So for this content **97.58 is the ceiling** — the most VMAF will
+   ever report for a *perfect* frame. This is not measurement error or misalignment;
+   it is VMAF's model never saturating on synthetic slides. (An earlier pass had
+   blamed a similar ~98-vs-100 gap on "frame-alignment jitter" — that was wrong; the
+   byte-identical control ruled alignment out.)
+
+   **The practical rule:** read every score **against the ceiling for that content**,
+   not against 100. On these slides the iGPU re-encodes landed ~1 pt under the
+   ceiling and NVENC ``cq 36`` ~2.5–3 pt under — both visually lossless on the fine
+   text (verified frame-for-frame by eye), NVENC at 30–40 % smaller.
+
+   **Where VMAF *is* accurate — and where it bites:** the lowest scorer in the same
+   set was not a slide but a **live-instructor shot** (a person holding a bundle of
+   network cables against a dark, textured wall, in motion). That is exactly the
+   natural-video, low-contrast content VMAF was trained on, so its numbers there are
+   trustworthy — and it is also where an aggressive ``cq`` pushes hardest (the dark
+   background smoothed slightly, though still artifact-free). The lesson for the
+   dial: **``cq 36`` is safe for slide/screen-capture material; drop to ``cq 33``
+   for motion-heavy or film-like sources, where the eye — and VMAF — are stricter.**
+
 --------------
 
 .. _8c-reading-a-benchmark-table-vmaf-global_quality-and-the-quality-ladder:

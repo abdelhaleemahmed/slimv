@@ -5,6 +5,8 @@ All notable changes to slimv are recorded here. Versions follow
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-08-03
+
 ### Added
 - **Per-file timing in the encode log** — `_slimv_encode_log.csv` gains `EncSec`
   (wall-clock encode time) and `SpeedxRT` (× realtime = `SrcDur / EncSec`) columns,
@@ -16,15 +18,23 @@ All notable changes to slimv are recorded here. Versions follow
   (`-hwaccel_output_format cuda`), like the QSV path. Measured ~3.6 vs ~6.5
   CPU-seconds per 90 s clip and ~2× faster than the old RAM round-trip.
 - **`nvenc-hq` profile** — NVENC tuned for size (`-multipass fullres`,
-  `-spatial_aq`, `-rc-lookahead` at CQ 32). Measured on a Pascal GTX 1050 Ti it
-  cut a lecture from the default `nvenc`'s 95 MB to 54 MB (cq 32) / 39 MB (cq 36)
-  — iGPU-size or smaller, still transparent, and ~19× faster than the iGPU.
+  `-spatial_aq`, `-rc-lookahead`), **default `-cq 36`**. Measured on a Pascal GTX
+  1050 Ti it cut a lecture from the default `nvenc`'s 95 MB to 39 MB (cq 36) — smaller
+  than the iGPU, still transparent, and ~19× faster than the iGPU.
+
+### Changed
+- **`nvenc-hq` default CQ raised 32 → 36.** A frame-accurate VMAF + visual pass over a
+  full slide-heavy course confirmed `cq 36` is visually lossless on screen/text content
+  at 30–40 % smaller than the iGPU. Use `--cq 33` for motion-heavy sources.
 
 ### Docs
 - New guide section explaining the encoders and quality dials (CRF /
   global_quality / CQ) and what NVENC's args mean.
 - Measured NVENC-vs-iGPU comparisons and the CQ sweep in the profiles page;
   note that HEVC B-frames / `-temporal_aq` / `-b_ref_mode` require a Turing+ GPU.
+- **VMAF ceiling on screen content**: documented that VMAF of an identical clip reads
+  ~97.6 (not 100) on slides — read scores against that ceiling, and where VMAF *is*
+  accurate (natural/motion video).
 
 ## [0.2.0] — 2026-08-01
 

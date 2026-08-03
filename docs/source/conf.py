@@ -25,8 +25,8 @@ _build_lang = os.environ.get("SPHINX_LANG", "en")
 project = "slimv"
 copyright = "2026, Haleem"
 author = "Haleem"
-release = "0.2.0"
-version = "0.2.0"
+release = "0.2.1"
+version = "0.2.1"
 
 language = _build_lang
 html_title = f"slimv {release}"

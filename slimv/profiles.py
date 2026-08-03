@@ -101,10 +101,10 @@ _BUILTIN: dict[str, Profile] = {
     ),
     "nvenc-hq": Profile(
         "nvenc-hq", "hevc_nvenc",
-        ["-c:v", "hevc_nvenc", "-preset", "p7", "-tune", "hq", "-rc", "vbr", "-cq", "32",
+        ["-c:v", "hevc_nvenc", "-preset", "p7", "-tune", "hq", "-rc", "vbr", "-cq", "36",
          "-multipass", "fullres", "-spatial_aq", "1", "-rc-lookahead", "20",
          "-tag:v", "hvc1"],
-        quality="Transparent; tuned for size", speed="Fast (NVIDIA GPU)",
+        quality="Transparent on slides/screen content; tuned for size", speed="Fast (NVIDIA GPU)",
         size="Much smaller than 'nvenc' (near x265/QSV)",
         when="NVIDIA idle and you want NVENC speed at closer-to-QSV size. Dial with --cq.",
         hardware=True,
