@@ -247,7 +247,7 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
             <p class="sub reveal">A wheel from the latest release — pulls in its one dependency automatically.</p>
             <div class="reveal">
                 <div class="install-row">
-                    <code id="cmd">pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.0/slimv-0.2.0-py3-none-any.whl</code>
+                    <code id="cmd">pip install https://github.com/abdelhaleemahmed/slimv/releases/download/v0.2.1/slimv-0.2.1-py3-none-any.whl</code>
                     <button class="copy-btn" id="copyBtn" type="button">Copy</button>
                 </div>
                 <p class="install-note">
@@ -283,6 +283,24 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
                     setTimeout(function () { btn.textContent = old; }, 1600);
                 });
             });
+        })();
+        (function () {
+            // Fill the install line with the latest release version (same source as the
+            // version badge). Purely display text; on any failure the hardcoded line stays.
+            var el = document.getElementById('cmd');
+            if (!el || !window.fetch) return;
+            fetch('https://api.github.com/repos/abdelhaleemahmed/slimv/releases/latest', {
+                headers: { 'Accept': 'application/vnd.github+json' }
+            })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+                if (!data || !data.tag_name) return;      // keep the fallback line
+                var tag = data.tag_name;                  // e.g. "v0.2.1"
+                var ver = tag.replace(/^v/, '');          // e.g. "0.2.1"
+                el.textContent = 'pip install https://github.com/abdelhaleemahmed/slimv/releases/download/'
+                    + tag + '/slimv-' + ver + '-py3-none-any.whl';
+            })
+            .catch(function () { /* offline / rate-limited: keep the fallback */ });
         })();
         (function () {
             var els = document.querySelectorAll('.reveal');
