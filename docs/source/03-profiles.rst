@@ -67,10 +67,15 @@ The catalog
      - Very fast (NVIDIA) / large
      - NVIDIA idle; max speed, size doesn't matter.
    * - ``nvenc-hq``
-     - hevc_nvenc CQ 32 + multipass/AQ
+     - hevc_nvenc CQ 36 + multipass/AQ
      - Transparent
      - Fast (NVIDIA) / small
      - **NVIDIA idle; want speed *and* small files. Dial with** ``--cq``.
+   * - ``amf`` / ``amf-hq``
+     - hevc_amf CQP 26 / 28
+     - *Experimental* — unverified on AMD
+     - Fast (AMD) / small
+     - AMD Radeon; benchmark first (see *Hardware support*).
    * - ``av1``
      - libsvtav1 CRF 30
      - Transparent
@@ -87,6 +92,66 @@ the time to spend? ``balanced``. Need a safety margin for fine on-screen text?
 ``quality``. Whatever the starting guess, run ``slimv benchmark`` on one
 representative file to confirm the quality and size on *your* content before
 committing to a long run.
+
+Hardware support: what runs on which card
+=========================================
+
+Each profile hard-codes one encoder, and that encoder only exists if **both** your
+hardware **and** your ffmpeg build provide it. Here is exactly what runs where — no
+guessing:
+
+.. list-table:: Which built-in profiles run on which hardware
+   :header-rows: 1
+   :widths: 24 30 46
+
+   * - Your hardware
+     - Built-in profiles that run
+     - Notes
+   * - **Any CPU** (every machine)
+     - ``archive`` ``quality`` ``balanced`` ``small`` (x265) · ``av1`` (SVT-AV1)
+     - No GPU needed — the **universal fallback**. Slower, but the smallest files, and
+       runs anywhere: AMD boxes, ARM, VMs, headless servers.
+   * - **Intel** iGPU / Arc (Quick Sync)
+     - ``qsv`` ``qsv-hq`` ``qsv-720p`` ``qsv-480p`` — plus all CPU profiles
+     - HEVC Quick Sync needs **Skylake / 6th-gen (2015) or newer**, or an Arc dGPU.
+       Older Intel → CPU profiles only.
+   * - **NVIDIA** (HEVC NVENC)
+     - ``nvenc`` ``nvenc-hq`` — plus all CPU profiles
+     - Needs **Maxwell 2nd-gen (GTX 900-series) or newer**. Kepler / Maxwell-1st-gen
+       have H.264-only NVENC → no ``hevc_nvenc``. ``nvenc-hq`` is tuned Pascal-safe;
+       Turing+ can add more flags (see the GPU-generation caveat below).
+   * - **AMD** Radeon
+     - ``amf`` ``amf-hq`` (*experimental*) — plus all CPU profiles
+     - HEVC via ``hevc_amf``. **Experimental: not yet verified on AMD hardware** — run
+       ``slimv benchmark`` and tune the ``qp`` (below) before trusting a library. The
+       CPU/AV1 profiles are the always-safe alternative.
+   * - **Apple Silicon / other**
+     - CPU profiles (``libx265`` / ``libsvtav1`` if your ffmpeg has them)
+     - No VideoToolbox profile ships; the CPU profiles run regardless.
+
+**Don't guess — ask the tool.** ``slimv hwcheck`` lists your GPUs and exactly which
+encoders your ffmpeg has (and recommends one); ``slimv profiles`` marks every profile
+**available / not available** on this host. If you pick a profile whose encoder is
+absent, slimv fails **loudly on the first file** rather than silently swapping engines
+(see the manual's *"Why slimv doesn't silently fall back"*).
+
+**Tuning ``amf`` (or adding any other encoder) — no code edit.** The shipped ``amf`` /
+``amf-hq`` profiles use ``hevc_amf`` at a fixed ``qp`` (26 / 28). To change that ``qp``,
+or to add an encoder with no built-in profile at all, drop a ``profiles.toml`` (see
+*Customizing profiles* below) — a table named after a built-in **overrides** it:
+
+.. code-block:: toml
+
+   [amf]
+   codec = "hevc_amf"
+   vargs = ["-c:v", "hevc_amf", "-quality", "quality",
+            "-rc", "cqp", "-qp_i", "24", "-qp_p", "24", "-tag:v", "hvc1"]
+
+Then ``slimv encode SRC DST --profile amf``. The exact AMF options vary by ffmpeg build —
+check ``ffmpeg -h encoder=hevc_amf`` — and AMF's quality-per-byte differs from QSV/NVENC,
+so **run** ``slimv benchmark`` **on your own content** to find the ``qp`` that stays
+transparent before committing to a library. (The same recipe covers ``h264_amf``,
+``av1_qsv``, VideoToolbox, etc. — one ``[table]`` per encoder.)
 
 NVENC acceleration, measured
 ============================

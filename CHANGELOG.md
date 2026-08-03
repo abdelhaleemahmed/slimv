@@ -5,6 +5,20 @@ All notable changes to slimv are recorded here. Versions follow
 
 ## [Unreleased]
 
+## [0.2.2] — 2026-08-03
+
+### Added
+- **`amf` / `amf-hq` profiles** — AMD hardware HEVC via `hevc_amf`. **Experimental: not
+  yet verified on AMD hardware by the maintainer.** The wiring is unit-tested, but the
+  actual encode/quality needs confirming on a real Radeon — run `slimv benchmark`, adjust
+  the `qp` via `profiles.toml`, and please report results.
+
+### Docs
+- New **"Hardware support: what runs on which card"** matrix in the profiles page: which
+  built-in profiles run on Intel / NVIDIA / AMD / CPU, the GPU-generation floors (HEVC
+  QSV = Skylake+, HEVC NVENC = Maxwell-2nd-gen+), and the `profiles.toml` recipe for AMD
+  and other encoders without a built-in profile.
+
 ## [0.2.1] — 2026-08-03
 
 ### Added

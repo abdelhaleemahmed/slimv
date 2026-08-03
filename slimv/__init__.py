@@ -8,4 +8,4 @@ any source.
 Companion reference: Understanding-and-Compressing-Video-Files-Guide.md
 """
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"

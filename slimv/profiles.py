@@ -109,6 +109,25 @@ _BUILTIN: dict[str, Profile] = {
         when="NVIDIA idle and you want NVENC speed at closer-to-QSV size. Dial with --cq.",
         hardware=True,
     ),
+    "amf": Profile(
+        "amf", "hevc_amf",
+        ["-c:v", "hevc_amf", "-quality", "quality", "-rc", "cqp",
+         "-qp_i", "26", "-qp_p", "26", "-tag:v", "hvc1"],
+        quality="EXPERIMENTAL — not yet verified on AMD hardware", speed="Fast (AMD GPU)",
+        size="Small (AMD hardware HEVC)",
+        when="AMD Radeon present. Not maintainer-verified: run 'slimv benchmark' and "
+             "adjust the qp via profiles.toml before committing to a library.",
+        hardware=True,
+    ),
+    "amf-hq": Profile(
+        "amf-hq", "hevc_amf",
+        ["-c:v", "hevc_amf", "-quality", "quality", "-rc", "cqp",
+         "-qp_i", "28", "-qp_p", "28", "-tag:v", "hvc1"],
+        quality="EXPERIMENTAL — not yet verified on AMD hardware", speed="Fast (AMD GPU)",
+        size="Smaller than 'amf' (higher qp)",
+        when="AMD, leaner files. Not maintainer-verified — benchmark on AMD first.",
+        hardware=True,
+    ),
     "av1": Profile(
         "av1", "libsvtav1",
         ["-c:v", "libsvtav1", "-crf", "30", "-preset", "6", "-pix_fmt", "yuv420p"],
@@ -120,7 +139,7 @@ _BUILTIN: dict[str, Profile] = {
 
 # Built-in display / iteration order.
 _BUILTIN_ORDER = ["archive", "quality", "balanced", "small", "qsv", "qsv-hq",
-                  "qsv-720p", "qsv-480p", "nvenc", "nvenc-hq", "av1"]
+                  "qsv-720p", "qsv-480p", "nvenc", "nvenc-hq", "amf", "amf-hq", "av1"]
 
 # Profiles benchmark tries by default (the practical contenders).
 BENCH_DEFAULT = ["qsv", "qsv-hq", "balanced", "quality", "nvenc"]

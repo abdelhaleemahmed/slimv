@@ -25,7 +25,20 @@ def test_bench_default_is_a_subset():
 
 
 def test_hardware_flag_matches_codec():
-    # qsv/nvenc encoders are hardware; libx265 / libsvtav1 are CPU.
+    # Hardware encoders are ffmpeg's vendor blocks (hevc_qsv / hevc_nvenc / hevc_amf,
+    # ...); the CPU encoders are all 'lib*' (libx265 / libx264 / libsvtav1). Deriving
+    # from that keeps this correct for any future hardware encoder without edits.
     for p in PROFILES.values():
-        expected_hw = ("qsv" in p.codec) or ("nvenc" in p.codec)
+        expected_hw = not p.codec.startswith("lib")
         assert p.hardware == expected_hw, f"{p.name}: hardware flag vs codec {p.codec}"
+
+
+def test_amf_profiles_present_and_well_formed():
+    for name in ("amf", "amf-hq"):
+        assert name in PROFILES, f"{name} missing from PROFILES"
+        p = PROFILES[name]
+        assert p.codec == "hevc_amf"
+        assert p.hardware is True
+        assert name in ORDER, f"{name} not in ORDER"
+        # ships the QuickTime tag like the other HEVC profiles
+        assert "-tag:v" in p.vargs and "hvc1" in p.vargs
