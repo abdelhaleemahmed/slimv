@@ -1898,6 +1898,73 @@ moved to:
    simple 1990s pickup truck. MP4/MKV are modern cargo ships — they carry far more
    kinds of cargo, navigate (seek/stream) better, and fit today's infrastructure.
 
+The codec inside: MPEG-4 ASP (DivX & Xvid)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The container was only half the story. Those ``Matrix.DivX.avi`` files still leave
+a question: what actually *compressed* the video inside? For the whole AVI era it
+was almost always **MPEG-4 Part 2**, in its **Advanced Simple Profile (ASP)** —
+known by its two famous implementations, **DivX** and **Xvid**. It's a format
+you rarely meet on new files but constantly in 1999–2008 archives.
+
+**A short history.**
+
+- **1998–99 — the standard.** ISO/IEC standardises **MPEG-4 Part 2**, a video codec
+  roughly **twice as efficient as the MPEG-2** on DVDs and broadcast.
+- **1999 — "DivX ;-)".** A hacked build of Microsoft's MPEG-4 v3 encoder (Microsoft
+  had locked it to its ASF container) let people re-compress DVDs into files small
+  enough to trade online — a whole movie onto a **single 700 MB CD-R**. That was the
+  spark for the DVD-rip era.
+- **2000s — DivX vs Xvid.** *DivX Networks* turned it into a commercial, certified
+  codec (you saw "DivX Certified" on DVD players). The community answered with
+  **Xvid**, a clean open-source MPEG-4 ASP encoder. Both write the **same** MPEG-4
+  Part 2 bitstream — they're rival *encoders*, not different formats — which is why
+  you see both ``.DivX.avi`` and ``.Xvid.avi`` naming the identical kind of file.
+- **2003 onward — eclipsed.** **H.264 (MPEG-4 Part 10 / AVC)** arrived at about
+  *half* the bitrate again, and MPEG-4 ASP dropped to legacy status. The lineage is
+  literally sequential: **MPEG-2 → MPEG-4 Part 2 (ASP) → MPEG-4 Part 10 (H.264) →
+  H.265** (see §5 and §12).
+
+**The technical side.** MPEG-4 ASP is a classic block-based, motion-compensated DCT
+codec — the same family idea as everything from MPEG-2 to H.265 (§12) — but an
+early, simpler member:
+
+============================ ============================== ==================================
+Feature                      MPEG-4 ASP (DivX/Xvid)         H.264, its successor
+============================ ============================== ==================================
+Motion vectors               half- and **quarter-pel**      quarter-pel, weighted, multi-ref
+B-frames                     yes (Advanced Simple Profile)  yes, far more flexible
+Transform                    8×8 DCT                        exact integer 4×4 / 8×8 (no drift)
+Entropy coding               VLC (Huffman-style)            CABAC / CAVLC (much tighter)
+In-loop deblocking           **none**                       yes (removes blocky edges)
+Efficiency step              ~2× MPEG-2                     ~2× MPEG-4 ASP again
+============================ ============================== ==================================
+
+**Spotting it in the wild.**
+
+- **ffmpeg codec name** ``mpeg4`` — that's MPEG-4 **Part 2**; H.264 shows as ``h264``.
+- **FourCC** tags ``DIVX``, ``DX50``, ``XVID``, or ``FMP4`` in the AVI header.
+- **Container** almost always ``.avi``; SD resolutions (``640×480``, ``720×480``);
+  MP3 or AC3 audio.
+
+**Why it matters for re-encoding.** MPEG-4 ASP is old enough that **modern GPU video
+engines usually can't decode it.** NVIDIA **NVDEC** and Intel **Quick Sync** decode
+H.264/H.265/VP9/AV1/MPEG-2 — but **not** MPEG-4 Part 2. So if you aim a hardware
+decoder at a DivX/Xvid ``.avi``:
+
+- with slimv, ``--hwdec cuda`` (or ``qsv``) can **truncate** the output — the encode
+  ends minutes early and ``verify`` flags a large negative duration delta
+  (``MISMATCH-dur``). The *encoder* (NVENC) is fine; the GPU *decoder* simply can't
+  read the stream.
+
+The fix is to **decode on the CPU** — drop ``--hwdec`` and let ffmpeg's software
+MPEG-4 decoder read the whole file (it also quietly conceals the noisy
+``marker does not match f_code`` warnings these aging streams throw). NVENC still
+does the encoding, and since the source is only SD it stays fast. Habit worth
+keeping: **check the codec** (``ffprobe -show_entries stream=codec_name``) **before
+choosing a hardware decoder** — use ``--hwdec`` on H.264/HEVC sources, CPU decode on
+MPEG-4 ASP.
+
 --------------
 
 .. _11-inside-the-box-how-containers-are-built:
