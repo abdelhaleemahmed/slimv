@@ -208,6 +208,70 @@ Options:
 - ``--skip`` / ``--limit`` — skip the first N files / encode at most N (handy for
   testing settings on a subset first).
 
+report
+======
+
+Roll a run's ``_slimv_encode_log.csv`` into a single summary box — files done /
+total, total source size → output size, saved % + reclaim + compression ratio,
+average speed, when it started, how long it's run, and an ETA. Read-only.
+Implemented by :func:`slimv.report.run`.
+
+.. code-block:: bash
+
+   slimv report "C:\Videos\Course_slimv"
+   slimv report "C:\Videos\Course_slimv" --src "C:\Videos\Course"   # totals + projection
+
+The box is a vertical table with a **full-width title banner** (the course name
+spanning both columns), then one ``label │ value`` row apiece:
+
+.. code-block:: text
+
+   ┌───────────────────────────────────────────────┐
+   │ Example Course                                │
+   ├─────────┬─────────────────────────────────────┤
+   │ Files   │ 181 / 225 ✅                        │
+   ├─────────┼─────────────────────────────────────┤
+   │ Size    │ 35.85 GB → ~16.90 GB                │
+   ├─────────┼─────────────────────────────────────┤
+   │ Saved   │ ~52.9% (~18.95 GB) — 2.12:1         │
+   ├─────────┼─────────────────────────────────────┤
+   │ Encoded │ 29.05 GB → 13.69 GB · 80% of course │
+   ├─────────┼─────────────────────────────────────┤
+   │ Speed   │ 5.62× realtime                      │
+   ├─────────┼─────────────────────────────────────┤
+   │ Started │ 2026-01-15 09:00                    │
+   ├─────────┼─────────────────────────────────────┤
+   │ Elapsed │ 4:51:28 so far                      │
+   ├─────────┼─────────────────────────────────────┤
+   │ ETA     │ ~1:12:30                            │
+   ├─────────┼─────────────────────────────────────┤
+   │ Source  │ C:\Videos\Example Course            │
+   └─────────┴─────────────────────────────────────┘
+
+Point it at the **output** folder (the one holding ``_slimv_encode_log.csv``).
+Add ``--src`` and it counts the whole source tree, so **mid-run** it reports the
+*total* file count and size and **projects the final ("expected") output size**
+from the compression achieved so far — figures it projects are marked ``~``.
+
+- **Started** is the first timestamp in the log; **Elapsed** is the wall-clock
+  span from then to now (it includes any sleep/pause between resumes, so it's the
+  real elapsed time, not just encode time).
+- The **ETA sums the real durations of the files still to encode** (probed
+  concurrently) over the measured average speed, so it isn't thrown off by
+  bitrate; only a file ffprobe can't read falls back to a size estimate.
+
+It also adds a ``Verify`` row when a ``_slimv_verify_report.csv`` is present and a
+``Failed`` row when any file produced no output, and it de-duplicates the log by
+file (a re-encoded or fail-then-succeed file is counted once, by its latest
+status).
+
+Options:
+
+- ``--src`` — source folder; enables the total file count, total size, and the
+  mid-run projection of the final size.
+- ``--title`` — override the course title (default: the output folder name with a
+  trailing ``[HEVC]`` tag removed).
+
 verify
 ======
 
@@ -224,6 +288,27 @@ Implemented by :func:`slimv.verify.run`.
 A report is written to ``DST/_slimv_verify_report.csv`` with a verdict and reason
 per file. Only delete originals whose row says ``SAFE-TO-DELETE``.
 
+**Resumable / interruptible.** The report is rewritten (atomically) after *every
+file*, so a run you Ctrl-C — or one killed by a sleep/restart — can simply be
+re-run: it **skips everything already verified** and continues where it left off.
+Resume reuses a prior verdict for any output that is byte-for-byte unchanged
+(same size + mtime) and previously passed, skipping its costly decode; anything
+new, changed, or previously not-safe is always re-checked, so resuming never
+weakens the gate.
+
+**Shardable for parallel runs.** Because verify is decode-bound (and decode
+doesn't saturate the GPU the way encode does), splitting the file list across two
+processes can finish sooner. Give each shard a slice with ``--skip``/``--limit``
+and its **own** report file with ``--report``:
+
+.. code-block:: bash
+
+   slimv verify SRC DST --skip 0   --limit 112 --report DST\_verify.a.csv --hwaccel cuda
+   slimv verify SRC DST --skip 112             --report DST\_verify.b.csv --hwaccel cuda
+
+Two shards must use different ``--report`` paths — a shared report would have each
+process clobber the other's rows. Each shard file is itself resumable.
+
 Options:
 
 - ``--hwaccel`` — hardware decoder for the integrity pass (``qsv``/``cuda``/``d3d11va``);
@@ -232,6 +317,9 @@ Options:
 - ``--quick`` — skip the full-decode integrity pass (existence + duration only).
 - ``--full`` — force a complete re-verify, ignoring cached verdicts (default reuses
   unchanged outputs that already passed).
+- ``--skip N`` / ``--limit N`` — verify only a slice of the file list (shard a run).
+- ``--report PATH`` — write the report to ``PATH`` instead of
+  ``DST/_slimv_verify_report.csv`` (give each parallel shard its own file).
 - ``--tol`` (default 1.0) — duration tolerance, in seconds.
 
 rename

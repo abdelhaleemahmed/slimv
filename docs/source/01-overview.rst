@@ -33,6 +33,58 @@ the videos on disk, measures candidate encodes with :term:`VMAF`, and then runs
 the chosen :term:`profile` over a whole tree — verifying every output before you
 trust it.
 
+Features
+========
+
+**Measure before you commit**
+
+- **VMAF-scored benchmarking** (``benchmark``) — sample a representative window
+  and compare every candidate profile's size *and* measured quality, so the
+  choice is data, not a guess.
+- **Real-saving projection** (``analyze --measure``) — sample-encode a spread of
+  files to project the actual saving on *your* content, not a fixed estimate.
+- **Profile recommendation** (``recommend``) — benchmark, then pick the smallest
+  profile that stays visually transparent.
+- **Downscale cost** (``downscale-test``) and **side-by-side clips** (``eyeball``)
+  — quantify or eyeball a change before applying it to a whole library.
+
+**A quality-preserving profile catalog**
+
+- Built-in **x265 / QSV / NVENC / AV1** profiles tuned for visually transparent
+  size, with per-run overrides (``--crf`` / ``--gq`` / ``--cq`` / ``--preset`` /
+  ``--scale``) and a ``profiles.toml`` for custom encoders (e.g. AMD ``hevc_amf``).
+
+**Hardware acceleration, CPU kept free**
+
+- **Hardware encode** on Intel Quick Sync (``hevc_qsv``), NVIDIA (``hevc_nvenc``),
+  and AMD (``hevc_amf``), auto-detected via ``hwcheck``.
+- **CPU-free decode pipeline** (``--hwdec qsv``/``cuda``) — zero-copy GPU
+  decode→encode that keeps the CPU idle for other work.
+
+**Batch encode a whole tree**
+
+- **Mirrored, resumable, logged** (``encode``) — re-encodes a folder tree into a
+  matching output tree, **skips already-done files** on resume, and writes a
+  per-file CSV log (size, saved %, duration, status, speed). ``--copy-audio``
+  avoids a needless audio re-encode; ``--keep-smaller`` keeps the original when a
+  re-encode wouldn't shrink it.
+
+**Trust, then delete**
+
+- **Resumable, shardable deletion gate** (``verify``) — confirms every output
+  exists, matches length, and decodes with zero errors before you delete a
+  source. The report is written after **every file**, so an interrupted run
+  **resumes where it left off**; ``--skip``/``--limit`` + ``--report`` shard a run
+  across parallel processes.
+- **Course summary** (``report``) — rolls an encode log into a single box:
+  files done / total, total → expected size, saved %, ratio, speed, elapsed, and
+  a real-duration ETA.
+
+**Housekeeping**
+
+- **Bulk rename** (``rename``, dry-run by default) and a **health scan**
+  (``check``) for codecs, corrupt files, and stats.
+
 Requirements
 ============
 

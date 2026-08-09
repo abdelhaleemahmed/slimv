@@ -5,6 +5,45 @@ All notable changes to slimv are recorded here. Versions follow
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-08-09
+
+### Added
+- **`slimv report <dst>` — one-call course summary.** Rolls an encode run's
+  `_slimv_encode_log.csv` into the house vertical box (a **full-width title
+  banner** over `label │ value` rows): files done / total, total source size →
+  output size, saved % + reclaim + ratio, average speed, **when it started**,
+  **elapsed wall-clock so far**, an ETA, and the source path. Pass **`--src <folder>`** and it counts the whole source tree, so
+  mid-run it reports the **total** file count and size and **projects the final
+  ("expected") output size** from the compression achieved so far; figures it
+  projects are marked with `~`. The **ETA sums the real durations of the files
+  still to encode** (probed concurrently) divided by the measured average speed —
+  not a bitrate guess — falling back to a size estimate only for a file ffprobe
+  can't read. Adds a `Verify` row when a
+  `_slimv_verify_report.csv` is present and a `Failed` row when any file didn't
+  produce an output. De-duplicates the log by file (a re-encoded or
+  fail-then-succeed file counts once, by its latest status). Read-only.
+  Regression-tested.
+
+### Changed
+- **`verify` is now resumable, interruptible, and shardable.** The report is
+  rewritten atomically after **every file** (not just at the end), so a run you
+  Ctrl-C — or one killed by a sleep/restart — can be re-run and it **skips
+  everything already verified**, continuing where it left off. New
+  **`--skip`/`--limit`** slice the file list and **`--report PATH`** sends a run's
+  report to its own file, so two processes can verify different slices in parallel
+  without clobbering each other (verify is decode-bound, so parallel shards can
+  finish sooner — unlike encode, where one stream already saturates the GPU).
+  Regression-tested.
+
+### Fixed
+- **A locked `.partial` no longer crashes the whole batch.** After an `ENCODE-FAIL`, a
+  freshly-written `.partial` could still be held by the exiting ffmpeg (or an AV
+  scanner), so the cleanup `unlink()` raised `PermissionError` (WinError 32) and took
+  down the entire run mid-encode. All five `.partial` filesystem ops (pre-clear, the
+  three cleanup paths, and the finalize rename) are now **lock-tolerant**: they retry
+  briefly, then either continue quietly (cleanup) or log a per-file `MOVE-FAIL` and move
+  on (finalize) — one locked file never stops the batch. Regression-tested.
+
 ## [0.2.2] — 2026-08-03
 
 ### Added

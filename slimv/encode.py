@@ -51,6 +51,38 @@ def _decode_args(hwdec: str | None) -> list[str]:
     return ["-hwaccel", hwdec]
 
 
+def _rm_partial(tmp: Path) -> None:
+    """Delete a leftover ``.partial``, tolerating a transient Windows file lock.
+
+    A just-exited ffmpeg — or an AV scanner/indexer touching the freshly-written
+    file — can keep the handle open for a moment, so a bare ``unlink()`` raises
+    ``PermissionError`` (WinError 32). On the ENCODE-FAIL path that used to crash
+    the *whole batch*. Retry briefly, then give up quietly: a stray ``.partial`` is
+    harmless — the next run clears it before re-encoding."""
+    for _ in range(6):
+        try:
+            tmp.unlink(missing_ok=True)
+            return
+        except OSError:
+            time.sleep(0.5)
+    console.print(f"   [dim](left {tmp.name}; locked — a later run will clear it)[/dim]")
+
+
+def _finalize(tmp: Path, out: Path) -> bool:
+    """Rename a finished ``.partial`` to its final name, tolerating a transient lock.
+
+    Returns True on success. On persistent failure it leaves ``tmp`` in place and
+    returns False so the caller logs a per-file fail and moves on — never crashing
+    the batch over one locked file."""
+    for _ in range(6):
+        try:
+            tmp.replace(out)
+            return True
+        except OSError:
+            time.sleep(0.5)
+    return False
+
+
 def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = None,
         audio_kbps: int = 128, keep_smaller: bool = False,
         gq: int | None = None, crf: int | None = None, cq: int | None = None,
@@ -105,8 +137,7 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
             continue
 
         tmp = out.with_suffix(out.suffix + ".partial.mp4")
-        if tmp.exists():
-            tmp.unlink()
+        _rm_partial(tmp)  # clear any leftover from a killed run (lock-tolerant)
         # Audio: copy the source stream verbatim (no CPU, no quality loss) when asked —
         # right when the source is already AAC at a fine bitrate, so re-encoding it to
         # AAC would only waste CPU and add a lossy generation for zero benefit.
@@ -122,8 +153,7 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         total_enc += enc_sec
         if r.returncode != 0 or not tmp.exists():
             console.print("   [red]ENCODE-FAIL[/red]")
-            if tmp.exists():
-                tmp.unlink()
+            _rm_partial(tmp)
             _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", "", "", "", "ENCODE-FAIL", enc_sec, ""])
             continue
 
@@ -133,7 +163,7 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         # Speed x realtime = source seconds encoded per wall second.
         spd = round(sd / enc_sec, 2) if (sd and enc_sec) else ""
         if status == "OUT-UNREADABLE":
-            tmp.unlink()
+            _rm_partial(tmp)
             console.print("   [red]OUT-UNREADABLE[/red]")
             _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "", sd, "", "", status, enc_sec, spd])
             continue
@@ -141,7 +171,7 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
         tmp_mb = tmp.stat().st_size / (1024 * 1024)
         # keep-smaller: if the re-encode isn't actually smaller, keep the original
         if keep_smaller and tmp_mb >= src_mb:
-            tmp.unlink()
+            _rm_partial(tmp)
             shutil.copy2(f, kept)
             console.print(f"   [blue]→ kept original {src_mb:.1f} MB "
                           f"(re-encode was {tmp_mb:.1f} MB, not smaller)[/blue]")
@@ -151,7 +181,11 @@ def run(src: str, dst: str, profile: str, skip: int = 0, limit: int | None = Non
                           0, sd, sd, 0, "KEPT-ORIGINAL", enc_sec, spd])
             continue
 
-        tmp.replace(out)
+        if not _finalize(tmp, out):
+            console.print("   [red]MOVE-FAIL (output locked; left for the next run)[/red]")
+            _append(log, [_now(), str(rel), profile, f"{src_mb:.1f}", "", "",
+                          sd, od, delta, "MOVE-FAIL", enc_sec, spd])
+            continue
         out_mb = out.stat().st_size / (1024 * 1024)
         red = round((1 - out_mb / src_mb) * 100) if src_mb else 0
         colour = "green" if status == "OK" else "magenta"

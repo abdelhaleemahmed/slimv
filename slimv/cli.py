@@ -152,6 +152,14 @@ def build_parser() -> argparse.ArgumentParser:
                         "when the source audio is already AAC at a fine bitrate — avoids "
                         "wasted CPU and a needless lossy re-encode (identical audio out).")
 
+    rp = sub.add_parser("report", help="roll an encode run's log into a house-format summary box")
+    rp.add_argument("dst", help="the slimv output folder (the one holding _slimv_encode_log.csv)")
+    rp.add_argument("--src", default=None,
+                    help="source folder — enables total file count, total size, and a "
+                         "mid-run projection of the final ('expected') output size")
+    rp.add_argument("--title", default=None,
+                    help="override the course title (default: output folder name without ' [HEVC]')")
+
     v = sub.add_parser("verify", help="confirm outputs are complete & intact before deleting sources")
     v.add_argument("src", help="source folder, OR a single source file")
     v.add_argument("dst", help="destination folder, OR (when src is a file) the output "
@@ -165,6 +173,12 @@ def build_parser() -> argparse.ArgumentParser:
                    help="hardware decoder for the integrity pass, e.g. 'qsv' (Intel iGPU, "
                         "~4x faster), 'cuda' (NVIDIA), 'd3d11va'. Default: CPU software decode "
                         "(safest for the deletion gate)")
+    v.add_argument("--skip", type=int, default=0,
+                   help="skip the first N files — with --limit, shards a run across parallel processes")
+    v.add_argument("--limit", type=int, default=None, help="verify at most N files")
+    v.add_argument("--report", default=None,
+                   help="write the report to this path instead of DST/_slimv_verify_report.csv. "
+                        "Give each parallel shard its own file so they don't clobber each other.")
 
     return parser
 
@@ -221,10 +235,14 @@ def main(argv: list[str] | None = None) -> int:
                               keep_smaller=args.keep_smaller,
                               gq=args.gq, crf=args.crf, cq=args.cq, preset=args.preset, scale=args.scale,
                               hwdec=args.hwdec, copy_audio=args.copy_audio)
+        if args.command == "report":
+            from . import report
+            return report.run(args.dst, src=args.src, title=args.title)
         if args.command == "verify":
             from . import verify
             return verify.run(args.src, args.dst, tol=args.tol, quick=args.quick,
-                              resume=not args.full, hwaccel=args.hwaccel)
+                              resume=not args.full, hwaccel=args.hwaccel,
+                              skip=args.skip, limit=args.limit, report_path=args.report)
     except ToolError as exc:
         console.print(f"[red]{exc}[/red]")
         return 3
