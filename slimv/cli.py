@@ -160,6 +160,13 @@ def build_parser() -> argparse.ArgumentParser:
     rp.add_argument("--title", default=None,
                     help="override the course title (default: output folder name without ' [HEVC]')")
 
+    vr = sub.add_parser("verify-report", help="live progress of a verify run (files, current, speed, ETA); --list-corrupted for bad-file paths")
+    vr.add_argument("dst", help="the slimv output folder (holds the _slimv_verify_report.csv / _verify*.csv)")
+    vr.add_argument("--src", default=None,
+                    help="source folder — enables total file count, the current-file readout, and ETA")
+    vr.add_argument("--list-corrupted", dest="list_corrupted", action="store_true",
+                    help="print the full path of every file that failed verification, instead of the box")
+
     v = sub.add_parser("verify", help="confirm outputs are complete & intact before deleting sources")
     v.add_argument("src", help="source folder, OR a single source file")
     v.add_argument("dst", help="destination folder, OR (when src is a file) the output "
@@ -238,6 +245,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "report":
             from . import report
             return report.run(args.dst, src=args.src, title=args.title)
+        if args.command == "verify-report":
+            from . import verify_report
+            return verify_report.run(args.dst, src=args.src, list_corrupted=args.list_corrupted)
         if args.command == "verify":
             from . import verify
             return verify.run(args.src, args.dst, tol=args.tol, quick=args.quick,

@@ -59,6 +59,31 @@ The core ideas
 Where to start: :doc:`01-overview` for install and concepts, :doc:`02-commands`
 for the command reference, then :doc:`04-workflow` for the end-to-end recipe.
 
+Features
+========
+
+- **Benchmark on your own content** — ``benchmark`` samples a clip and scores
+  every candidate profile with :term:`VMAF`; ``analyze --measure`` projects the
+  real saving; ``recommend`` picks the smallest profile that stays transparent.
+- **Quality-preserving profile catalog** — built-in x265 / QSV / NVENC / AV1,
+  with per-run overrides (``--crf`` / ``--gq`` / ``--cq`` / ``--preset`` /
+  ``--scale``) and a ``profiles.toml`` for custom encoders.
+- **Hardware acceleration, CPU kept free** — HEVC on Intel Quick Sync, NVIDIA
+  NVENC, and AMD AMF (``hwcheck`` detects them), plus a zero-copy ``--hwdec``
+  decode pipeline that keeps the CPU idle.
+- **Batch encode a whole tree** — ``encode`` mirrors a folder, **resumes**
+  (skips finished files), and logs every file (size, saved %, speed);
+  ``--copy-audio`` and ``--keep-smaller`` fine-tune it.
+- **Trust, then delete** — ``verify`` is a **resumable, shardable** delete-gate
+  that confirms every output decodes cleanly before a source is removed;
+  ``report`` and ``verify-report`` roll the logs into a live summary box (files,
+  sizes, saved %, ratio, speed, ETA, and the source + output paths), with
+  ``--list-corrupted`` to surface any bad files.
+- **Housekeeping** — ``rename`` (dry-run bulk rename), ``check`` (health scan),
+  and ``downscale-test`` / ``eyeball`` to measure or eyeball a change first.
+
+See :doc:`02-commands` for the full command reference.
+
 Indices
 =======
 

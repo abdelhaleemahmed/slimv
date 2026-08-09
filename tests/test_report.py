@@ -102,6 +102,7 @@ def test_completed_run_totals(tmp_path):
     assert d["Size"] == "200 MB \u2192 80 MB"                 # no ~ when complete
     assert d["Saved"].startswith("60.0% (120 MB) \u2014")     # reclaim = 200-80
     assert d["Source"].startswith("(pass --src")
+    assert d["Output"] == str(dst)                     # destination always shown
 
 
 # ---- build_report: in-progress with --src (projection) -------------------

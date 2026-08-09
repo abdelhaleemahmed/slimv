@@ -5,6 +5,23 @@ All notable changes to slimv are recorded here. Versions follow
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-08-09
+
+### Changed
+- **`report` now prints an `Output` row** (the destination folder) alongside `Source`,
+  so a course report shows both paths at a glance — matching `verify-report`.
+
+### Added
+- **`slimv verify-report <dst>` — live verify progress.** A house box for a running
+  (or finished) `verify`: files verified / total, the file currently being checked,
+  verify speed (files/min + × realtime), an ETA (from the remaining files' real
+  durations), and safe / corrupted counts, with source + output paths. Reads the
+  reports a verify writes incrementally — the canonical `_slimv_verify_report.csv`
+  **and** `_verify*.csv` shard files — so it works mid-run during a parallel
+  (sharded) verify. **`--list-corrupted`** prints the full path of every file that
+  failed verification (decode errors / length mismatch) instead of the box, so bad
+  files are easy to act on. Read-only. Regression-tested.
+
 ## [0.3.0] — 2026-08-09
 
 ### Added

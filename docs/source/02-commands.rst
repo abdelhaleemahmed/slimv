@@ -322,6 +322,37 @@ Options:
   ``DST/_slimv_verify_report.csv`` (give each parallel shard its own file).
 - ``--tol`` (default 1.0) — duration tolerance, in seconds.
 
+verify-report
+=============
+
+Live progress for a ``verify`` run — a house box you can poll while a verify (even
+a parallel sharded one) is still going. Read-only. Implemented by
+:func:`slimv.verify_report.run`.
+
+.. code-block:: bash
+
+   slimv verify-report "C:\Videos\Course_slimv" --src "C:\Videos\Course"
+   slimv verify-report "C:\Videos\Course_slimv" --list-corrupted
+
+It reads the report(s) a ``verify`` writes **incrementally** — the canonical
+``_slimv_verify_report.csv`` and any ``_verify*.csv`` shard files — so it reflects
+progress mid-run. The box shows **files verified / total**, the **current** file
+being checked, **speed** (files/min + × realtime), an **ETA** (from the remaining
+files' real durations), and the **safe / corrupted** counts, with source + output
+paths.
+
+``--list-corrupted`` skips the box and prints the **full path** of every file that
+failed verification (decode errors / length mismatch) — one per line — so you can
+re-encode, inspect, or delete the bad outputs. Exits non-zero when any corrupted
+file is listed.
+
+Options:
+
+- ``--src`` — source folder; enables the total file count, the current-file
+  readout, and the ETA. Also makes ``--list-corrupted`` print **source** paths
+  (otherwise it prints output paths).
+- ``--list-corrupted`` — print bad-file paths instead of the box.
+
 rename
 ======
 

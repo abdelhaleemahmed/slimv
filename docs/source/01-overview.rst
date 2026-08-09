@@ -79,6 +79,9 @@ Features
 - **Course summary** (``report``) — rolls an encode log into a single box:
   files done / total, total → expected size, saved %, ratio, speed, elapsed, and
   a real-duration ETA.
+- **Live verify progress** (``verify-report``) — files verified / total, current
+  file, speed, ETA, and safe / corrupted counts while a verify runs;
+  ``--list-corrupted`` prints the full paths of any bad outputs.
 
 **Housekeeping**
 

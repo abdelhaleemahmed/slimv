@@ -226,6 +226,7 @@ def build_report(dst: str, src: str | None = None, title: str | None = None,
         cc = Counter(r.get("Status") for r in fails)
         box.append(("Failed", ", ".join(f"{n}×{s}" for s, n in cc.most_common())))
     box.append(("Source", str(src_path) if src_path else "(pass --src to record the source path)"))
+    box.append(("Output", str(dst_root)))
 
     meta = {
         "done_count": done_count, "total_files": total_files,
