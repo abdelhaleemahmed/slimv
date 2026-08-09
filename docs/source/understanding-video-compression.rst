@@ -1915,15 +1915,52 @@ you rarely meet on new files but constantly in 1999–2008 archives.
   had locked it to its ASF container) let people re-compress DVDs into files small
   enough to trade online — a whole movie onto a **single 700 MB CD-R**. That was the
   spark for the DVD-rip era.
-- **2000s — DivX vs Xvid.** *DivX Networks* turned it into a commercial, certified
-  codec (you saw "DivX Certified" on DVD players). The community answered with
-  **Xvid**, a clean open-source MPEG-4 ASP encoder. Both write the **same** MPEG-4
-  Part 2 bitstream — they're rival *encoders*, not different formats — which is why
-  you see both ``.DivX.avi`` and ``.Xvid.avi`` naming the identical kind of file.
+- **2000s — DivX vs Xvid, the same format in two camps.** *DivX* went commercial
+  (DivXNetworks, later DivX, LLC), building a **legal** encoder out of the *OpenDivX*
+  project and pushing a **"DivX Certified"** logo program. When OpenDivX went
+  closed-source in **2001**, its community **forked** the code into a free, GPL
+  encoder and named it **Xvid** — *"DivX" spelled backwards*. Both write the **same**
+  MPEG-4 Part 2 bitstream, so they're rival *encoders*, not different formats — which
+  is why ``.DivX.avi`` and ``.Xvid.avi`` name the identical kind of file, and why a
+  good Xvid rip often looked as good as, or better than, DivX.
 - **2003 onward — eclipsed.** **H.264 (MPEG-4 Part 10 / AVC)** arrived at about
-  *half* the bitrate again, and MPEG-4 ASP dropped to legacy status. The lineage is
-  literally sequential: **MPEG-2 → MPEG-4 Part 2 (ASP) → MPEG-4 Part 10 (H.264) →
-  H.265** (see §5 and §12).
+  *half* the bitrate again: roughly Xvid quality at half the size, and far better on
+  HD. At a *matched* bitrate, H.264 keeps about **40–50 % more detail**, while MPEG-4
+  ASP is prone to visible **blocking and pixelation in dark scenes**. MPEG-4 ASP
+  dropped to legacy status. The lineage is literally sequential: **MPEG-2 → MPEG-4
+  Part 2 (ASP) → MPEG-4 Part 10 (H.264) → H.265** (see §5 and §12).
+
+The two names, side by side — remember they are the **same MPEG-4 Part 2 format**,
+just rival encoders:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 16 42 42
+
+   * - Trait
+     - DivX
+     - Xvid
+   * - Licence
+     - proprietary / commercial (DivX, LLC)
+     - free, open-source (GNU GPL)
+   * - Origin
+     - legal encoder built from the OpenDivX project (itself seeded by a hacked Microsoft MPEG-4 codec)
+     - a 2001 fork of OpenDivX after it went closed-source; the name is "DivX" reversed
+   * - Calling card
+     - B-frames + quarter-pel motion (DivX 5); "DivX Certified" hardware players
+     - strong motion estimation; often equal or better quality than DivX
+   * - Bitstream
+     - MPEG-4 Part 2 (ASP) — identical
+     - MPEG-4 Part 2 (ASP) — identical
+
+**Why it won the 2000s.** It squeezed a **2 GB+ DVD onto a single 700 MB CD-R** at
+watchable quality (lossy compression — throwing away detail the eye is least likely
+to miss), decoded cheaply on the **slow CPUs** of the era, and — crucially —
+**"DivX Certified" DVD players** would play a burned ``.avi`` disc, bridging the PC
+download world to the living-room TV. That trio made it *the* format of the
+file-sharing years. (The files still play fine today in **VLC / mpv / MPlayer**,
+which bundle a software MPEG-4 decoder — you just wouldn't *choose* it for new
+video, where H.264/H.265 win easily.)
 
 **The technical side.** MPEG-4 ASP is a classic block-based, motion-compensated DCT
 codec — the same family idea as everything from MPEG-2 to H.265 (§12) — but an
