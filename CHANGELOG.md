@@ -7,10 +7,12 @@ All notable changes to slimv are recorded here. Versions follow
 
 ### Docs
 - New **"The codec inside: MPEG-4 ASP (DivX & Xvid)"** section in the compression
-  guide (the AVI chapter) — the history (DivX ;-) → Xvid → eclipsed by H.264), the
-  technical comparison vs H.264, how to spot it (``mpeg4`` / DIVX/XVID FourCC), and
-  why hardware decoders (NVDEC/QSV) can't decode it — so DivX/Xvid ``.avi`` must be
-  re-encoded with CPU decode (no ``--hwdec``), or the output truncates.
+  guide (the AVI chapter) — the history (DivX ;-) → Xvid → eclipsed by H.264), a
+  DivX-vs-Xvid comparison, the technical comparison vs H.264, how to spot it
+  (``mpeg4`` / DIVX/XVID FourCC), and the two re-encode gotchas: NVDEC/QSV can't
+  hardware-decode it (ffmpeg falls back to software), and old ``.avi`` duration
+  metadata is often inflated — which looks like truncation but isn't, and which
+  ``verify`` reconciles by frame count.
 
 ## [0.3.1] — 2026-08-09
 

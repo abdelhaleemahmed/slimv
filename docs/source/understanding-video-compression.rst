@@ -1984,23 +1984,28 @@ Efficiency step              ~2× MPEG-2                     ~2× MPEG-4 ASP aga
 - **Container** almost always ``.avi``; SD resolutions (``640×480``, ``720×480``);
   MP3 or AC3 audio.
 
-**Why it matters for re-encoding.** MPEG-4 ASP is old enough that **modern GPU video
-engines usually can't decode it.** NVIDIA **NVDEC** and Intel **Quick Sync** decode
-H.264/H.265/VP9/AV1/MPEG-2 — but **not** MPEG-4 Part 2. So if you aim a hardware
-decoder at a DivX/Xvid ``.avi``:
+**Why it matters for re-encoding.** Two practical gotchas come with these aging files:
 
-- with slimv, ``--hwdec cuda`` (or ``qsv``) can **truncate** the output — the encode
-  ends minutes early and ``verify`` flags a large negative duration delta
-  (``MISMATCH-dur``). The *encoder* (NVENC) is fine; the GPU *decoder* simply can't
-  read the stream.
+- **No hardware decode.** NVIDIA **NVDEC** and Intel **Quick Sync** decode
+  H.264/H.265/VP9/AV1/MPEG-2 — but **not** MPEG-4 Part 2. Point ``--hwdec cuda`` (or
+  ``qsv``) at a DivX/Xvid ``.avi`` and ffmpeg simply **falls back to software
+  decoding**: no GPU speed-up on the decode side, but it still works — NVENC does the
+  encoding either way.
+- **Unreliable duration metadata.** Old ``.avi`` headers often **overstate the
+  duration** — the container may claim, say, 30:23 while the actual video ends at
+  24:15 — and the streams are noisy, throwing ``marker does not match f_code``
+  warnings. A faithful re-encode then contains **every real frame** but comes out
+  "shorter" than the header claimed, so a naive *duration* check reports a big
+  negative delta and looks like truncation when nothing is actually missing.
 
-The fix is to **decode on the CPU** — drop ``--hwdec`` and let ffmpeg's software
-MPEG-4 decoder read the whole file (it also quietly conceals the noisy
-``marker does not match f_code`` warnings these aging streams throw). NVENC still
-does the encoding, and since the source is only SD it stays fast. Habit worth
-keeping: **check the codec** (``ffprobe -show_entries stream=codec_name``) **before
-choosing a hardware decoder** — use ``--hwdec`` on H.264/HEVC sources, CPU decode on
-MPEG-4 ASP.
+This is exactly why slimv's :doc:`verify <02-commands>` reconciles by **frame count**,
+not just duration: when the durations disagree it compares the actual *decoded* frame
+counts of source and output, and if they match it rules the file **intact** — the
+source's duration/frame metadata was simply inflated — rather than truncated. So a
+DivX/Xvid re-encode that trips a duration warning is usually fine; let ``verify``
+settle it by frames before you worry. (A genuinely *truncated* or corrupt source is
+the other case — there the decoded frame counts really differ, and ``verify`` keeps
+the original.)
 
 --------------
 
