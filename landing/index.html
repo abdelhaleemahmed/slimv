@@ -225,19 +225,21 @@ SAFE-TO-DELETE: 273   KEEP-SOURCE: 0
             </div>
         </section>
 
-        <!-- WHAT IT DOES -->
+        <!-- FEATURES -->
         <section class="section bg-white">
-            <h2 class="reveal">What it does</h2>
-            <p class="sub reveal">One tool, ffmpeg underneath.</p>
+            <h2 class="reveal">Features</h2>
+            <p class="sub reveal">One tool, ffmpeg underneath — measure, encode, verify.</p>
             <div class="features">
-                <div class="feature reveal"><h3>🧠 Benchmark on your content</h3><p>VMAF-scored comparisons on real footage — the choice is data, not folklore.</p></div>
-                <div class="feature reveal"><h3>⚡ Hardware acceleration</h3><p>Intel Quick Sync &amp; NVIDIA NVENC encode fast and keep the CPU free.</p></div>
-                <div class="feature reveal"><h3>👁️ Trust your eyes</h3><p><code>eyeball</code> &amp; <code>downscale-test</code> leave clips to compare where VMAF can't be trusted.</p></div>
-                <div class="feature reveal"><h3>✅ Never lose a source</h3><p>The verify gate proves every output is intact before you delete anything.</p></div>
+                <div class="feature reveal"><h3>🧠 Benchmark on your content</h3><p>VMAF-scored comparisons on real footage; <code>recommend</code> picks the smallest profile that stays visually transparent.</p></div>
+                <div class="feature reveal"><h3>🎚️ Quality-preserving profiles</h3><p>Built-in x265 / QSV / NVENC / AV1 tuned for transparent size, with per-run <code>--cq</code> / <code>--crf</code> / <code>--scale</code> overrides.</p></div>
+                <div class="feature reveal"><h3>⚡ Hardware accel, CPU-free</h3><p>Intel Quick Sync &amp; NVIDIA NVENC encode fast; a zero-copy <code>--hwdec</code> pipeline keeps the CPU idle.</p></div>
+                <div class="feature reveal"><h3>📦 Resumable batch encode</h3><p>Mirror a whole tree, <strong>skip finished files</strong> on resume, and log size / saved % / speed for every file.</p></div>
+                <div class="feature reveal"><h3>📊 Live reports</h3><p><code>report</code> &amp; <code>verify-report</code> roll the logs into a box — files, sizes, saved %, ratio, speed, and a real-duration ETA.</p></div>
+                <div class="feature reveal"><h3>✅ Trust, then delete</h3><p>A <strong>resumable, shardable</strong> verify gate proves every output decodes; <code>--list-corrupted</code> surfaces any bad files.</p></div>
             </div>
             <div class="cmds reveal">
                 <h3>Commands</h3>
-                <span class="pill">analyze</span><span class="pill">benchmark</span><span class="pill">eyeball</span><span class="pill">downscale-test</span><span class="pill">recommend</span><span class="pill">encode</span><span class="pill">verify</span><span class="pill">rename</span>
+                <span class="pill">analyze</span><span class="pill">benchmark</span><span class="pill">recommend</span><span class="pill">encode</span><span class="pill">report</span><span class="pill">verify</span><span class="pill">verify-report</span><span class="pill">eyeball</span><span class="pill">downscale-test</span><span class="pill">rename</span><span class="pill">check</span>
             </div>
         </section>
 
