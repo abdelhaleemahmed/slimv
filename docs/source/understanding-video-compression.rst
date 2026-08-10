@@ -2007,6 +2007,61 @@ settle it by frames before you worry. (A genuinely *truncated* or corrupt source
 the other case — there the decoded frame counts really differ, and ``verify`` keeps
 the original.)
 
+MPEG-4, the bigger picture
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Worth clearing up the name, because it causes endless confusion: **"MPEG-4" is not
+one codec — it's a family of standards** (ISO/IEC 14496, 30-plus "parts"). Two parts
+matter for video, and they are **not interchangeable**:
+
+- **Part 2 (Visual)** — the DivX/Xvid codec above. Its party trick was **object-based
+  coding**: instead of compressing whole frames it could code arbitrary-shaped *video
+  object planes* (background, actor, car) separately, for interactivity and
+  scalability. Clever, but rarely used in practice.
+- **Part 10 (AVC) = H.264** — added later, a completely different design that roughly
+  halved the bitrate for the same quality and became dominant for Blu-ray, streaming,
+  and most course video you'll meet (see §5). **A Part 10 decoder can't play a Part 2
+  file, and vice-versa** — same brand name, incompatible bitstreams.
+
+So "an MPEG-4 file" means *either* old DivX/Xvid (``mpeg4``) *or*, far more often
+today, H.264 (``h264``). ffprobe's codec name tells you which.
+
+Two more legacy codecs you'll still meet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Old course archives aren't only DivX/Xvid. Two other pre-H.264-era codecs turn up
+often — and, like MPEG-4 ASP, both want **CPU decode** when you re-encode them.
+
+**Windows Media Video 9 (``wmv3``).** Microsoft's answer to DivX/Xvid, living in the
+**ASF** container (``.wmv`` / ``.asf``). Early WMV (7, 8) were Microsoft's own MPEG-4
+Part 2; **WMV9** (2003) was a distinct, more advanced design, submitted to SMPTE and
+standardised as **VC-1** in **2006** — so ``wmv3`` is essentially *pre-standard VC-1*
+(the standardised Advanced Profile carries the ``WVC1`` tag). Its **"Screen" profile**
+was built for capturing screen activity, which is why old software / TTC-era tutorials
+are full of it. Efficiency sits a generation behind H.264. **NVDEC / QSV don't reliably
+decode ``wmv3``** (NVDEC handles the standardised *VC-1*, but is unreliable on the older
+FourCC), so ffmpeg software-decodes it — **use CPU decode** (drop ``--hwdec``). It still
+plays everywhere (VLC, mpv, Media Player Classic).
+
+**VP8 (``vp8``).** The *web* era's codec, almost always in the **WebM** container
+(``.webm``). Built by **On2 Technologies**; **Google bought On2 in 2010** and released
+VP8 **royalty-free** as the foundation of **WebM** — a patent-free rival to H.264 for
+the open web, natively supported in Chrome / Firefox / Edge (never Safari) and designed
+with real-time / WebRTC use in mind (fast, CPU-scalable encoding). Under the hood it's
+the usual motion-compensated DCT toolkit plus an in-loop deblocking filter and up to
+**1/8-pel** motion (YUV 4:2:0). Efficiency is roughly H.264-class; Google's own **VP9**
+(~35% smaller) and then **AV1** (~50% smaller) superseded it — both also royalty-free.
+VP8 hardware decode is **spotty on older GPUs** (this Pascal card doesn't NVDEC-decode
+it), so again — **CPU decode**. Several FrontEndMasters courses ship as VP8/WebM.
+
+..
+
+   **The pattern.** MPEG-4 ASP, WMV3, and VP8 are three legacy families from before
+   H.264 won. slimv re-encodes all three to H.265 just fine — but for all three,
+   **check the codec first** (``ffprobe -show_entries stream=codec_name``) and **drop
+   ``--hwdec``** so the CPU decodes them. Reserve ``--hwdec cuda``/``qsv`` for
+   H.264/HEVC sources, where the GPU decoder actually helps.
+
 --------------
 
 .. _11-inside-the-box-how-containers-are-built:

@@ -6,6 +6,11 @@ All notable changes to slimv are recorded here. Versions follow
 ## [Unreleased]
 
 ### Docs
+- Expanded the legacy-codec coverage in the compression guide with **"MPEG-4, the
+  bigger picture"** (the family: Part 2 vs Part 10/H.264, object-based coding) and
+  **"Two more legacy codecs you'll still meet"** — **WMV3** (Windows Media 9 / VC-1
+  ancestor) and **VP8** (WebM). Both include the practical note that NVDEC/QSV don't
+  reliably decode them, so re-encode with CPU decode (no ``--hwdec``).
 - New **"The codec inside: MPEG-4 ASP (DivX & Xvid)"** section in the compression
   guide (the AVI chapter) — the history (DivX ;-) → Xvid → eclipsed by H.264), a
   DivX-vs-Xvid comparison, the technical comparison vs H.264, how to spot it
