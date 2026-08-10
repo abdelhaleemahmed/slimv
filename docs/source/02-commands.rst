@@ -193,6 +193,10 @@ Options:
   original (protects already-lean files from growing).
 - ``--copy-audio`` — copy the source audio stream instead of re-encoding to AAC;
   use when the source is already AAC at a fine bitrate (avoids a needless re-encode).
+  **Only for MP4-compatible audio** — a source with WMA (``.wmv``/``.asf``), PCM, or
+  Vorbis audio can't be stream-copied into ``.mp4`` and fails with *"at least one of
+  its streams received no packets"*; for those, **omit ``--copy-audio``** and let it
+  re-encode to AAC (see the worked example in the compression guide).
 - ``--hwdec`` — decode the source on a GPU (``qsv``/``cuda``/``d3d11va``) to free
   the CPU. Use with non-scaling profiles; it frees the CPU, it does not speed up
   an encode-bound job. **Match it to the profile's hardware** — ``qsv`` decode with a

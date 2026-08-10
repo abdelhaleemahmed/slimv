@@ -9,6 +9,10 @@ All notable changes to slimv are recorded here. Versions follow
 - **Landing page**: reworked the "What it does" block into a fuller **Features**
   section (6 cards) and refreshed the command list to include ``report`` and
   ``verify-report``.
+- Added a worked example — **"a source whose audio isn't AAC"** — to the compression
+  guide (and a ``--copy-audio`` caveat in the command reference): WMA/PCM/Vorbis can't
+  stream-copy into ``.mp4``, so omit ``--copy-audio`` and let it re-encode to AAC.
+  Uses a ``wmv3`` course that needs both CPU decode *and* AAC audio.
 - Expanded the legacy-codec coverage in the compression guide with **"MPEG-4, the
   bigger picture"** (the family: Part 2 vs Part 10/H.264, object-based coding) and
   **"Two more legacy codecs you'll still meet"** — **WMV3** (Windows Media 9 / VC-1

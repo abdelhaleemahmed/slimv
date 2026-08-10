@@ -2062,6 +2062,43 @@ it), so again — **CPU decode**. Several FrontEndMasters courses ship as VP8/We
    ``--hwdec``** so the CPU decodes them. Reserve ``--hwdec cuda``/``qsv`` for
    H.264/HEVC sources, where the GPU decoder actually helps.
 
+Worked example: a source whose audio isn't AAC
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Legacy containers often carry **audio that MP4 can't hold** — most notably **WMA**
+in ``.wmv`` / ``.asf`` (and occasionally PCM, Vorbis, or Opus elsewhere). slimv's
+``--copy-audio`` tries to *stream-copy* the source audio into the ``.mp4`` output
+unchanged; when the codec is MP4-incompatible, ffmpeg writes nothing and dies with:
+
+.. code-block:: text
+
+   [mp4 @ ...] Could not write header ...
+   Nothing was written into output file, because at least one of its streams
+   received no packets.
+
+The fix is simple: **let slimv re-encode the audio to AAC** — which is the *default*,
+so just **omit ``--copy-audio``**. (Keep ``--copy-audio`` only when the source audio
+is already AAC, i.e. most ``.mp4`` files, where re-encoding it would be a needless
+lossy generation.)
+
+A ``wmv3`` course is the textbook case — it needs **both** legacy fixes at once, the
+CPU decode *and* the AAC audio:
+
+.. code-block:: bash
+
+   # WRONG for a .wmv source — GPU can't decode wmv3, and WMA can't copy into mp4
+   slimv encode SRC DST --profile nvenc-hq --cq 32 --hwdec cuda --copy-audio   # fails
+
+   # RIGHT — CPU decodes the wmv3 video, audio re-encodes to AAC (both defaults)
+   slimv encode SRC DST --profile nvenc-hq --cq 32
+
+Run that on a real ``wmv3`` lecture course (640×360, ~1.9 Mbps) and it re-encodes
+cleanly, dropping roughly **84 %** at cq 32 — a large win a plain
+``--hwdec cuda --copy-audio`` command would have failed on twice over. **When you
+benchmark or encode an old source, check *both* its video codec and its audio codec**
+(``ffprobe -show_entries stream=codec_name``) before reaching for ``--hwdec`` or
+``--copy-audio``.
+
 --------------
 
 .. _11-inside-the-box-how-containers-are-built:
