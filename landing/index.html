@@ -10,7 +10,7 @@
     <meta property="og:image" content="https://abdelhaleemahmed.github.io/slimv/social-preview.png">
     <meta property="og:url" content="https://abdelhaleemahmed.github.io/slimv/">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23667eea'/%3E%3Cpath d='M12 9 L23 16 L12 23 Z' fill='white'/%3E%3C/svg%3E">
+    <link rel="icon" href="images/favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -39,7 +39,7 @@
 
         /* hero */
         .hero { text-align: center; }
-        .logo { width: 80px; height: 56px; margin: 0 auto 16px; display: block; }
+        .logo { width: 144px; height: 144px; margin: 0 auto 16px; display: block; }
         h1 { font-size: 3.4rem; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,.22); }
         .tagline { font-size: 1.3rem; opacity: .96; margin-top: 4px; }
         .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 18px 0 4px; }
@@ -86,6 +86,8 @@
 
         /* steps */
         .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
+        .flow-wrap { overflow-x: auto; margin: 6px 0 26px; }
+        .flow { display: block; height: auto; margin: 0 auto; width: 100%; min-width: 640px; max-width: 960px; }
         .step { background: #fff; border-radius: 12px; padding: 20px; border-bottom: 4px solid #667eea;
             box-shadow: 0 8px 22px rgba(80,70,140,.08); }
         .step .n { display: inline-flex; width: 32px; height: 32px; border-radius: 50%;
@@ -142,10 +144,7 @@
         <!-- HERO -->
         <section class="section bg-hero">
             <div class="hero">
-                <svg class="logo" viewBox="0 0 144 100" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="4" y="4" width="136" height="92" rx="18" fill="none" stroke="#fff" stroke-width="7" opacity=".95"/>
-                    <path d="M 54 27 L 108 50 L 54 73 Z" fill="#fff"/>
-                </svg>
+                <img class="logo" src="images/slimv-icon.png" alt="slimv logo">
                 <h1>slimv</h1>
                 <p class="tagline">shrink video — keep the quality</p>
 
@@ -193,7 +192,7 @@
                     <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
                     <span class="term-title">slimv — a real run</span>
                 </div>
-<pre class="term"><span class="p">$ slimv analyze</span> <span class="c">"D:\Courses\ML Foundations"</span>
+<pre class="term"><span class="p">$ slimv analyze</span> <span class="c">"./video-library"</span>
 <span class="dim">273 files · 59.53 GB · 1280x720 H.264 · ~3–5 Mbps</span>
 Recommendation: mostly H.264 — re-encoding to H.265 will cut size a lot.
   Projected output: ~<span class="hi">24 GB</span>  →  <span class="hi">~60% smaller</span>.
